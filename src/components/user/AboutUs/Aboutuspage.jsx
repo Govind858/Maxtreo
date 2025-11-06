@@ -437,7 +437,7 @@ function AboutPage() {
     <div 
       ref={containerRef} 
       className="min-h-screen bg-white"
-      style={{width:"100%", margin:"auto", borderRadius:"30px", overflow: "hidden", position: "relative"}}
+      style={{width:"100%", margin:"auto", overflow: "hidden", position: "relative"}}
     >
       <NavBar />
       {/* <LiveChatButton /> */}
@@ -452,7 +452,7 @@ function AboutPage() {
         }}
       />
       
-      <div className="pt-24 pb-16 relative z-10">
+      <div className="pt-24  relative z-10">
         <div className="px-4 space-y-12">
           {/* <HeaderCard /> */}
           

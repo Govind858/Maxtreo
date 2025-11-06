@@ -565,14 +565,15 @@ export default function Orders() {
 
         {currentOrder && Object.keys(currentOrder).length > 0 && (
           <div
-            className="item w-full lg:w-1/3 overflow-auto p-2"
-            style={{
-              borderRadius: "20px",
-              padding: "20px",
-              backgroundImage: `url(${image_on_tokyo})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+            className="item w-full lg:w-1/3 bg-gray-200 rounded-lg overflow-auto p-2"
+            // backgound image css
+            // style={{
+            //   borderRadius: "20px",
+            //   padding: "20px",
+            //   backgroundImage: `url(${image_on_tokyo})`,
+            //   backgroundSize: "cover",
+            //   backgroundPosition: "center",
+            // }}
           >
             <div
               className="bg-gray-200 bg-opacity-50 backdrop-blur-sm"

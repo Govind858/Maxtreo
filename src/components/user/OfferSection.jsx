@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Zap, Tag, TrendingUp, Sparkles, Clock, Gift } from 'lucide-react';
+import { getAllProduct } from '../../Services/Products';
+import baseUrl from '../../Static/Static';
 
 const OffersSection = () => {
   // Enhanced slideshow banners with vibrant designs
@@ -39,56 +41,26 @@ const OffersSection = () => {
     }
   ];
 
-  const carouselProducts = [
-    {
-      id: 1,
-      name: 'Apple iPhone 15',
-      originalPrice: '$999',
-      offerPrice: '$799',
-      discount: '20% OFF',
-      image: 'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=400'
-    },
-    {
-      id: 2,
-      name: 'Dell XPS 13 Laptop',
-      originalPrice: '$1,299',
-      offerPrice: '$999',
-      discount: '23% OFF',
-      image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400'
-    },
-    {
-      id: 3,
-      name: 'Sony WH-1000XM5',
-      originalPrice: '$399',
-      offerPrice: '$299',
-      discount: '25% OFF',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400'
-    },
-    {
-      id: 4,
-      name: 'Samsung Galaxy Watch',
-      originalPrice: '$349',
-      offerPrice: '$249',
-      discount: '29% OFF',
-      image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400'
-    },
-    {
-      id: 5,
-      name: 'MacBook Air M2',
-      originalPrice: '$1,199',
-      offerPrice: '$999',
-      discount: '17% OFF',
-      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400'
-    }
-  ];
-
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [products, setProducts] = useState([]);
   
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slideshowBanners.length);
     }, 4000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProduct();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchProducts();
   }, []);
 
   const currentBanner = slideshowBanners[currentSlide];
@@ -189,31 +161,40 @@ const OffersSection = () => {
           <span className="text-sm text-red-600 font-semibold animate-pulse">● LIVE NOW</span>
         </div>
         <div className="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory scrollbar-hide">
-          {carouselProducts.map((product) => (
-            <div
-              key={product.id}
-              className="min-w-[170px] snap-start bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-xl p-3 text-center shadow-md hover:shadow-xl transition-all hover:scale-105 hover:border-purple-300"
-            >
-              <div className="relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-32 object-cover rounded-lg mb-2"
-                />
-                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-xs font-bold shadow-lg">
-                  {product.discount}
+          {products.slice(0, 5).map((product) => {
+            const discountPercentage = Math.round(
+              ((parseFloat(product.mrp) - parseFloat(product.price)) / parseFloat(product.mrp)) * 100
+            );
+            return (
+              <div
+                key={product.id}
+                className="min-w-[170px] snap-start bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-xl p-3 text-center shadow-md hover:shadow-xl transition-all hover:scale-105 hover:border-purple-300"
+              >
+                <div className="relative">
+                  <img
+                    src={
+                      product.images?.[0]?.image
+                        ? baseUrl + product.images[0].image
+                        : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
+                    }
+                    alt={product.name}
+                    className="w-full h-32 object-cover rounded-lg mb-2"
+                  />
+                  <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-xs font-bold shadow-lg">
+                    {discountPercentage}% OFF
+                  </div>
                 </div>
+                <h4 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2">{product.name}</h4>
+                <div className="flex justify-center items-center gap-2 mb-2">
+                  <span className="text-xl font-black text-blue-600">${product.price}</span>
+                  <span className="text-xs text-gray-400 line-through">${product.mrp}</span>
+                </div>
+                <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-md">
+                  Add to Cart
+                </button>
               </div>
-              <h4 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2">{product.name}</h4>
-              <div className="flex justify-center items-center gap-2 mb-2">
-                <span className="text-xl font-black text-red-600">{product.offerPrice}</span>
-                <span className="text-xs text-gray-400 line-through">{product.originalPrice}</span>
-              </div>
-              <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-md">
-                Add to Cart
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

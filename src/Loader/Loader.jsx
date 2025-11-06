@@ -1,5 +1,5 @@
 import React from "react";
-import Maxtreo from "../Images/maxtreo.gif";
+import Maxtreo from "../Images/background_maxtreo_gif.gif"
 
 export default function SimpleSpinner() {
   return (

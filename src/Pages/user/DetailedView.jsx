@@ -7,23 +7,30 @@ import ProductFooter from "../../components/user/Footer/ProductFooter";
 import BestPairedWith from "../../components/user/BestPairedWith/BestPairedWith";
 import { useParams } from "react-router-dom";
 import { getSingleProduct } from "../../Services/Products";
-import  Loader from "../../Loader/Loader"
+import  Loader from "../../Loader/Loader"
+import FloatingWhatsAppButton from "../../components/user/ProductDetail/FloatingWhatsAppButton"; // Your specified path
+
 function DetailedView() {
-  const { id } = useParams(); // Get product ID from URL
-  const [product, setProduct] = useState(null); // Store product details
-  const [loading, setLoading] = useState(true); // Loading state
+  const { id } = useParams(); 
+  const [product, setProduct] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+
+  // Get the current URL for the WhatsApp message
+  const currentPageLink = typeof window !== 'undefined' ? window.location.href : 'Loading Page Link...';
+
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         console.log("Fetching product ID:", id);
+        // Assuming getSingleProduct and other services/components are correctly defined externally
         let productData = await getSingleProduct(id);
-        console.log("Product data fetched:....", productData);
+        
         if (!productData) {
           console.error("No product data found for ID:", id);
-          return;
         }
-        setProduct(productData); // Store product in state
+        setProduct(productData); 
+
       } catch (error) {
         console.error("Error fetching product details:", error);
       } finally {
@@ -34,20 +41,35 @@ function DetailedView() {
     if (id) {
       fetchProduct();
     }
-  }, [id]); // ✅ Add dependency array to re-run when `id` changes
+  }, [id]); 
 
   if (loading) {
     return <Loader/>
   }
 
+  if (!product) {
+      return (
+        <div className="flex items-center justify-center h-screen text-xl text-gray-600">
+            Product details could not be loaded.
+        </div>
+      );
+  }
+
   return (
-    <div>
-      <Details product={product} /> {/* ✅ Pass product as prop */}
+    <div className="relative">
+      {/* Main Scrollable Content */}
+      <Details product={product} /> 
       <BestPairedWith product={product} />
       <Inside product={product}/>
       <Rating product={product}/>
       <ProductCard product={product}/>
       <ProductFooter/>
+
+      {/* Floating Button */}
+      <FloatingWhatsAppButton 
+        product={product} 
+        currentUrl={currentPageLink} 
+      />
     </div>
   );
 }

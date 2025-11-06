@@ -48,7 +48,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/Login" element={<LoginComponent />} /> */}
+          <Route path="/Login" element={<LoginComponent />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/products" element={<Products />} />
           <Route path="/details/:id" element={<DetailedView />} />
@@ -71,7 +71,7 @@ function App() {
           <Route path="/showimage" element={<NeoFooter />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path='/team-neo' element={<TeamNeo/>}/>
-          <Route path='//privacy-policy' element={<PrivacyPolicy/>}/>
+          <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
           <Route path='/return-refunds' element={<ReturnRefund/>}/>
           <Route path='/teams-and-conditions' element={<TermsConditions/>}/>
           <Route path='/Shipping-Policy' element={<ShippingPolicy/>}/>

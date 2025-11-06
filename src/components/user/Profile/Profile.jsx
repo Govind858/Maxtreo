@@ -372,13 +372,13 @@ const deleteAddress = async (id) => {
           </div>
           {/* Left Panel */}
           <div
-            className="col-span-12 md:col-span-4  p-4 pt-10"
-            style={{
-              backgroundImage: `url(${image_on_tokyo})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              borderRadius: "10px",
-            }}
+            className="col-span-12 md:col-span-4 bg-gray-300 rounded-lg p-4 pt-10"
+            // style={{
+            //   backgroundImage: `url(${image_on_tokyo})`,
+            //   backgroundSize: "cover",
+            //   backgroundPosition: "center",
+            //   borderRadius: "10px",
+            // }}
           >
             <div
               className="bg-white bg-opacity-50 backdrop-blur-sm  rounded-lg p-4 mb-6"
