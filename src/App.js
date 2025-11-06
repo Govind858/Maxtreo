@@ -40,6 +40,7 @@ import GamingPCShowcase from "./components/user/ProductShowcase/ProductGaming";
 import NewUpdate from "./components/user/Solutions/NewUpdate";
 import ErrorPage from "./components/user/Error/Error";
 import ShippingPolicy from "./components/user/PoliciesAndRules/Shipping";
+import CategoryProductListPage from "./Pages/user/CategoryProductListPage";
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/Login" element={<LoginComponent />} /> */}
+          <Route path="/Login" element={<LoginComponent />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/products" element={<Products />} />
           <Route path="/details/:id" element={<DetailedView />} />
@@ -70,10 +71,11 @@ function App() {
           <Route path="/showimage" element={<NeoFooter />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path='/team-neo' element={<TeamNeo/>}/>
-          <Route path='//privacy-policy' element={<PrivacyPolicy/>}/>
+          <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
           <Route path='/return-refunds' element={<ReturnRefund/>}/>
           <Route path='/teams-and-conditions' element={<TermsConditions/>}/>
           <Route path='/Shipping-Policy' element={<ShippingPolicy/>}/>
+          <Route path='/categoryproductlist' element={<CategoryProductListPage/>}/>
 
 
 
@@ -93,6 +95,8 @@ function App() {
           <Route path='/products/project-eden' element={<GamingPCShowcase/>}/>
           <Route path="/new-Solutions" element={<NewUpdate />} />
           <Route path="/Error" element={<ErrorPage/>} />
+
+
 
 
           {/* 

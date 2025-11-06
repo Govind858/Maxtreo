@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
-import Loader from "../Loader/Loader";
-import RenderRazorpay from "../RazorPay/RenderRazorpay";
+import Loader from "../../../Loader/Loader"
+import RenderRazorpay from "../../../Loader/Loader";  
 import BaseURL from "../../../Static/Static";
 import AddNewAddress from "../Profile/AddNewAddress";
 import Overview from "./OverView";
@@ -318,9 +318,9 @@ const CartPage = () => {
 
       <AnimatePresence>
         {showOverview && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2">
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center pt-44 p-2">
             <motion.div
-              className="bg-white rounded-md w-full max-w-2xl max-h-[80vh] overflow-y-auto relative"
+              className="bg-white rounded-md w-full max-w-2xl max-h-[70vh] overflow-y-auto relative"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -332,7 +332,7 @@ const CartPage = () => {
                 ×
               </button>
 
-              <div className="p-4 pt-8">
+              <div className="px-4 pt-4">
                 <Overview
                   cartItems={cartItems}
                   address={addresses.find((a) => a.id === selectedAddressId)}
