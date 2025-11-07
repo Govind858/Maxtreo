@@ -312,21 +312,21 @@ const deleteAddress = async (id) => {
               className="bg-gray-200 bg-opacity-60 backdrop-blur-sm rounded-lg p-6 mb-6 flex items-center"
               
             >
-              <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-700 flex items-center justify-center mr-4">
-                {getProfilePicture() ? (
-                  <img
-                    src={
-                      getProfilePicture().startsWith("http")
-                        ? getProfilePicture()
-                        : BaseURL + getProfilePicture()
-                    }
-                    alt="Profile"
-                    className="w-full h-full object-cover "
-                  />
-                ) : (
-                  <User size={32} className="text-black-400" />
-                )}
-              </div>
+             <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-gray-700 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+  {getProfilePicture() ? (
+    <img
+      src={
+        getProfilePicture().startsWith("http")
+          ? getProfilePicture()
+          : BaseURL + getProfilePicture()
+      }
+      alt="Profile"
+      className="w-full h-full object-cover"
+    />
+    ) : (
+    <User size={28} className="sm:size-32 text-gray-400" />
+  )}
+</div>
               <div>
                 <h2 className="text-xl font-bold">
                   {userData?.first_name} {userData?.last_name || ""}
@@ -556,205 +556,232 @@ const EditProfileForm = ({
   fileInputRef,
 }) => {
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-gray-100 bg-opacity-10 backdrop-blur-sm rounded-lg p-6"
-      style={{ border: "1px solid black" }}
-    >
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-semibold">Edit Profile</h3>
-        <div className="flex space-x-2">
-          <button
-            type="button"
-            onClick={cancelEdit}
-            className="flex items-center text-gray-400 hover:text-black"
-          >
-            <X size={18} className="mr-1" /> Cancel
-          </button>
-          <button
-            type="submit"
-            className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700"
-          >
-            <Save size={18} className="mr-1" /> Save Changes
-          </button>
-        </div>
-      </div>
-
-      {updateSuccess && (
-        <div className="mb-4 p-2 bg-green-900 border border-green-700 text-green-300 rounded flex items-center">
-          <Check size={16} className="mr-1" /> Profile updated successfully!
-        </div>
-      )}
-
-      {updateError && (
-        <div className="mb-4 p-2 bg-red-900 border border-red-700 text-red-300 rounded">
-          {updateError}
-        </div>
-      )}
-
-      <div className="mb-6 flex justify-center">
-        <div className="relative">
-          <div
-            className="w-24 h-24 rounded-full overflow-hidden bg-gray-800 flex items-center justify-center mb-2 cursor-pointer"
-            onClick={triggerFileInput}
-          >
-            {getProfilePicture() ? (
-              <img
-                src={
-                  getProfilePicture().startsWith("http")
-                    ? getProfilePicture()
-                    : BaseURL + getProfilePicture()
-                }
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <User size={40} className="text-gray-400" />
-            )}
+    <div className="min-h-screen bg-gray-50 rounded-2xl py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8"
+        >
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+            <h3 className="text-2xl font-bold text-gray-900">Edit Profile</h3>
+            <div className="flex space-x-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={cancelEdit}
+                className="flex items-center px-3 py-1.5 sm:px-4 sm:py-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <X size={18} className="mr-2" />
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex items-center px-4 py-1.5 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+              >
+                <Save size={18} className="mr-2" />
+                Save Changes
+              </button>
+            </div>
           </div>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleProfilePicChange}
-            className="hidden"
-            accept="image/*"
-          />
-          <button
-            type="button"
-            onClick={triggerFileInput}
-            className="absolute bottom-0 right-0 bg-blue-600 text-black p-1.5 rounded-full hover:bg-blue-700 transition-colors"
-          >
-            <Camera size={16} />
-          </button>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            First Name*
-          </label>
-          <input
-            type="text"
-            name="first_name"
-            value={formData.first_name || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Last Name
-          </label>
-          <input
-            type="text"
-            name="last_name"
-            value={formData.last_name || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Email Address
-          </label>
-          <input
-            type="email"
-            value={userData.email || ""}
-            disabled
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-600 rounded-md text-gray-400"
-          />
-          <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Phone Number*
-          </label>
-          <input
-            type="tel"
-            name="phone_number"
-            value={formData.phone_number || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Date of Birth
-          </label>
-          <input
-            type="date"
-            name="date_of_birth"
-            value={formData.date_of_birth || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Age
-          </label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-            min="1"
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            PIN Code
-          </label>
-          <input
-            type="text"
-            name="pin_code"
-            value={formData.pin_code || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            District
-          </label>
-          <input
-            type="text"
-            name="district"
-            value={formData.district || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="form-group">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            State
-          </label>
-          <input
-            type="text"
-            name="state"
-            value={formData.state || ""}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="form-group md:col-span-2">
-          <label className="block text-sm font-medium text-gray-300 mb-1">
-            Address
-          </label>
-          <textarea
-            name="address"
-            value={formData.address || ""}
-            onChange={handleInputChange}
-            rows="3"
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
-          ></textarea>
-        </div>
+          {/* Messages */}
+          {updateSuccess && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center shadow-sm">
+              <Check size={20} className="mr-3 flex-shrink-0" />
+              <span>Profile updated successfully!</span>
+            </div>
+          )}
+          {updateError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl shadow-sm">
+              {updateError}
+            </div>
+          )}
+
+          {/* Profile Picture Section */}
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <div
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center cursor-pointer ring-2 ring-gray-200 hover:ring-blue-500 transition-colors"
+                onClick={triggerFileInput}
+              >
+                {getProfilePicture() ? (
+                  <img
+                    src={
+                      getProfilePicture().startsWith("http")
+                        ? getProfilePicture()
+                        : BaseURL + getProfilePicture()
+                    }
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User size={48} className="text-gray-400" />
+                )}
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleProfilePicChange}
+                className="hidden"
+                accept="image/*"
+              />
+              <button
+                type="button"
+                onClick={triggerFileInput}
+                className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors shadow-lg ring-2 ring-white"
+              >
+                <Camera size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Form Fields */}
+          <div className="space-y-6">
+            {/* Personal Info Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  First Name *
+                </label>
+                <input
+                  type="text"
+                  name="first_name"
+                  value={formData.first_name || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Contact Info Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={userData.email || ""}
+                  disabled
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-400 rounded-xl text-gray-500 cursor-not-allowed"
+                />
+                <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+              </div>
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  name="phone_number"
+                  value={formData.phone_number || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Additional Info Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  value={formData.date_of_birth || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors"
+                />
+              </div>
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Age
+                </label>
+                <input
+                  type="number"
+                  name="age"
+                  value={formData.age || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors"
+                  min="1"
+                />
+              </div>
+            </div>
+
+            {/* Location Info Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  PIN Code
+                </label>
+                <input
+                  type="text"
+                  name="pin_code"
+                  value={formData.pin_code || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                />
+              </div>
+              <div className="form-group">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  District
+                </label>
+                <input
+                  type="text"
+                  name="district"
+                  value={formData.district || ""}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                State
+              </label>
+              <input
+                type="text"
+                name="state"
+                value={formData.state || ""}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+              />
+            </div>
+
+            {/* Address */}
+            <div className="form-group">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Address
+              </label>
+              <textarea
+                name="address"
+                value={formData.address || ""}
+                onChange={handleInputChange}
+                rows="4"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 resize-none transition-colors"
+              />
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 
@@ -766,171 +793,150 @@ const ViewProfile = ({
   setShowAddressPopup,
   deleteAddress
 }) => (
-  <div className="space-y-6">
-    <div
-      className="bg-gray-100 bg-opacity-10 backdrop-blur-sm rounded-lg p-6"
-      style={{ border: "1px solid black" }}
-    >
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold text-black">
-          Personal Information
-        </h3>
-        <button
-          onClick={() => setIsEditing(true)}
-          style={{color:'white'}}
-          className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700 transition-all"
-        >
-          <Edit size={16} className="mr-1"  style={{color:'white'}}/> Edit Profile
-        </button>
+  <div className="min-h-screen rounded-2xl bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Personal Information Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <h3 className="text-2xl font-bold text-gray-900">Personal Information</h3>
+          <button
+            onClick={() => setIsEditing(true)}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+          >
+            <Edit size={16} className="mr-2" />
+            Edit Profile
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">First Name</p>
+              <p className="text-lg text-gray-900">{userData.first_name || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">Last Name</p>
+              <p className="text-lg text-gray-900">{userData.last_name || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">Email</p>
+              <p className="text-lg text-gray-900">{userData.email || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">Phone Number</p>
+              <p className="text-lg text-gray-900">{userData.phone_number || "Not provided"}</p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">Date of Birth</p>
+              <p className="text-lg text-gray-900">{userData.date_of_birth || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">Age</p>
+              <p className="text-lg text-gray-900">{userData.age || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">PIN Code</p>
+              <p className="text-lg text-gray-900">{userData.pin_code || "Not provided"}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">District</p>
+              <p className="text-lg text-gray-900">{userData.district || "Not available"}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-sm font-semibold text-gray-700 mb-1">State</p>
+          <p className="text-lg text-gray-900">{userData.state || "Not available"}</p>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-sm font-semibold text-gray-700 mb-1">Address</p>
+          <p className="text-lg text-gray-900">{userData.address || "No address provided"}</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
-        <div>
-          <p className="text-sm font-medium text-gray-400">First Name</p>
-          <p className="text-black">{userData.first_name || "Not provided"}</p>
+      {/* Delivery Addresses Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <h3 className="text-2xl font-bold text-gray-900">Delivery Addresses</h3>
+          <button
+            onClick={() => setShowAddressPopup(true)}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+          >
+            <Plus size={16} className="mr-2" />
+            Add New Address
+          </button>
         </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">Last Name</p>
-          <p className="text-black">{userData.last_name || "Not provided"}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">Email</p>
-          <p className="text-black">{userData.email || "Not provided"}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">Phone Number</p>
-          <p className="text-black">
-            {userData.phone_number || "Not provided"}
-          </p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">Date of Birth</p>
-          <p className="text-black">
-            {userData.date_of_birth || "Not provided"}
-          </p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">Age</p>
-          <p className="text-black">{userData.age || "Not provided"}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">PIN Code</p>
-          <p className="text-black">{userData.pin_code || "Not provided"}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">District</p>
-          <p className="text-black">{userData.district || "Not available"}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-400">State</p>
-          <p className="text-black">{userData.state || "Not available"}</p>
-        </div>
-        <div className="md:col-span-2">
-          <p className="text-sm font-medium text-gray-400">Address</p>
-          <p className="text-black">
-            {userData.address || "No address provided"}
-          </p>
-        </div>
-      </div>
-    </div>
 
-    <div
-      className="bg-gray-100 bg-opacity-10 backdrop-blur-sm rounded-lg p-6"
-      style={{ border: "1px solid black" }}
-    >
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold">Delivery Addresses</h3>
-        <button
-          onClick={() => setShowAddressPopup(true)}
-          style={{color:'white'}}
-          className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700 transition-all"
-        >
-          <Plus size={16} className="mr-1" /> Add New Address
-        </button>
-      </div>
-
-      {userAddresses && userAddresses.length > 0 ? (
-        <div className="space-y-4">
-          {userAddresses.map((address, idx) => (
-            <div
-              key={idx}
-              className="bg-gray-300 bg-opacity-10 backdrop-blur-sm rounded-lg p-4 flex items-start"
-            >
-              <div className="bg-gray-700 p-2 rounded-full mr-3">
-                <MapPin size={20} className="text-blue-500" />
-              </div>
-              <div className="flex-grow">
-                <p className="font-medium">
-                  {address.address_name || `Address ${idx + 1}`}
-                  {address.is_default && (
-                    <span className="ml-2 text-xs bg-blue-600 text-black px-2 py-0.5 rounded">
-                      Default
-                    </span>
-                  )}
-                </p>
-                <p className="text-sm text-gray-400">
-                  {address.address || address.street},{" "}
-                  {address.district || address.city}
-                </p>
-                <p className="text-sm text-gray-400">
-                  {address.state}, {address.pin_code || address.zip_code}
-                </p>
-                <p className="text-sm text-gray-400">{address.phone_number}</p>
-              </div>
-              <div className="flex space-x-2">
-                {/* <button className="p-1.5 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">
+        {userAddresses && userAddresses.length > 0 ? (
+          <div className="space-y-4">
+            {userAddresses.map((address, idx) => (
+              <div
+                key={idx}
+                className="flex items-start p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
+              >
+                <div className="flex-shrink-0 mt-1 mr-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <MapPin size={20} className="text-blue-600" />
+                  </div>
+                </div>
+                <div className="flex-grow min-w-0">
+                  <p className="font-semibold text-gray-900 truncate">
+                    {address.address_name || `Address ${idx + 1}`}
+                    {address.is_default && (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Default
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {address.address || address.street},{" "}
+                    {address.district || address.city}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {address.state}, {address.pin_code || address.zip_code}
+                  </p>
+                  <p className="text-sm text-gray-600">{address.phone_number}</p>
+                </div>
+                <button 
+                  onClick={() => deleteAddress(address.id)}
+                  className="flex-shrink-0 ml-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                >
                   <svg
-                    className="w-4 h-4 text-gray-400"
+                    className="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    ></path>
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
                   </svg>
-                </button> */}
-               <button 
-                    onClick={() => deleteAddress(address.id)}
-                    className="p-1.5 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors"
-                  >
-                    <svg
-                      className="w-4 h-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </button>
+                </button>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-8 border border-dashed border-gray-700 rounded-lg">
-          <MapPin size={40} className="text-gray-500 mx-auto mb-2" />
-          <p className="text-gray-400">No delivery addresses found</p>
-          <button
-            onClick={() => setShowAddressPopup(true)}
-            className="mt-3 px-4 py-2 bg-blue-600 text-black rounded-md hover:bg-blue-700 transition-all flex items-center mx-auto"
-          >
-            <Plus size={16} className="mr-1" /> Add Address
-          </button>
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+            <MapPin size={48} className="text-gray-400 mx-auto mb-4" />
+            <p className="text-lg text-gray-500 mb-4">No delivery addresses found</p>
+            <button
+              onClick={() => setShowAddressPopup(true)}
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+            >
+              <Plus size={16} className="mr-2" />
+              Add Address
+            </button>
+          </div>
+        )}
+      </div>
     </div>
-
   </div>
 );
 

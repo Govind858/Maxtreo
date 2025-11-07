@@ -330,23 +330,27 @@ const ModernNavbar = () => {
           {/* User Actions - Right */}
           <div className="actions-section">
             <div className="action-items">
-              {user ? (
-                <div className="user-welcome">
-                  <span>Hi, {user.name || user.email}</span>
-                </div>
-              ) : (
-                <Link to="/login" className="auth-link">
-                  <FaUser className="action-icon" />
-                  <span>Login</span>
-                </Link>
+              {!isMobile && (
+                <>
+                  {user ? (
+                    <div className="user-welcome">
+                      <span>Hi, {user.name || user.email}</span>
+                    </div>
+                  ) : (
+                    <Link to="/login" className="auth-link">
+                      <FaUser className="action-icon" />
+                      <span>Login</span>
+                    </Link>
+                  )}
+                  
+                  <Link to="/cart" className="auth-link cart-link">
+                    <FaShoppingCart className="action-icon" />
+                    <span>Cart</span>
+                    {/* <span className="cart-count">0</span> */}
+                  </Link>
+                </>
               )}
               
-              <Link to="/cart" className="auth-link cart-link">
-                <FaShoppingCart className="action-icon" />
-                <span>Cart</span>
-                {/* <span className="cart-count">0</span> */}
-              </Link>
-
               {/* Social Media Icons */}
               <div className="social-icons" style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
                 {socialMedia.map((social, index) => (

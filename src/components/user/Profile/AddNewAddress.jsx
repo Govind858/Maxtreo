@@ -123,13 +123,13 @@ function AddNewAddress({ onAddressAdded, onClose }) {
   return (
     <div>
       {showAddressModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{zIndex:"1020"}}> 
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-screen overflow-y-auto">
-            <div className="flex justify-between items-center p-6 border-b">
-              <h3 className="text-lg font-medium text-gray-900">Add New Address</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[1020]"> 
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Add New Address</h3>
               <button 
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-500 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100"
                 disabled={loading}
                 aria-label="Close"
               >
@@ -137,9 +137,9 @@ function AddNewAddress({ onAddressAdded, onClose }) {
               </button>
             </div>
             
-            <form onSubmit={handleAddNewAddress} className="p-6 space-y-4">
+            <form onSubmit={handleAddNewAddress} className="p-4 sm:p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Delivery Person Name* (letters only)
                 </label>
                 <input
@@ -147,7 +147,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                   name="delivery_person_name"
                   value={newAddress.delivery_person_name}
                   onChange={handleInputChange}
-                  className={`w-full border ${formErrors.delivery_person_name ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                  className={`w-full border ${formErrors.delivery_person_name ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                   placeholder="Full name"
                   required
                   minLength={1}
@@ -160,7 +160,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Phone Number*
                 </label>
                 <input
@@ -168,7 +168,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                   name="phone_number"
                   value={newAddress.phone_number}
                   onChange={handleInputChange}
-                  className={`w-full border ${formErrors.phone_number ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                  className={`w-full border ${formErrors.phone_number ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                   placeholder="10 digit phone number"
                   required
                   maxLength={10}
@@ -181,15 +181,15 @@ function AddNewAddress({ onAddressAdded, onClose }) {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Address*
                 </label>
                 <textarea
                   name="address"
                   value={newAddress.address}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  placeholder="Street address"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm resize-none"
+                  placeholder="Street address, house number, etc."
                   required
                   minLength={1}
                   rows={3}
@@ -197,9 +197,9 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     District* (letters only)
                   </label>
                   <input
@@ -207,7 +207,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                     name="district"
                     value={newAddress.district}
                     onChange={handleInputChange}
-                    className={`w-full border ${formErrors.district ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                    className={`w-full border ${formErrors.district ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                     placeholder="District"
                     required
                     minLength={1}
@@ -220,7 +220,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     State* (letters only)
                   </label>
                   <input
@@ -228,7 +228,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                     name="state"
                     value={newAddress.state}
                     onChange={handleInputChange}
-                    className={`w-full border ${formErrors.state ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                    className={`w-full border ${formErrors.state ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                     placeholder="State"
                     required
                     minLength={1}
@@ -241,9 +241,9 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Zip Code*
                   </label>
                   <input
@@ -251,7 +251,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                     name="zip_code"
                     value={newAddress.zip_code}
                     onChange={handleInputChange}
-                    className={`w-full border ${formErrors.zip_code ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                    className={`w-full border ${formErrors.zip_code ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                     placeholder="Zip code"
                     required
                     minLength={1}
@@ -264,7 +264,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Country* (letters only)
                   </label>
                   <input
@@ -272,7 +272,7 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                     name="country"
                     value={newAddress.country}
                     onChange={handleInputChange}
-                    className={`w-full border ${formErrors.country ? 'border-red-500' : 'border-gray-300'} rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                    className={`w-full border ${formErrors.country ? 'border-red-500' : 'border-gray-300'} rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm`}
                     placeholder="Country"
                     required
                     minLength={1}
@@ -285,33 +285,33 @@ function AddNewAddress({ onAddressAdded, onClose }) {
                 </div>
               </div>
               
-              <div className="flex items-center">
+              <div className="flex items-start space-x-3">
                 <input
                   type="checkbox"
                   id="is_primary"
                   name="is_primary"
                   checked={newAddress.is_primary}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded transition-colors"
+                  className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded transition-colors"
                   disabled={loading}
                 />
-                <label htmlFor="is_primary" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="is_primary" className="text-sm text-gray-700 select-none">
                   Set as primary address
                 </label>
               </div>
               
-              <div className="flex justify-end pt-4 border-t mt-6">
+              <div className="flex flex-col sm:flex-row justify-end pt-4 border-t mt-6 space-y-2 sm:space-y-0 sm:space-x-3">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="mr-3 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                   disabled={loading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className={`px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={loading || !isFormValid()}
                 >
                   {loading ? 'Saving...' : 'Save Address'}
