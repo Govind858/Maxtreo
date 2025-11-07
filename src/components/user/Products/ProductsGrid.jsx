@@ -7,9 +7,7 @@ import {
   FaSort,
   FaShoppingCart,
   FaBolt,
-  FaStar,
-  FaChevronLeft,
-  FaChevronRight
+  FaStar
 } from "react-icons/fa";
 import { getAllProduct } from '../../../Services/Products';
 import baseUrl from '../../../Static/Static';
@@ -20,7 +18,7 @@ import Sorting from '../Sorting/Sorting';
 import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
 
-function ProductsList() {
+function ProductsGrid() {
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState(false);
   const [products, setProducts] = useState([]);
@@ -30,9 +28,7 @@ function ProductsList() {
   const [alertData, setAlertData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [guestCart, setGuestCart] = useState([]);
-  const [showScrollButtons, setShowScrollButtons] = useState(false);
   const alertTimeoutRef = useRef(null);
-  const scrollContainerRef = useRef(null);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -119,20 +115,6 @@ function ProductsList() {
     fetchProducts();
   }, []);
 
-  // Check if scroll buttons should be shown
-  useEffect(() => {
-    const checkScroll = () => {
-      if (scrollContainerRef.current) {
-        const { scrollWidth, clientWidth } = scrollContainerRef.current;
-        setShowScrollButtons(scrollWidth > clientWidth);
-      }
-    };
-
-    checkScroll();
-    window.addEventListener('resize', checkScroll);
-    return () => window.removeEventListener('resize', checkScroll);
-  }, [products]);
-
   const showAlert = (data) => {
     if (alertTimeoutRef.current) {
       clearTimeout(alertTimeoutRef.current);
@@ -152,18 +134,6 @@ function ProductsList() {
       }
     };
   }, []);
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
 
   const addTocart = async (id, event) => {
     event.stopPropagation();
@@ -340,7 +310,7 @@ function ProductsList() {
           </div>
         )}
 
-        {/* Products Horizontal Scroller */}
+        {/* Products Grid */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <Loader />
@@ -350,168 +320,119 @@ function ProductsList() {
             <p className="text-lg font-semibold">No products found. Try adjusting your filters or search term.</p>
           </div>
         ) : (
-          <div className="relative">
-            {/* Scroll Buttons */}
-            {showScrollButtons && (
-              <>
-                <button 
-                  onClick={scrollLeft}
-                  className={`absolute left-2 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    darkMode 
-                      ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                      : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                  } shadow-lg`}
-                >
-                  <FaChevronLeft className="text-sm" />
-                </button>
-                <button 
-                  onClick={scrollRight}
-                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    darkMode 
-                      ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                      : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                  } shadow-lg`}
-                >
-                  <FaChevronRight className="text-sm" />
-                </button>
-              </>
-            )}
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-6">
+            {filteredProducts.map((product) => (
+              <div 
+                key={product.id}
+                onClick={() => navigateToDetails(product.id)}
+                className={`group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col ${darkMode 
+                  ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
+                  : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
+                }`}
+              >
+                {/* Product Badge */}
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg bg-blue-500">
+                    FEATURED
+                  </span>
+                </div>
 
-            {/* Products Scroll Container */}
-            <div 
-              ref={scrollContainerRef}
-              className="flex overflow-x-auto gap-6 pb-8 px-2 -mx-2 scrollbar-hide scroll-smooth"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {filteredProducts.map((product) => (
-                <div 
-                  key={product.id}
-                  onClick={() => navigateToDetails(product.id)}
-                  className={`flex-shrink-0 w-72 group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border ${darkMode 
-                    ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
-                    : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
-                  }`}
-                >
-                  {/* Product Badge */}
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg bg-blue-500">
-                      FEATURED
-                    </span>
-                  </div>
-
-                  {/* Image Container */}
-                  <div className="relative h-56 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800">
-                    <img 
-                      src={product.images?.[0]?.image 
-                        ? baseUrl + product.images[0].image 
-                        : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                      } 
-                      alt={product.name}
-                      className="h-44 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
-                    
-                    {/* Quick Action Overlay - Always visible but subtle, with text on hover */}
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                      <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-2 text-white`}>
-                        <button className="w-12 h-12 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
-                          <FaBolt className="text-sm" />
-                        </button>
-                        <span className="text-xs font-semibold">Quick View</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Product Content */}
-                  <div className="p-6">
-                    <div className="mb-4">
-                      <h2 className="font-[Rajdhani] text-xl font-bold mb-3 line-clamp-2 leading-tight text-black dark:text-white">
-                        {product.name}
-                      </h2>
-                      
-                      {/* Rating */}
-                      <div className="flex items-center gap-1 mb-3">
-                        {[1,2,3,4,5].map((star) => (
-                          <FaStar 
-                            key={star}
-                            className={`text-sm ${
-                              star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
-                            }`}
-                          />
-                        ))}
-                        <span className={`text-sm ml-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                          (4.0)
-                        </span>
-                      </div>
-
-                      <div className="flex items-baseline gap-3">
-                        <span className="text-2xl font-bold font-[Rajdhani] text-black dark:text-white">
-                          ₹ {product.price?.toLocaleString()}
-                        </span>
-                        <span className={`text-sm line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                          ₹ {(product.price * 1.2)?.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons - Always visible */}
-                    <div className="flex gap-3">
-                      <button 
-                        onClick={(e) => addTocart(product.id, e)}
-                        disabled={addingToCart === product.id}
-                        className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
-                          addingToCart === product.id
-                            ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
-                            : darkMode
-                              ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                              : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
-                        }`}
-                      >
-                        {addingToCart === product.id ? (
-                          <>
-                            <FaSpinner className="animate-spin text-sm" /> 
-                            <span>ADDING...</span>
-                          </>
-                        ) : (
-                          <>
-                            <FaShoppingCart className="text-sm" /> 
-                            <span>ADD TO CART</span>
-                          </>
-                        )}
+                {/* Image Container */}
+                <div className="relative h-36 sm:h-40 lg:h-52 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                  <img 
+                    src={product.images?.[0]?.image 
+                      ? baseUrl + product.images[0].image 
+                      : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
+                    } 
+                    alt={product.name}
+                    className="h-28 sm:h-32 lg:h-40 w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                  
+                  {/* Quick Action Overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                    <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 lg:gap-2 text-white`}>
+                      <button className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
+                        <FaBolt className="text-xs lg:text-sm" />
                       </button>
-
-                      <button 
-                        onClick={(e) => handleBuyNow(product, e)}
-                        className="flex-1 py-3 rounded-xl text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-2 bg-blue-500 shadow-lg"
-                      >
-                        <FaBolt className="text-sm" />
-                        <span>BUY NOW</span>
-                      </button>
+                      <span className="text-xs lg:text-xs font-semibold">Quick View</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Scroll Indicator */}
-            <div className="flex justify-center mt-6">
-              <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1.5`}>
-                <div className="w-2 h-2 rounded-full bg-[#07bff]"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                {/* Product Content */}
+                <div className="p-2.5 sm:p-3 lg:p-5 flex-1 flex flex-col justify-between min-h-0">
+                  <div className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0">
+                    <h2 className="font-[Rajdhani] text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 lg:mb-2.5 line-clamp-2 leading-tight text-black dark:text-white">
+                      {product.name}
+                    </h2>
+                    
+                    {/* Rating */}
+                    <div className="flex items-center gap-0.5 sm:gap-1 mb-1.5 sm:mb-2 lg:mb-2.5">
+                      {[1,2,3,4,5].map((star) => (
+                        <FaStar 
+                          key={star}
+                          className={`text-[10px] sm:text-xs lg:text-sm ${
+                            star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
+                          }`}
+                        />
+                      ))}
+                      <span className={`text-[10px] sm:text-xs lg:text-sm ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        (4.0)
+                      </span>
+                    </div>
+
+                    <div className="flex items-baseline gap-1.5 sm:gap-2 lg:gap-2.5 flex-wrap">
+                      <span className="text-base sm:text-lg lg:text-xl font-bold font-[Rajdhani] text-black dark:text-white">
+                        ₹ {product.price?.toLocaleString()}
+                      </span>
+                      <span className={`text-[10px] sm:text-xs lg:text-sm line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                        ₹ {(product.price * 1.2)?.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-1.5 sm:gap-2 lg:gap-2.5 flex-shrink-0">
+                    <button 
+                      onClick={(e) => addTocart(product.id, e)}
+                      disabled={addingToCart === product.id}
+                      className={`flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl flex items-center justify-center gap-1 lg:gap-1.5 text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
+                        addingToCart === product.id
+                          ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
+                          : darkMode
+                            ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
+                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
+                      }`}
+                    >
+                      {addingToCart === product.id ? (
+                        <>
+                          <FaSpinner className="animate-spin text-[10px] sm:text-xs lg:text-sm" /> 
+                          <span className="hidden sm:inline">ADD</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaShoppingCart className="text-[10px] sm:text-xs lg:text-sm" /> 
+                          <span className="hidden sm:inline">CART</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button 
+                      onClick={(e) => handleBuyNow(product, e)}
+                      className="flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 lg:gap-1.5 bg-blue-500 shadow-lg"
+                    >
+                      <FaBolt className="text-[10px] sm:text-xs lg:text-sm" />
+                      <span className="hidden sm:inline">BUY</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         )}
-
-        {/* Custom scrollbar hide */}
-        <style jsx>{`
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
       </div>
     </div>
   );
 }
 
-export default ProductsList;
+export default ProductsGrid;
