@@ -265,10 +265,20 @@ function SideBar({ isOpen, onClose }) {
                   <span>Cart</span>
                 </Link>
               </li>
+               <li>
+                 <Link
+                  to="/products"
+                  onClick={onClose}
+                  className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
+                >
+                  <FiShoppingBag className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Products</span>
+                </Link>
+              </li>
              
                 
               {/* Products - Expandable */}
-              <li
+              {/* <li
                 className="opacity-0 transform translate-x-5"
                 style={{
                   animation: isOpen
@@ -318,7 +328,7 @@ function SideBar({ isOpen, onClose }) {
                     ))}
                   </div>
                 </div>
-              </li>
+              </li> */}
 
               {token && (
                 <li

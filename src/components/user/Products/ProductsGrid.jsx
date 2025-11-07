@@ -433,6 +433,6 @@ function ProductsGrid() {
       </div>
     </div>
   );
-}
+}   
 
 export default ProductsGrid;
