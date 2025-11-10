@@ -5,6 +5,7 @@ import ProductBanner from '../../components/user/ProductsBanner/ProductBanner'
 import ProductsList from '../../components/user/Products/ProductsList'
 import ProductFooter from '../../components/user/Footer/ProductFooter'
 import ProductsGrid from '../../components/user/Products/ProductsGrid'
+import Footer from '../../components/user/Footer/Footer'
     
     function  Products() {
       return (
@@ -13,7 +14,7 @@ import ProductsGrid from '../../components/user/Products/ProductsGrid'
             {/* <ProductBanner/>
             <ProductsList/> */}
             <ProductsGrid/>
-            <ProductFooter/>
+            <Footer/>
         </div>
       )
     }

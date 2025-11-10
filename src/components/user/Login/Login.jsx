@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   IoArrowForwardCircleSharp,
   IoArrowBackCircleSharp,
@@ -18,6 +19,7 @@ import { useAuth } from "../../../Context/UserContext";
 import maxtreo_landing_image from "../../../Images/maxtreo_landing_page.png"
 import maxtreo from '../../../Images/maxtreobgremoved.png'
 import GoogleLoginComponent from "../../user/Google/GoogleLoginComponent";
+
 const ModernLoginForm = () => {
   const navigate = useNavigate();
   const { token, setToken, user } = useAuth();
@@ -331,7 +333,16 @@ const ModernLoginForm = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <h1 className="text-4xl font-bold text-center text-gray-800 mb-4">Welcome to Maxtreo</h1>
+        <div className="flex items-center justify-center space-x-1 mb-4">
+      <img
+        src={maxtreo}
+        alt="Maxtreo Logo"
+        className="w-20 h-20 object-contain cursor-pointer"
+        onClick={() => navigate("/")}
+      />
+      <h1 className="text-4xl font-bold text-gray-800">Welcome to Maxtreo</h1>
+    </div>
+
           {/* Tab Switcher */}
           <div className="flex bg-gray-100 rounded-full p-1 mb-8">
             <button

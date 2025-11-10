@@ -132,7 +132,7 @@ const SupportContentCard = () => {
             {/* Queries Section */}
             <div className="border-b border-gray-300 pb-6 mb-6">
               <h3 className="font-bold mb-2">Queries</h3>
-              <p className="text-sm">For Queries contact us at <a href="mailto:info@neotokyo.in" className="text-blue-600">info@neotokyo.in</a></p>
+              <p className="text-sm">For Queries contact us at <a href="mailto:maxtreo99@gmail.com" className="text-blue-600">maxtreo99@gmail.com</a></p>
             </div>
             
             {/* Browse Help Topics */}
@@ -360,7 +360,7 @@ const ContactCard = () => {
                   <Mail size={20} className="text-blue-600 mr-4" />
                   <div>
                     <p className="text-gray-300 text-sm">Email</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">info@neotokyo.in</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors">maxtreo99@gmail.com</p>
                   </div>
                 </div>
                 
@@ -368,7 +368,7 @@ const ContactCard = () => {
                   <Phone size={20} className="text-blue-600 mr-4" />
                   <div>
                     <p className="text-gray-300 text-sm">Phone</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">+91 (800) 555-1234</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors">+91 94460 67663</p>
                   </div>
                 </div>
                 

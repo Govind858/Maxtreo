@@ -69,9 +69,9 @@ export default function ShippingPolicy() {
             <p className="text-gray-800">
               If you have any questions about shipping or delivery, please contact our support team:
               <br /><br />
-              <strong>Email:</strong> info@neotokyo.in
+              <strong>Email:</strong> maxtreo99@gmail.com
               <br />
-              <strong>Phone:</strong> +91 (800) 555-1234
+              <strong>Phone:</strong> +91 94460 67663
             </p>
           </div>
           

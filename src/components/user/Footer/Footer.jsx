@@ -10,7 +10,7 @@ function maxtreoFooter() {
           {/* Logo and Description */}
           <div className="md:col-span-1">
             <h2 className="text-2xl font-bold mb-2">maxtreo</h2>
-            <p className="text-sm text-gray-300">Building Gaming Experiences Since 2020</p>
+            <p className="text-sm text-gray-300">Experience Maximum Tech with Maxtreo</p>
           </div>
 
           {/* Quick Links */}
@@ -42,7 +42,7 @@ function maxtreoFooter() {
             <div className="mb-4">
               <div className="flex items-center space-x-2 mb-2">
                 <FaMapMarkerAlt className="text-gray-400" />
-                <span className="text-sm text-gray-300">Technocraft Sreevalsum Building Temple by Pass Thodupuzha</span>
+                <span className="text-sm text-gray-300">xxxxxxxx xxxxxx xxxxx xxxx xx xxxx xxxxxxxx</span>
               </div>
             </div>
 
