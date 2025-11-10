@@ -548,6 +548,24 @@
   .logo-img {
     height: 35px;
   }
+
+  /* Hide social icons and quick-links on mobile via JS condition, but ensure CSS fallback */
+  .social-icons {
+    display: none;
+  }
+
+  .quick-links {
+    display: none;
+  }
+
+  /* Adjust logo-section for mobile: tighter spacing */
+  .logo-section {
+    gap: 8px;
+  }
+
+  .logo-section h1 {
+    font-size: 1.25rem; /* Reduce text-2xl size on mobile for professionalism */
+  }
 }
 
 @media (max-width: 480px) {
@@ -567,6 +585,23 @@
   .categories-dropdown {
     width: 250px;
   }
+
+  .logo-section {
+    gap: 6px;
+  }
+
+  .logo-section h1 {
+    font-size: 1.125rem;
+  }
+
+  .logo {
+    height: 32px;
+  }
+
+  .menu-btn {
+    font-size: 18px;
+    padding: 6px;
+  }
 }
 
 /* Updated nav.css with logo styles */
@@ -575,6 +610,7 @@
 
 .logo-section {
   display: flex;
+  gap: 10px;
   align-items: center;
   flex-shrink: 0;
   z-index: 1000;

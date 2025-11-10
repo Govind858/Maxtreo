@@ -306,6 +306,54 @@ const ModernNavbar = () => {
               <div>
                 <h1 className="text-2xl ">Maxtreo</h1>
               </div>
+              {!isMobile && (
+                <div className="dropdown-container">
+                  <button
+                    className="category-dropdown-trigger"
+                    onClick={() => handleDropdownToggle("categories")}
+                    onMouseEnter={() => setActiveDropdown("categories")}
+                  >
+                    <FaBars className="categories-icon" />
+                    All Categories
+                    <FaChevronDown className="dropdown-icon" />
+                  </button>
+                  <div
+                    className={`categories-dropdown ${
+                      activeDropdown === "categories" ? "active" : ""
+                    }`}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
+                    <div className="dropdown-wrapper">
+                      {!dropdownScroll.top && (
+                        <button
+                          className="scroll-indicator scroll-up"
+                          onClick={() => scrollDropdown("up")}
+                        >
+                          <FaChevronUp />
+                        </button>
+                      )}
+                      <div
+                        className="dropdown-content"
+                        ref={dropdownRef}
+                        onScroll={handleDropdownScroll}
+                      >
+                        {Array.isArray(productsItems) && productsItems.map((item, index) => (
+                          <Link
+                            key={index}
+                            to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`} // Updated path to match page
+                            className="dropdown-item"
+                            onClick={() => console.log(`Navigating to category: ${item.name}`)} // Debug log
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              )}
+              
           </div>
 
 
@@ -326,6 +374,21 @@ const ModernNavbar = () => {
               </div>
             </form>
           </div> */}
+          {!isMobile && (
+            <div>
+              <div className="quick-links">
+                {quickLinks.map((link, index) => (
+                  <Link
+                    key={index}
+                    to={link.path}
+                    className="quick-link"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* User Actions - Right */}
           <div className="actions-section">
@@ -334,7 +397,7 @@ const ModernNavbar = () => {
                 <>
                   {user ? (
                     <div className="user-welcome">
-                      <span>Hi, {user.name || user.email}</span>
+                      {/* <span>Hi, {user.name || user.email}</span> */}    {/* commented for removing email from navbar */}
                     </div>
                   ) : (
                     <Link to="/login" className="auth-link">
@@ -343,31 +406,33 @@ const ModernNavbar = () => {
                     </Link>
                   )}
                   
-                  <Link to="/cart" className="auth-link cart-link">
+                  <Link to="/cart" className="auth-link cart-link"> 
                     <FaShoppingCart className="action-icon" />
                     <span>Cart</span>
-                    {/* <span className="cart-count">0</span> */}
+                    <span className="cart-count">0</span>
                   </Link>
                 </>
               )}
               
               {/* Social Media Icons */}
-              <div className="social-icons" style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
-                {socialMedia.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    aria-label={`Follow us on ${social.url.split('.')[1]}`}
-                  >
-                    <social.icon className="social-icon" style={{ color: social.color, fontSize: '1.2rem' }} />
-                  </a>
-                ))}
-              </div>
+              {!isMobile && (
+                <div className="social-icons" style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
+                  {socialMedia.map((social, index) => (
+                    <a
+                      key={index}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="social-link"
+                      aria-label={`Follow us on ${social.url.split('.')[1]}`}
+                    >
+                      <social.icon className="social-icon" style={{ color: social.color, fontSize: '1.2rem' }} />
+                    </a>
+                  ))}
+                </div>
+              )}
                 
-              <button className="mobile-menu-btn" onClick={openSidebar}>
+              <button className="menu-btn" onClick={openSidebar}>
                 <FaBars />
               </button>
             </div>
@@ -375,58 +440,8 @@ const ModernNavbar = () => {
         </div>
 
         {/* Categories Navigation */}
-        <div className="categories-nav">
+        {/* <div className="categories-nav">         COMMENT FOR REDUCTING THE NAVBAR HEIGHT
           <div className="categories-container">
-            {/* All Categories Dropdown */}
-            <div className="dropdown-container">
-              <button
-                className="category-dropdown-trigger"
-                onClick={() => handleDropdownToggle("categories")}
-                onMouseEnter={() => setActiveDropdown("categories")}
-              >
-                <FaBars className="categories-icon" />
-                All Categories
-                <FaChevronDown className="dropdown-icon" />
-              </button>
-              <div
-                className={`categories-dropdown ${
-                  activeDropdown === "categories" ? "active" : ""
-                }`}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="dropdown-wrapper">
-                  {!dropdownScroll.top && (
-                    <button
-                      className="scroll-indicator scroll-up"
-                      onClick={() => scrollDropdown("up")}
-                    >
-                      <FaChevronUp />
-                    </button>
-                  )}
-                  <div
-                    className="dropdown-content"
-                    ref={dropdownRef}
-                    onScroll={handleDropdownScroll}
-                  >
-                    {Array.isArray(productsItems) && productsItems.map((item, index) => (
-                      <Link
-                        key={index}
-                        to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`} // Updated path to match page
-                        className="dropdown-item"
-                        onClick={() => console.log(`Navigating to category: ${item.name}`)} // Debug log
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-
-          
-
-            {/* Quick Links */}
             <div className="quick-links">
               {quickLinks.map((link, index) => (
                 <Link
@@ -439,7 +454,7 @@ const ModernNavbar = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </nav>
 
       <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} />

@@ -270,8 +270,8 @@ function ProductsList() {
 
       <div className="w-full max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className={`mb-8 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
+        {/* <div className={`mb-8 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}> */}
+          {/* <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
             <div className="text-center lg:text-left flex-1">
               <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue dark:text-white relative inline-block">
                 Featured Products
@@ -281,9 +281,9 @@ function ProductsList() {
               </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-4 lg:items-center w-full lg:w-auto">
+            <div className="flex flex-col lg:flex-row gap-4 lg:items-center w-full lg:w-auto"> */}
               {/* Search Bar */}
-              <div className="relative w-full lg:w-80">
+              {/* <div className="relative w-full lg:w-80">
                 <input
                   type="text"
                   placeholder="Search products..."
@@ -295,7 +295,7 @@ function ProductsList() {
               </div>
 
               {/* Control Buttons */}
-              <div className="flex items-center justify-center gap-2 sm:gap-3">
+              {/* <div className="flex items-center justify-center gap-2 sm:gap-3">
                 <button 
                   className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 ${filter 
                     ? 'bg-[#07bff] text-white shadow-lg' 
@@ -330,7 +330,7 @@ function ProductsList() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */} 
 
         {/* Filter Section */}
         {filter && (

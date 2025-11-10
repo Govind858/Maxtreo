@@ -115,7 +115,7 @@ function SideBar({ isOpen, onClose }) {
 
 
   const supportItems = [
-    { name: "Help", path: "/support" },
+    // { name: "Help", path: "/support" },
     { name: "About Us", path: "/about" },
     // { name: 'Blogs', path: '/blogs' },
     { name: "Privacy Policy", path: "/privacy-policy" },

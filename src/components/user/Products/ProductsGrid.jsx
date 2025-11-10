@@ -103,7 +103,7 @@ function ProductsGrid() {
       try {
         setLoading(true);
         let productData = await getAllProduct();
-        console.log("product data:",productData)
+        console.log("product data:", productData);
         setProducts(productData || []);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -233,79 +233,78 @@ function ProductsGrid() {
       )}
 
       <div className="w-full max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className={`mb-8 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="text-center lg:text-left">
-              <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue dark:text-white relative inline-block">
-                Featured Products
-              </h1>
-              <p className={`mt-3 text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Discover our exclusive collection
-              </p>
-            </div>
+        {/* Modern Compact Header */}
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Search Bar – Compact on Mobile */}
+          <div className="relative w-full sm:w-72 md:w-80">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className={`
+                w-full pl-4 pr-12
+                py-2 sm:py-2.5
+                text-sm sm:text-base
+                rounded-full border-2 focus:border-[#07bff]
+                ${darkMode
+                  ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}
+                outline-none transition-all duration-300
+              `}
+            />
+            <FaSearch className={`
+              absolute right-4 top-1/2 -translate-y-1/2
+              text-base ${darkMode ? 'text-gray-400' : 'text-gray-500'}
+            `} />
+          </div>
 
-            <div className="flex flex-col lg:flex-row gap-4 lg:items-center w-full lg:w-auto">
-              {/* Search Bar */}
-              <div className="relative w-full lg:w-80">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`w-full pl-4 pr-12 py-3 text-base rounded-xl border-2 focus:border-[#07bff] ${darkMode ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} outline-none transition-all duration-300`}
-                />
-                <FaSearch className={`absolute right-4 top-1/2 transform -translate-y-1/2 text-lg ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-              </div>
+          {/* Filter & Sort Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => { setFilter(!filter); if (sort) setSort(false); }}
+              className={`
+                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
+                ${filter
+                  ? 'bg-[#07bff] text-white shadow-md'
+                  : darkMode
+                    ? 'bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]'
+                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
+                }
+              `}
+            >
+              <FaFilter className={filter ? 'text-white' : ''} />
+              FILTER
+            </button>
 
-              {/* Control Buttons */}
-              <div className="flex items-center justify-center gap-3">
-                <button 
-                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${filter 
-                    ? 'bg-[#07bff] text-white shadow-lg' 
-                    : darkMode 
-                      ? 'bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]' 
-                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 hover:border-[#07bff]'
-                  }`}
-                  onClick={() => {
-                    setFilter(!filter);
-                    if (sort) setSort(false);
-                  }}
-                >
-                  <FaFilter className={filter ? 'text-white' : darkMode ? 'text-gray-300' : 'text-gray-600'} />
-                  <span>FILTER</span>
-                </button>
-
-                <button 
-                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${sort 
-                    ? 'bg-[#07bff] text-white shadow-lg' 
-                    : darkMode 
-                      ? 'bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]' 
-                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 hover:border-[#07bff]'
-                  }`}
-                  onClick={() => {
-                    setSort(!sort);
-                    if (filter) setFilter(false);
-                  }}
-                >
-                  <FaSort className={sort ? 'text-white' : darkMode ? 'text-gray-300' : 'text-gray-600'} />
-                  <span>SORT</span>
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
+              className={`
+                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
+                ${sort
+                  ? 'bg-[#07bff] text-white shadow-md'
+                  : darkMode
+                    ? 'bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]'
+                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
+                }
+              `}
+            >
+              <FaSort className={sort ? 'text-white' : ''} />
+              SORT
+            </button>
           </div>
         </div>
 
         {/* Filter Section */}
         {filter && (
-          <div className={`mb-6 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
             <Filter products={products} setProducts={setProducts} />
           </div>
         )}
 
         {/* Sort Section */}
         {sort && (
-          <div className={`mb-6 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
             <Sorting products={products} setProducts={setProducts} />
           </div>
         )}
@@ -332,7 +331,7 @@ function ProductsGrid() {
               >
                 {/* Product Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg bg-blue-500">
+                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg">
                     FEATURED
                   </span>
                 </div>

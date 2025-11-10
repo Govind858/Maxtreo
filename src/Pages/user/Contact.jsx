@@ -304,7 +304,7 @@ const ContactCard = () => {
               Get in <span className="text-blue-600">Touch</span>
             </h2>
             <p className="text-gray-300 text-lg">
-              Ready to build your dream PC? Our team is here to help you every step of the way.
+              "Ready to upgrade your tech? Our store has everything you need to power your lifestyle
             </p>
           </div>
 

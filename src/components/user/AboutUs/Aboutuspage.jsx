@@ -315,7 +315,7 @@ const ContactCard = () => {
               Get in <span className="text-blue-600">Touch</span>
             </h2>
             <p className="text-gray-300 text-lg">
-              Ready to build your dream PC? Our team is here to help you every step of the way.
+              Ready to upgrade your tech? Our store has everything you need to power your lifestyle
             </p>
           </div>
 
@@ -384,7 +384,7 @@ const ContactCard = () => {
           </div>
 
           {/* Call to Action */}
-          <div className="mt-12 text-center">
+          {/* <div className="mt-12 text-center">
             <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6 rounded-xl">
               <h4 className="text-xl font-bold mb-2">Ready to Start Your Build?</h4>
               <p className="text-blue-100 mb-4">Join thousands of satisfied gamers who chose NeoTokyo for their custom PC builds.</p>
@@ -392,7 +392,7 @@ const ContactCard = () => {
                 Start Your Build
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </StackedCard>
     </div>
