@@ -55,10 +55,10 @@ export default function QualityStandards() {
           </p>
           
           <div className="pt-4">
-            <button className="flex items-center bg-black text-white rounded-full py-2 px-6">
+            {/* <button className="flex items-center bg-black text-white rounded-full py-2 px-6">
               <span className="mr-2">Blog</span>
               <ArrowRight size={18} />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

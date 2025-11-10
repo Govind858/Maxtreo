@@ -17,11 +17,11 @@ export default function DirectionalSection() {
             </p>
             
             <div className="pt-4">
-              <button  className="flex items-center bg-black text-white rounded-full py-2 px-6"
+              {/* <button  className="flex items-center bg-black text-white rounded-full py-2 px-6"
                 onClick={() => window.location.href = '/support'}>
                 <span className="mr-2">Support</span>
                 <ArrowRight size={18} />
-              </button>
+              </button> */}
             </div>
           </div>
           

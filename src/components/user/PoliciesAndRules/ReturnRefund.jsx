@@ -71,7 +71,7 @@ export default function ReturnRefund() {
           <h2 className="text-4xl font-bold">Warranty Claims</h2>
           <p className="text-gray-800">
             Products covered under manufacturer warranty should be directed to the respective 
-            manufacturer for warranty service. For Neo Tokyo custom builds, we provide our own 
+            manufacturer for warranty service. For Maxtreo custom builds, we provide our own 
             warranty terms as specified at the time of purchase. Warranty claims do not fall 
             under our standard return policy and are handled separately through our technical 
             support team.
@@ -104,11 +104,11 @@ export default function ReturnRefund() {
           <p className="text-gray-800">
             For all return and refund inquiries, please contact us at:
             <br />
-            <strong>Neo Tokyo</strong>
+            <strong>Maxtreo</strong>
             <br />
-            Floor no. 2, Koroth Arcade, Vennala High School Rd., opposite to V-Guard, Vennala, Kochi, Kerala 682028
+            addess
             <br />
-            New Age Buildings: Mofussil Bus Stand Building, Mavoor Rd, Arayidathupalam, Kozhikode, Kerala 673004
+            address
           </p>
           
           <button className="flex items-center bg-black text-white rounded-full py-2 px-6 mt-6"

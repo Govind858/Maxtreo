@@ -15,12 +15,12 @@ export default function WhyWeStandOut() {
             Maxtreo is the home of bold tech lovers. We exist to bridge people with stylish, performance-driven devices that shape the future. Our journey began with a simple belief: everyone deserves access to amazing technology that excites the soul and accelerates life.
           </p>
           
-          <button className="flex items-center bg-black text-white rounded-full py-2 px-6 mt-6"
+          {/* <button className="flex items-center bg-black text-white rounded-full py-2 px-6 mt-6"
           onClick={() => window.location.href = '/team-neo'}
           >
             <span className="mr-2">Team NeoTokyo</span>
             <ArrowRight size={18} />
-          </button>
+          </button> */}
         </div>
         
         <div className="space-y-4">

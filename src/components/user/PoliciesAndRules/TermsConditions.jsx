@@ -21,7 +21,7 @@ export default function TermsConditions() {
               Agreement to Our Terms
             </h3>
             <p className="text-gray-800">
-              By accessing and using Neo Tokyo's website and services, you
+              By accessing and using maxtreo's website and services, you
               accept and agree to be bound by the terms and provision of this
               agreement. If you do not agree to abide by the above, please do
               not use this service. These terms apply to all visitors, users,
@@ -32,7 +32,7 @@ export default function TermsConditions() {
           <div className="space-y-4">
             <h2 className="text-4xl font-bold">Products & Services</h2>
             <p className="text-gray-800">
-              Neo Tokyo specializes in custom PC builds and solutions, as well
+              maxtreo specializes in custom PC builds and solutions, as well
               as selling other brand products. All product descriptions,
               specifications, and images are provided for informational
               purposes. We reserve the right to modify product specifications,
@@ -83,7 +83,7 @@ export default function TermsConditions() {
             <h2 className="text-4xl font-bold">Intellectual Property</h2>
             <p className="text-gray-800">
               The content, features, and functionality of our website are owned
-              by Neo Tokyo and are protected by copyright, trademark, and other
+              by maxtreo and are protected by copyright, trademark, and other
               intellectual property laws. You may not reproduce, distribute,
               modify, or create derivative works of our content without our
               express written permission.
@@ -93,7 +93,7 @@ export default function TermsConditions() {
           <div className="space-y-4">
             <h2 className="text-4xl font-bold">Limitation of Liability</h2>
             <p className="text-gray-800">
-              Neo Tokyo shall not be liable for any indirect, incidental,
+              maxtreo shall not be liable for any indirect, incidental,
               special, consequential, or punitive damages, including without
               limitation, loss of profits, data, use, goodwill, or other
               intangible losses, resulting from your use of our service. Our
@@ -118,7 +118,7 @@ export default function TermsConditions() {
               For questions about these Terms and Conditions, please contact us
               at:
               <br />
-              <strong>Neo Tokyo</strong>
+              <strong>maxtreo</strong>
               <br />
               Floor no. 2, Koroth Arcade, Vennala High School Rd., opposite to
               V-Guard, Vennala, Kochi, Kerala 682028
