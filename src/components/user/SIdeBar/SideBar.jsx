@@ -1,10 +1,8 @@
-import React, { Profiler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/UserContext";
 import {
-  FiHome,
   FiShoppingBag,
-  FiHelpCircle,
   FiUser,
   FiLogOut,
   FiMenu,
@@ -15,25 +13,19 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import metrixLogo from "../../../Images/maxtreobgremoved.png";
-import { BsFillTicketFill } from "react-icons/bs";
 import {
-  GamepadIcon,
   ListOrdered,
   Settings,
-  Cpu,
   HeadphonesIcon,
 } from "lucide-react";
 import { FaProductHunt } from "react-icons/fa";
-import { SlCallOut } from "react-icons/sl";
-import { IoBulb } from "react-icons/io5";
 import { logout } from "../../../Services/userApi";
-import { FiShoppingCart } from "react-icons/fi";
 import {getProductDropDown} from '../../../Services/userApi'
 
 function SideBar({ isOpen, onClose }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
-  const [productsItems, setProductsItems] = useState([]);
+  const [ setProductsItems] = useState([]);
 
   // State for expandable menu items
   const [expandedMenus, setExpandedMenus] = useState({
@@ -99,18 +91,18 @@ function SideBar({ isOpen, onClose }) {
   };
 
   // Menu data
-  const solutionsItems = [
-    { name: "Photo Editing", path: "/new-Solutions" },
-    { name: "Video Editing", path: "/new-Solutions" },
-    { name: "3D Design Animation", path: "/new-Solutions" },
-    { name: "Real-Time Engine", path: "/new-Solutions" },
-    { name: "Rendering", path: "/new-Solutions" },
-    { name: "Digital Audio", path: "/new-Solutions" },
-    { name: "Architecture CAD", path: "/new-Solutions" },
-    { name: "Visualization", path: "/new-Solutions" },
-    { name: "Scientific Computing", path: "/new-Solutions" },
-    { name: "Live Streaming", path: "/new-Solutions" },
-  ];
+  // const solutionsItems = [
+  //   { name: "Photo Editing", path: "/new-Solutions" },
+  //   { name: "Video Editing", path: "/new-Solutions" },
+  //   { name: "3D Design Animation", path: "/new-Solutions" },
+  //   { name: "Real-Time Engine", path: "/new-Solutions" },
+  //   { name: "Rendering", path: "/new-Solutions" },
+  //   { name: "Digital Audio", path: "/new-Solutions" },
+  //   { name: "Architecture CAD", path: "/new-Solutions" },
+  //   { name: "Visualization", path: "/new-Solutions" },
+  //   { name: "Scientific Computing", path: "/new-Solutions" },
+  //   { name: "Live Streaming", path: "/new-Solutions" },
+  // ];
 
 
 
