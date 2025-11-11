@@ -1,27 +1,34 @@
+// src/components/user/Tickets/TicketsResolved.jsx
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ModernNavbar from "../NavBar/NavBar";
 import ProductFooter from "../Footer/ProductFooter";
 import { getmyTickets } from "../../../Services/userApi";
 
-// API service function (mock)
-const updateTicketGrievance = async (ticketId, payload) => {
+/* API function - No unreachable code */
+const updateTicketGrievance = (ticketId, payload) => {
   console.log("Sending update:", ticketId, payload);
-  try {
-    // Replace with actual API call later
-    return { success: true };
-  } catch (error) {
-    console.error("Error updating ticket:", error);
-    throw error;
-  }
+  
+  return fetch('/api/tickets/update', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ticketId, ...payload })
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to update ticket');
+    }
+    return response.json();
+  });
 };
 
+/* Main Component */
 const TicketManagement = () => {
-  // State management
   const [grievanceText, setGrievanceText] = useState("");
   const [activeTab, setActiveTab] = useState("COMPLAINTS");
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // ← Used in button
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -31,12 +38,36 @@ const TicketManagement = () => {
   const textareaRef = useRef(null);
   const lineHeight = 24;
 
-  // Fetch tickets on mount
-  useEffect(() => {
-    fetchTickets();
+  const showNotification = useCallback((msg, type) => {
+    setNotification({ show: true, message: msg, type });
   }, []);
 
-  // Adjust textarea height
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const fetchTickets = useCallback(async () => {
+    try {
+      const { data = [] } = await getmyTickets();
+      setTickets(data);
+      if (data.length > 0) {
+        setSelectedTicket(data[0]);
+        setGrievanceText(data[0].grievance || "");
+      }
+    } catch (err) {
+      showNotification("Failed to load tickets. Please try again.", "error");
+    }
+  }, [showNotification]);
+
+  useEffect(() => {
+    fetchTickets();
+  }, [fetchTickets]);
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -47,7 +78,6 @@ const TicketManagement = () => {
     }
   }, [grievanceText]);
 
-  // Auto-hide notification
   useEffect(() => {
     if (notification.show) {
       const timer = setTimeout(() => {
@@ -55,37 +85,14 @@ const TicketManagement = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [notification.show]); // ← Only depend on show
+  }, [notification.show]);
 
-  // Fetch tickets
-  const fetchTickets = async () => {
-    try {
-      const response = await getmyTickets();
-      const data = response.data || [];
-      setTickets(data);
-      if (data.length > 0) {
-        setSelectedTicket(data[0]);
-        setGrievanceText(data[0].grievance || "");
-      }
-    } catch (error) {
-      console.error("Error fetching tickets:", error);
-      showNotification("Failed to load tickets. Please try again.", "error");
-    }
-  };
-
-  // Helper to show notification
-  const showNotification = useCallback((message, type) => {
-    setNotification({ show: true, message, type });
-  }, []);
-
-  // Select ticket
   const handleTicketSelect = useCallback((ticket) => {
     setSelectedTicket(ticket);
     setGrievanceText(ticket.grievance || "");
     setActiveTab("COMPLAINTS");
   }, []);
 
-  // Submit update (now used)
   const submitGrievanceUpdate = useCallback(async () => {
     if (!selectedTicket || isSubmitting) return;
 
@@ -97,16 +104,19 @@ const TicketManagement = () => {
       showNotification("Grievance updated successfully!", "success");
       await fetchTickets();
     } catch (error) {
+      console.error("Update error:", error);
       showNotification("Failed to update grievance. Please try again.", "error");
     } finally {
       setIsSubmitting(false);
     }
-  }, [selectedTicket, grievanceText, isSubmitting, showNotification]);
+  }, [
+    selectedTicket,
+    grievanceText,
+    isSubmitting,
+    showNotification,
+    fetchTickets,
+  ]);
 
-  // Memoized rows calculation (if needed later, otherwise remove)
-  // Removed unnecessary useMemo since `rows` was unused
-
-  // Tab content
   const tabContent = {
     COMPLAINTS: (
       <div className="space-y-2">
@@ -146,34 +156,25 @@ const TicketManagement = () => {
     ),
   };
 
-  // Date formatter
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
     <div className="flex flex-col min-h-screen bg-black">
       <ModernNavbar />
 
-      {/* Notification */}
       {notification.show && (
         <div
-          className={`fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg ${
+          className={`fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg text-white transition-all duration-300 ${
             notification.type === "success" ? "bg-green-500" : "bg-red-500"
-          } text-white transition-all duration-300 transform translate-x-0`}
+          }`}
         >
           {notification.message}
         </div>
       )}
 
-      <main className="flex-grow w-full p-4 sm:p-6 md:p-8" style={{ marginTop: "100px" }}>
+      <main
+        className="flex-grow w-full p-4 sm:p-6 md:p-8"
+        style={{ marginTop: "100px" }}
+      >
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
           <div className="flex items-center mb-8">
             <div className="text-white text-4xl font-bold mr-4 font-['Rajdhani',_sans-serif] leading-none">
               <div>NT</div>
@@ -189,7 +190,6 @@ const TicketManagement = () => {
             </div>
           </div>
 
-          {/* Main Content */}
           <div className="flex flex-col lg:flex-row gap-6">
             {/* LEFT: Ticket List */}
             <div className="w-full lg:w-2/5 space-y-4 max-h-[80vh] overflow-y-auto pr-2">
@@ -207,23 +207,22 @@ const TicketManagement = () => {
                     key={ticket.ticket_id}
                     className={`bg-[#63a375] rounded-2xl p-3 sm:p-4 overflow-hidden hover:shadow-lg cursor-pointer transition-all duration-200 ${
                       selectedTicket?.ticket_id === ticket.ticket_id
-                        ? "ring-2 ring-white transform scale-[1.02]"
+                        ? "ring-2 ring-white scale-[1.02]"
                         : "hover:opacity-90"
                     }`}
                     onClick={() => handleTicketSelect(ticket)}
                   >
                     <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden h-full">
-                      {/* Barcode */}
                       <div className="w-full sm:w-2/5 bg-[#4A5F53] border-r border-dashed border-black rounded-l-lg flex flex-col relative p-2">
                         <div className="h-28 flex items-center justify-center">
-                          <div className="w-16 h-full transform -rotate-90 flex items-center">
+                          <div className="w-16 h-full -rotate-90 flex items-center">
                             <div
                               className="w-full h-full bg-contain bg-no-repeat bg-center"
                               style={{ backgroundImage: `url('/api/placeholder/64/200')` }}
-                            ></div>
+                            />
                           </div>
                         </div>
-                        <div className="transform rotate-90 origin-center absolute top-1/2 right-0 -mr-10 font-bold text-sm tracking-widest text-white font-['Rajdhani',_sans-serif]">
+                        <div className="absolute top-1/2 right-0 -mr-10 -rotate-90 origin-center font-bold text-sm tracking-widest text-white font-['Rajdhani',_sans-serif]">
                           {ticket.is_concluded ? "RESOLVED TICKET" : "PENDING TICKET"}
                         </div>
                         <div className="absolute bottom-4 left-4 text-white text-2xl font-bold leading-none font-['Rajdhani',_sans-serif]">
@@ -232,7 +231,6 @@ const TicketManagement = () => {
                         </div>
                       </div>
 
-                      {/* Info */}
                       <div className="w-full sm:w-3/5 bg-[#63a375] rounded-r-lg p-3">
                         <div className="bg-[#63a375] text-white py-2 text-center font-bold border-l border-dashed border-black font-['Rajdhani',_sans-serif]">
                           {ticket.is_concluded ? "RESOLVED" : "PENDING"}
@@ -258,7 +256,7 @@ const TicketManagement = () => {
             {/* RIGHT: Ticket Details */}
             <div className="w-full lg:w-3/5">
               {selectedTicket ? (
-                <div className="bg-white rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="bg-gray-200 py-3 text-center rounded-t-2xl">
                     <h4 className="font-['Rajdhani',_sans-serif] text-base sm:text-lg tracking-widest font-bold">
                       MANAGE TICKETS
@@ -267,7 +265,7 @@ const TicketManagement = () => {
 
                   <div className="p-5">
                     <span className="text-xs font-semibold text-gray-600 font-['Raleway',_sans-serif]">
-                      Last Updated: {formatDate(selectedTicket?.date_updated)}
+                      Last Updated: {formatDate(selectedTicket.date_updated)}
                     </span>
 
                     <div className="border-b border-dashed border-gray-400 py-4">
@@ -278,57 +276,52 @@ const TicketManagement = () => {
                         Hope we were helpful and could resolve your issue entirely
                       </p>
 
-                      <div className="space-y-4 mb-2">
-                        <div className="flex flex-col sm:flex-row gap-3">
-                          <input
-                            type="text"
-                            className="flex-grow p-2 border border-gray-300 rounded-lg text-sm bg-white font-['Raleway',_sans-serif]"
-                            value={`PRODUCT ${selectedTicket?.product_name || "N/A"}`}
-                            readOnly
-                          />
-                          <input
-                            type="text"
-                            className="flex-grow p-2 border border-gray-300 rounded-lg text-sm bg-gray-50 font-['Raleway',_sans-serif]"
-                            value={`SERIAL CODE ${selectedTicket?.product_serial_number || "N/A"}`}
-                            readOnly
-                          />
-                        </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                        <input
+                          type="text"
+                          value={`PRODUCT ${selectedTicket.product_name || "N/A"}`}
+                          readOnly
+                          className="flex-grow p-2 border border-gray-300 rounded-lg text-sm bg-white font-['Raleway',_sans-serif]"
+                        />
+                        <input
+                          type="text"
+                          value={`SERIAL CODE ${selectedTicket.product_serial_number || "N/A"}`}
+                          readOnly
+                          className="flex-grow p-2 border border-gray-300 rounded-lg text-sm bg-gray-50 font-['Raleway',_sans-serif]"
+                        />
                       </div>
 
                       <span className="block text-right text-xs text-gray-500 font-['Courier_New',_monospace]">
-                        Ticket Id: {selectedTicket?.ticket_id || "N/A"}
+                        Ticket Id: {selectedTicket.ticket_id || "N/A"}
                       </span>
                     </div>
 
-                    {/* Tabs */}
                     <div className="py-4">
-                      <div className="flex flex-wrap mb-4 gap-2">
+                      <div className="flex flex-wrap gap-2 mb-4">
                         {["COMPLAINTS", "DEVICE", "CONCLUSION"].map((tab) => (
                           <button
                             key={tab}
-                            className={`py-2 px-4 text-center text-xs font-medium font-['Rajdhani',_sans-serif] transition-colors duration-200 ${
-                              activeTab === tab
-                                ? "bg-[#63a375] text-white font-bold rounded-lg shadow-md"
-                                : "text-gray-800 hover:bg-gray-100 rounded-lg"
-                            }`}
                             onClick={() => setActiveTab(tab)}
+                            className={`py-2 px-4 text-xs font-medium font-['Rajdhani',_sans-serif] rounded-lg transition-colors ${
+                              activeTab === tab
+                                ? "bg-[#63a375] text-white font-bold shadow-md"
+                                : "text-gray-800 hover:bg-gray-100"
+                            }`}
                           >
                             {tab}
                           </button>
                         ))}
                       </div>
 
-                      {/* Tab Content */}
                       <div className="bg-gray-100 p-4 rounded-lg mb-6 min-h-[120px]">
                         {tabContent[activeTab]}
                       </div>
 
-                      {/* Update Button */}
                       <div className="text-center">
                         <button
                           onClick={submitGrievanceUpdate}
                           disabled={isSubmitting}
-                          className="bg-[#63a375] hover:bg-[#4A5F53] text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="bg-[#63a375] hover:bg-[#4A5F53] text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {isSubmitting ? "Updating..." : "Update Ticket"}
                         </button>
@@ -338,7 +331,7 @@ const TicketManagement = () => {
                         <div
                           className="bg-contain bg-no-repeat bg-center h-6 w-full"
                           style={{ backgroundImage: `url('/api/placeholder/320/24')` }}
-                        ></div>
+                        />
                       </div>
                     </div>
                   </div>
