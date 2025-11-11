@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ModernNavbar from '../NavBar/NavBar';
-import NeoFooter from '../Footer/Footer';
 import { 
   FaCamera, 
   FaMusic, 
