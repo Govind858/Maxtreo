@@ -208,7 +208,7 @@ const AddVarient = async (data) => {
         console.log(Newdata,"Newdata")
         let response = await Axios.post('/inventory/productattribute_value/',Newdata)
         console.log(response,"response..")
-        if(response.status==201){
+        if(response.status===201){
                 let ValueData = {
                     attribute_value_id: response.data?.data.id,
                     value:data.value

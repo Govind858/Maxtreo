@@ -1,6 +1,6 @@
 // src/routes/AdminRoutes.js
 import { Routes, Route } from 'react-router-dom';
-import Home from '../Pages/Admin/Home';
+// import Home from '../Pages/Admin/Home';
 import Dashboard from '../components/Admin/Dashboard';
 import ViewProducts from '../components/Admin/Products/ViewProducts/ViewProducts';
 import Order from '../components/Admin/Order/Order';
