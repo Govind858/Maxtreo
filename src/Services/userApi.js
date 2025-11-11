@@ -1,6 +1,5 @@
 // userApi.js - Fixed version
-import axios from "axios";
-// import Axios from "../Axios/Axios";
+import Axios from "../Axios/Axios";
 import CryptoJS from "crypto-js";
 import { jwtDecode } from "jwt-decode";
 
