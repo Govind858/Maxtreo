@@ -18,7 +18,6 @@ import {
   Settings,
   HeadphonesIcon,
 } from "lucide-react";
-import { FaProductHunt } from "react-icons/fa";
 import { logout } from "../../../Services/userApi";
 import {getProductDropDown} from '../../../Services/userApi'
 
@@ -77,9 +76,9 @@ function SideBar({ isOpen, onClose }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  useEffect(() => {
-    getProductDropDownList();
-  }, []);
+ useEffect(() => {
+  getProductDropDownList();
+}, [getProductDropDownList]); // ← Fixed: Added dependency
 
   const handleProfile = () => {
     try {
