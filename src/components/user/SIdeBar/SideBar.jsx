@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/UserContext";
 import {
@@ -23,7 +23,7 @@ import { logout, getProductDropDown } from "../../../Services/userApi";
 function SideBar({ isOpen, onClose }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
-  const [productsItems, setProductsItems] = useState([]); // Fixed: removed unused set
+  const [productsItems, setProductsItems] = useState([]);
 
   // State for expandable menu items
   const [expandedMenus, setExpandedMenus] = useState({
@@ -31,18 +31,6 @@ function SideBar({ isOpen, onClose }) {
     solutions: false,
     support: false,
   });
-
-  // FIXED: Wrap in useCallback to prevent recreation on every render
-  const getProductDropDownList = useCallback(async () => {
-    try {
-      const response = await getProductDropDown();
-      console.log(response, "response from data from navbar items#############........");
-      setProductsItems(Array.isArray(response?.data) ? response.data : []);
-    } catch (error) {
-      console.log(error, "error while fetching category products");
-      setProductsItems([]);
-    }
-  }, []); // Empty deps: function is stable
 
   const toggleMenu = (menuName) => {
     setExpandedMenus((prev) => ({
@@ -85,10 +73,20 @@ function SideBar({ isOpen, onClose }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // useEffect to fetch products — now stable
+  // useEffect to fetch products
   useEffect(() => {
+    const getProductDropDownList = async () => {
+      try {
+        const response = await getProductDropDown();
+        console.log(response, "response from data from navbar items#############........");
+        setProductsItems(Array.isArray(response?.data) ? response.data : []);
+      } catch (error) {
+        console.log(error, "error while fetching category products");
+        setProductsItems([]);
+      }
+    };
     getProductDropDownList();
-  }, [getProductDropDownList]); // ← Now safe: function is memoized
+  }, []); // Empty deps: runs once on mount
 
   const supportItems = [
     { name: "About Us", path: "/about" },

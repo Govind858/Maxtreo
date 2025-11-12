@@ -7,10 +7,10 @@ import NavBar from "../NavBar/NavBar";
 import Alert from "../Alert/Alert";
 import Loader from "../../../Loader/Loader";
 import { useNavigate } from "react-router-dom";
-import { Play, Pause, ChevronLeft, ChevronRight, X } from "lucide-react";
+import {  ChevronLeft, ChevronRight, X } from "lucide-react";
 import VideoThumbnail from './VideoThumbnail';
 import Axios from '../../../Axios/Axios'
-import { FaDownload, FaYoutube, FaCartPlus, FaBolt, FaCheck,  } from 'react-icons/fa';
+import {  FaYoutube, FaCartPlus, FaBolt, FaCheck,  } from 'react-icons/fa';
 
 function Details({ product }) {
   const { token, user } = useAuth();
@@ -665,14 +665,14 @@ function Details({ product }) {
                 "Experience the ultimate gaming performance with our custom-built gaming PC, featuring the latest technology and components designed to deliver exceptional speed, graphics, and reliability for all your gaming needs."}
               
               <div className="flex gap-4 mt-3">
-                {product?.broacher && (
+                {/* {product?.broacher && (
                   <button
                     className="flex items-center gap-1 text-[var(--color-primary)] hover:underline focus:outline-none"
                     onClick={handleDownloadBrochure}
                   >
                     <FaDownload size={12} /> <span>Download Brochure</span>
                   </button>
-                )}
+                )} */}
 
                 {videoId && (
                   <button
@@ -774,6 +774,9 @@ function Details({ product }) {
                   <FaBolt size={14} /> <span>Buy Now</span>
                 </button>
               )}
+              <button >
+                inquiry
+              </button>
             </div>
           </div>
         </div>
