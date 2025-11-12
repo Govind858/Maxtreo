@@ -34,7 +34,7 @@ function UserProfile() {
   const [updateError, setUpdateError] = useState(null);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
 const deleteAddress = async (id) => {
@@ -148,19 +148,19 @@ const deleteAddress = async (id) => {
   }, []);
 
 
-  useEffect(() => {
-    function handleResize() {
-      setWindowWidth(window.innerWidth);
-    }
+  // useEffect(() => {
+  //   function handleResize() {
+  //     setWindowWidth(window.innerWidth);
+  //   }
     
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
-  const styles = {
-    width: windowWidth >= 768 ? "100%" : "120%",
-    marginTop: windowWidth >= 768 ? "0px" : "25px"
-  };
+  // const styles = {
+  //   width: windowWidth >= 768 ? "100%" : "120%",
+  //   marginTop: windowWidth >= 768 ? "0px" : "25px"
+  // };
 
 
   const handleLogout = () => {
