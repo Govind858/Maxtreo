@@ -16,7 +16,6 @@ import {
   cartDecrement,
   CreateOrder,
   getMyDeliveryAddress,
-  getMyPrimaryAddress,
 } from "../../../Services/userApi";
 
 const CartPage = () => {
@@ -59,6 +58,7 @@ const CartPage = () => {
     try {
       sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
       setGuestCart(cartItems);
+      console.log(guestCart)
     } catch (error) {
       console.error('Error saving guest cart:', error);
     }
@@ -274,17 +274,17 @@ const CartPage = () => {
     setAddressModal(false);
   };
 
-  const syncGuestCartToUserAccount = async () => {
-    try {
-      const guestCartItems = getGuestCart();
-      if (guestCartItems.length > 0) {
-        clearGuestCart();
-        fetchCartItems();
-      }
-    } catch (error) {
-      console.error('Error syncing guest cart:', error);
-    }
-  };
+  // const syncGuestCartToUserAccount = async () => {
+  //   try {
+  //     const guestCartItems = getGuestCart();
+  //     if (guestCartItems.length > 0) {
+  //       clearGuestCart();
+  //       fetchCartItems();
+  //     }
+  //   } catch (error) {
+  //     console.error('Error syncing guest cart:', error);
+  //   }
+  // };
 
   const subtotal = cartItems.items.reduce(
     (total, item) => total + item.price * item.quantity,

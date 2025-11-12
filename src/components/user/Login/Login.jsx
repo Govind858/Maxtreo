@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
   IoArrowForwardCircleSharp,
   IoArrowBackCircleSharp,
@@ -22,7 +22,7 @@ import GoogleLoginComponent from "../../user/Google/GoogleLoginComponent";
 
 const ModernLoginForm = () => {
   const navigate = useNavigate();
-  const { token, setToken, user } = useAuth();
+  const {  setToken } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [sentingotp, setsentingtOtp] = useState(false);
   const [message, setMessage] = useState("");

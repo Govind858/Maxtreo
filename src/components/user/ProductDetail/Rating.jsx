@@ -3,7 +3,7 @@ import { getRatings, addRatings } from '../../../Services/userApi';
 import { useAuth } from '../../../Context/UserContext';
 
 export default function Rating({ product }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // const [currentSlide, setCurrentSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rating, setRating] = useState(5);
   const [title, setTitle] = useState('');
@@ -17,7 +17,7 @@ export default function Rating({ product }) {
 
   const prevProductId = useRef(null);
   const reviewsContainerRef = useRef(null);
-  const { token, setToken, user } = useAuth();
+  const { token, user } = useAuth();
 
   const fetchReviews = async (productId) => {
     try {

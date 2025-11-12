@@ -91,7 +91,7 @@ const Tickets = () => {
       const response = await AdminUpdateTicketStatus(updateData);
       
       // If API call successful, update the local state
-      if (response && response.status==200) {
+      if (response && response.status===200) {
         // Update tickets list
         const updatedTickets = tickets.map(ticket => 
           ticket.ticket_id === ticketId 

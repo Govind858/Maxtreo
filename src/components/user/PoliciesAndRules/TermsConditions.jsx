@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import Navbar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 

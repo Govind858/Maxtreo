@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import Logo from '../../Images/LoginWith/neo_tokyo-logo.png';
+// import Logo from '../../Images/LoginWith/neo_tokyo-logo.png';
 import NavBar from '../../components/user/NavBar/NavBar';
 import Footer from '../../components/user/Footer/Footer';
 import { Clock, Mail, Phone, MessageCircle, } from "lucide-react";
 
 // Fix duplicate imports - keep only one instance
-import { useAuth } from '../../Context/UserContext';
-import About from '../../components/user/AboutUs/About';
-import QualityStandards from '../../components/user/AboutUs/Quality';
+// import { useAuth } from '../../Context/UserContext';
+// import About from '../../components/user/AboutUs/About';
+// import QualityStandards from '../../components/user/AboutUs/Quality';
 
 // Card components for stacking
 // const HeaderCard = () => (

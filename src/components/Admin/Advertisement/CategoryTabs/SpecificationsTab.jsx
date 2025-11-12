@@ -3,7 +3,6 @@ import { Plus, Edit, Trash2, X } from "lucide-react";
 import {
   createSpecificationForDropDownFromCategory,
   updateSpecificationForDropDownFromCategory,
-  getSpecificationForDropDownFromCategory,
   deleteSpecificationForDropDownFromCategory,
   getHeroCarouselForDropDownFromCategory,
 } from "../../../../Services/Settings";

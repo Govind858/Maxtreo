@@ -46,9 +46,9 @@ function Overview() {
   const shipping = 0;
   const tax = 0;
   const total = subtotal;
-  const selectedAddress = addresses.find(
-    (addr) => addr.id === selectedAddressId
-  );
+  // const selectedAddress = addresses.find(
+  //   (addr) => addr.id === selectedAddressId
+  // );
 
   // Fetch addresses on component mount
   useEffect(() => {
@@ -210,6 +210,7 @@ function Overview() {
       setIsProcessingPayment(true);
       setLoading(true)
       let getPrimaryAddress = await getMyPrimaryAddress();
+      console.log(getPrimaryAddress)
       let order = await CreateOrder(selectedAddressId);
       let newData = order;
 

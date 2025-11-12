@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMyOrder } from "../../../Services/userApi";
-import image_on_tokyo from "../../../Images/back_ground1.jpg";
+// import image_on_tokyo from "../../../Images/back_ground1.jpg";
 import {
   Package,
   Truck,
@@ -10,7 +10,6 @@ import {
   AlertCircle,
   ChevronRight,
   Map,
-  Calendar,
   DollarSign,
   CreditCard,
   Eye,
@@ -26,7 +25,7 @@ import userAvatar from "../../../Images/pro.jpg";
 import BaseURL from "../../../Static/Static";
 
 export default function Orders() {
-  const { token, setToken, user } = useAuth();
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

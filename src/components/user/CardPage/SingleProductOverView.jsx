@@ -61,6 +61,7 @@ function Overview({ product }) {
   const selectedAddress = addresses.find(
     (addr) => addr.id === selectedAddressId
   );
+  console.log(selectedAddress)
 
   // Fetch addresses on component mount
   useEffect(() => {

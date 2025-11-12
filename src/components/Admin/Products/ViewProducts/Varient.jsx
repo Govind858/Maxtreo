@@ -31,6 +31,7 @@ function Variant({ product }) {
         // Check if data is an array, if not, convert to array for mapping
         const variantData = Array.isArray(response.data) ? response.data : [response.data];
         setVariants(variantData);
+        console.log(variants)
       } else {
         setVariants([]);
       }

@@ -4,10 +4,6 @@ import {
   uploadImage,
   AddVarient,
   getSingleProduct,
-  updateProduct,
-  addProductVideo,
-  addProductVariant,
-  addProductOverview,
   getAllProduct,
   relationShip,
   getOverViewCategory,
@@ -18,7 +14,6 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../../../Loader/Loader";
 import { getCategory, getBrand, getTax } from "../../../../Services/Settings";
-import BaseURL from "../../../../Static/Static";
 import Alert from "../../../user/Alert/Alert";
 import Paired from "./Paired";
 import SetRecomendation from "./SetRecomendation";
@@ -76,7 +71,7 @@ function UpdateProduct() {
   // Form states for modals
   const [photos, setPhotos] = useState([]);
   const [primaryPhotoIndex, setPrimaryPhotoIndex] = useState(0);
-  const [videoUrl, setVideoUrl] = useState("");
+  // const [videoUrl, setVideoUrl] = useState("");
   const [variantData, setVariantData] = useState({
     name: "",
     price: "",
@@ -1187,7 +1182,7 @@ function UpdateProduct() {
                       onChange={(e) => {
                         const selectedId = e.target.value;
                         const selected = overViewContents.find(
-                          (c) => c.id == selectedId
+                        (c) => c.id === selectedId
                         );
                         setSelectedOverview(selected);
                         setOverviewContent(selectedId);

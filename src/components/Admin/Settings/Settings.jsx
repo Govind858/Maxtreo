@@ -90,6 +90,7 @@ function Settings() {
     try {
       const Taxes = await getTax();
       setTax(Taxes.data || []);
+      console.log(tax)
     } catch (error) {
       console.error(error);
     }
@@ -105,11 +106,11 @@ function Settings() {
     loadData();
   }, []);
 
-  const getParentCategoryName = (parentId) => {
-    if (!parentId) return "None";
-    const parent = categories.find((cat) => cat.id === parentId);
-    return parent ? parent.name : "Unknown";
-  };
+  // const getParentCategoryName = (parentId) => {
+  //   if (!parentId) return "None";
+  //   const parent = categories.find((cat) => cat.id === parentId);
+  //   return parent ? parent.name : "Unknown";
+  // };
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });

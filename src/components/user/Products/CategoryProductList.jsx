@@ -18,6 +18,7 @@ import Filter from '../Filter/Filter';
 import Sorting from '../Sorting/Sorting';
 import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
+import { log } from 'three/src/utils.js';
 
 function CategoryProductList({ category }) { // Receives category as prop: { id, name } or null
   const [filter, setFilter] = useState(false);
@@ -180,6 +181,8 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
         const product = products.find(p => p.id === id);
         if (product) {
           const updatedCart = addToGuestCart(id, product);
+          console.log(updatedCart)
+          
           const cartCount = getGuestCartCount();
           
           showAlert({
@@ -231,25 +234,25 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
     window.location.href = `/Details/${id}`; // Fallback without navigate
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  // const toggleDarkMode = () => {
+  //   setDarkMode(!darkMode);
+  // };
 
-  const viewGuestCart = () => {
-    if (guestCart.length === 0) {
-      showAlert({
-        type: "info",
-        message: "Your cart is empty"
-      });
-      return;
-    }
+  // const viewGuestCart = () => {
+  //   if (guestCart.length === 0) {
+  //     showAlert({
+  //       type: "info",
+  //       message: "Your cart is empty"
+  //     });
+  //     return;
+  //   }
 
-    console.log('Guest cart:', guestCart);
-    showAlert({
-      type: "info",
-      message: `You have ${getGuestCartCount()} items in your cart. Login to sync.`
-    });
-  };
+  //   console.log('Guest cart:', guestCart);
+  //   showAlert({
+  //     type: "info",
+  //     message: `You have ${getGuestCartCount()} items in your cart. Login to sync.`
+  //   });
+  // };
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())

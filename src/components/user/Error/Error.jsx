@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ModernNavbar from '../NavBar/NavBar';
-import NeoFooter from '../Footer/Footer';
+// import NeoFooter from '../Footer/Footer';
 
 const ErrorPage = () => {
   const [isVisible, setIsVisible] = useState(false);

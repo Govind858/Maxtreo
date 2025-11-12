@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import {  ArrowUpRight } from "lucide-react";
 import quality_img from "../../../Images/digitalproductshowcase.jpg";
 
 export default function WhyWeStandOut() {

@@ -34,6 +34,8 @@ const OrderList = () => {
     startDate: '',
     endDate: ''
   });
+  setDateRange({ startDate: '0000-00-00', endDate: '0000-00-00' });
+
   const [filters, setFilters] = useState({
     paymentStatus: "ALL",
     deliveryStatus: "ALL",
@@ -307,6 +309,7 @@ const updateOrderStatus = async (status) => {
     
     // Call the updateStatus service
     const response = await updateStatus(selectedOrder.id, status.toUpperCase());
+    console.log(response)
     
     // Update the local state with the new status
     const updatedOrder = {

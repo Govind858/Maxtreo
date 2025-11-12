@@ -7,8 +7,8 @@ import { Clock, Mail, Phone, MessageCircle, } from "lucide-react";
 
 // Fix duplicate imports - keep only one instance
 import { useAuth } from '../../Context/UserContext';
-import About from '../../components/user/AboutUs/About';
-import QualityStandards from '../../components/user/AboutUs/Quality';
+// import About from '../../components/user/AboutUs/About';
+// import QualityStandards from '../../components/user/AboutUs/Quality';
 // import DirectionalSection from '../../components/user/AboutUs/Directional';
 
 // Card components for stacking

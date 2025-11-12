@@ -36,19 +36,19 @@ const OrderRepay = ({ orderId, orderAmount, onSuccess, onCancel }) => {
     }
   };
 
-  const handlePaymentSuccess = () => {
-    setDisplayRazorpay(false);
-    if (onSuccess) {
-      onSuccess();
-    } else {
-      navigate("/myorders");
-    }
-  };
+  // const handlePaymentSuccess = () => {
+  //   setDisplayRazorpay(false);
+  //   if (onSuccess) {
+  //     onSuccess();
+  //   } else {
+  //     navigate("/myorders");
+  //   }
+  // };
 
-  const handlePaymentFailure = () => {
-    setDisplayRazorpay(false);
-    setError("Payment was not successful. Please try again.");
-  };
+  // const handlePaymentFailure = () => {
+  //   setDisplayRazorpay(false);
+  //   setError("Payment was not successful. Please try again.");
+  // };
 
   return (
     <>

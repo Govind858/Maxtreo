@@ -15,7 +15,7 @@ import {
   ChevronDown,
   Cpu
 } from 'lucide-react';
-import { Label } from 'recharts';
+// import { Label } from 'recharts';
 
 function TopNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

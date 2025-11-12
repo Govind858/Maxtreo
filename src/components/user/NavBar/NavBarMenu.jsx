@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaTimes, FaBars } from 'react-icons/fa';
+import React from 'react';
+import { FaTimes } from 'react-icons/fa';
 import './menu.css'
 export default function NavBarMenu({ isVisible, onClose }) {
   return (

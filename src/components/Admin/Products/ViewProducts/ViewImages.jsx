@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getImage, deleteImage, TogglePrimaryImage } from '../../../../Services/Products';
 import BaseURL from '../../../../Static/Static';
-import { Trash2, X, AlertCircle } from 'lucide-react';
+import { Trash2, AlertCircle } from 'lucide-react';
 
 function ViewImages({ product, onImageDelete }) {
   const [images, setImages] = useState([]);
@@ -39,6 +39,7 @@ function ViewImages({ product, onImageDelete }) {
         productid: product.id
       }
       let response = await deleteImage(data);
+      console.log(response)
       
       // Update the UI by removing the deleted image
       setImages(images.filter(img => img.id !== imageId));
@@ -62,6 +63,7 @@ function ViewImages({ product, onImageDelete }) {
         productid: product.id
       }
       let response = await TogglePrimaryImage(data);
+      console.log(response)
       
       // Update the state to reflect the primary status change
       setImages(prevImages => 

@@ -75,6 +75,7 @@ const NvidiaImageManager = () => {
           },
         }
       );
+      console.log(response)
 
       // Axios automatically handles success (status 200-299)
       showMessage("Image uploaded successfully!");
@@ -111,6 +112,8 @@ const NvidiaImageManager = () => {
           },
         }
       );
+
+      console.log(response)
 
       showMessage("Image updated successfully!");
       setEditingId(null);

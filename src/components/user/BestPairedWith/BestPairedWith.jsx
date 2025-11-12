@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FaCartPlus, FaChevronRight, FaTimes } from "react-icons/fa";
+import {  FaTimes } from "react-icons/fa";
 import { getPairedProduct } from "../../../Services/Products";
 import SingeProductOverview from "../CardPage/SingleProductOverView";
 import { useNavigate } from "react-router-dom";
@@ -50,13 +50,14 @@ function BestPairedWith({ product }) {
 
   const handleProductHover = (id) => {
     setActiveProduct(id);
+    console.log(activeProduct)
   };
 
-  const handleAddToCart = (productId, e) => {
-    e.stopPropagation();
-    console.log(`Added product ${productId} to cart`);
-    // Add your cart logic here
-  };
+  // const handleAddToCart = (productId, e) => {
+  //   e.stopPropagation();
+  //   console.log(`Added product ${productId} to cart`);
+  //   // Add your cart logic here
+  // };
 
   const handleBuyNow = (product) => {
     setSelectedProduct(product);

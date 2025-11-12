@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import directional1 from "../../../Images/darklaptop.jpeg"
 import directional2 from "../../../Images/Diractional2.png"
 

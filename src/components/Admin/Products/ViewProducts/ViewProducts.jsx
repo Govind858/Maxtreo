@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FiEye, FiEdit2, FiTrash2, FiSearch, FiFilter, FiPlus, FiAlertTriangle, FiSliders, FiMenu, FiX } from 'react-icons/fi';
+import { FiEye, FiEdit2, FiTrash2, FiSearch, FiFilter, FiPlus, FiAlertTriangle, FiSliders, FiX } from 'react-icons/fi';
 import { getAllProductAdmin } from '../../../../Services/Products';
-import BaseURL from '../../../../Static/Static';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../../Loader/Loader';
 import { productDelete } from '../../../../Services/Products';
@@ -35,7 +34,7 @@ function ProductInventory() {
   
   // Mobile responsiveness states
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [viewMode, setViewMode] = useState('table'); // 'table' or 'cards'
+  // const [viewMode, setViewMode] = useState('table'); // 'table' or 'cards'
   
   const navigate = useNavigate();
 

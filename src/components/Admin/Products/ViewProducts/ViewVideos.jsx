@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getVideos ,deleteVideo} from '../../../../Services/Products';
 import BaseURL from '../../../../Static/Static';
-import { Trash2, X, AlertCircle } from 'lucide-react';
+import { Trash2, AlertCircle } from 'lucide-react';
 
 function ViewVideos({ product, onVideoDelete }) {
   const [videos, setVideos] = useState([]);
@@ -41,6 +41,7 @@ function ViewVideos({ product, onVideoDelete }) {
           productid:product.id
         }
          let response = await deleteVideo(data)
+         console.log(response)
       // For now, let's just update the UI
       setVideos(videos.filter(img => img.id !== videoId));
       

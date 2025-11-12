@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
-  Monitor,
   Cpu,
-  Zap,
-  Shield,
-  Image,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { 
-  FaSearch, 
-  FaFilter, 
-  FaSort,
-  FaShoppingCart,
   FaBolt
 } from "react-icons/fa";
 import { getPageData } from "../../../Services/Settings";
 import ultimateGaming from "../../../Images/Product_testimages/utimategaming_setups.jpg";
 import NeoNavBar from "../NavBar/NavBar";
 import Footer from "../Footer/ProductFooter";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import BaseURL from "../../../Static/Static";
 import Loader from '../../../Loader/Loader'
 

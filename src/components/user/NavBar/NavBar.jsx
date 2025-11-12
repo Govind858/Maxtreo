@@ -6,7 +6,6 @@ import {
   FaBars,
   FaUser,
   FaShoppingCart,
-  FaSearch,
   FaChevronDown,
   FaFacebookF,
   FaTwitter,
@@ -18,16 +17,16 @@ import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
 import { getCategory } from "../../../Services/Settings";
-import NavBarMenu from "./NavBarMenu";
-import { Link, useNavigate } from "react-router-dom";
+// import NavBarMenu from "./NavBarMenu";
+import  { Link, useNavigate } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 import metrix_logo from '../../../Images/maxtreobgremoved.png';
 
 const ModernNavbar = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const [lastScroll, setLastScroll] = useState(0);
-  const [navbarHidden, setNavbarHidden] = useState(false);
+  // const [lastScroll, setLastScroll] = useState(0);
+  // const [navbarHidden, setNavbarHidden] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -39,7 +38,7 @@ const ModernNavbar = () => {
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   
-  const { token, setToken, user } = useAuth();
+  const { user } = useAuth();
   const dropdownRef = useRef(null);
   const [productsItems, setProductsItems] = useState([]);
   const prevUserRef = useRef(user);
@@ -230,13 +229,13 @@ const ModernNavbar = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery("");
-    }
-  };
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   if (searchQuery.trim()) {
+  //     navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+  //     setSearchQuery("");
+  //   }
+  // };
 
  
 

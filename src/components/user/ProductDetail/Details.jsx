@@ -192,6 +192,7 @@ function Details({ product }) {
     if (product) {
       const timer = setTimeout(() => {
         setShowOptions(true);
+        console.log(showOptions)
       }, 800);
 
       return () => clearTimeout(timer);
@@ -289,13 +290,13 @@ function Details({ product }) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showImageModal]);
 
-  const handleStorageSelect = (storage) => {
-    setSelectedStorage(storage);
-  };
+  // const handleStorageSelect = (storage) => {
+  //   setSelectedStorage(storage);
+  // };
 
-  const handleRamSelect = (ram) => {
-    setSelectedRam(ram);
-  };
+  // const handleRamSelect = (ram) => {
+  //   setSelectedRam(ram);
+  // };
 
   const handleAddToCart = async (id, event) => {
     if (event) event.stopPropagation();
@@ -307,7 +308,7 @@ function Details({ product }) {
         // Handle guest user - save to session storage
         const productToAdd = product || product.find(p => p.id === id);
         if (productToAdd) {
-          const updatedCart = addToGuestCart(id, productToAdd);
+          // const updatedCart = addToGuestCart(id, productToAdd);
           const cartCount = getGuestCartCount();
           
           showAlert({
@@ -320,6 +321,7 @@ function Details({ product }) {
         // Handle logged-in user - save to backend
         let cartResponse = await addTocart(id);
         setCartData(cartResponse);
+        console.log(cartData)
         showAlert({
           type: "success",
           message: "Item successfully added to cart",
@@ -355,7 +357,7 @@ function Details({ product }) {
 
   const getYoutubeVideoId = (url) => {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -364,11 +366,11 @@ function Details({ product }) {
     setShowVideoPopup(true);
   };
 
-  const handleDownloadBrochure = () => {
-    if (product?.broacher) {
-      window.open(BaseURL + product.broacher, "_blank");
-    }
-  };
+  // const handleDownloadBrochure = () => {
+  //   if (product?.broacher) {
+  //     window.open(BaseURL + product.broacher, "_blank");
+  //   }
+  // };
 
   const handleWatchYoutube = () => {
     if (product?.youtube_url) {

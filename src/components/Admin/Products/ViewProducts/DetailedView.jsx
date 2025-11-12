@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSingleProduct } from '../../../../Services/Products';
-import BaseURL from '../../../../Static/Static';
 import Loader from '../../../../Loader/Loader';
-import PairedProducts from './PairedProdcuts';
-import ViewImages from './ViewImages';
-import Varient from './Varient';
 
 // Main ProductView component with Tailwind styling
 export default function ProductView() {

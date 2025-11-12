@@ -6,7 +6,7 @@ import React from 'react';
  */
 const FloatingWhatsAppButton = ({ product, currentUrl }) => {
   // Hardcoded WhatsApp phone number (Replace with your actual number)
-  const WHATSAPP_NUMBER = "1234567890"; 
+  // const WHATSAPP_NUMBER = "1234567890"; 
 
   // --- 1. Construct the detailed message ---
   const productName = product?.name || 'Unknown Product';
