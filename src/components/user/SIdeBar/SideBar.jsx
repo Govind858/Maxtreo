@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/UserContext";
 import {
@@ -18,13 +18,12 @@ import {
   Settings,
   HeadphonesIcon,
 } from "lucide-react";
-import { logout } from "../../../Services/userApi";
-import {getProductDropDown} from '../../../Services/userApi'
+import { logout, getProductDropDown } from "../../../Services/userApi";
 
 function SideBar({ isOpen, onClose }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
-  const [ setProductsItems] = useState([]);
+  const [productsItems, setProductsItems] = useState([]); // Fixed: removed unused set
 
   // State for expandable menu items
   const [expandedMenus, setExpandedMenus] = useState({
@@ -33,18 +32,18 @@ function SideBar({ isOpen, onClose }) {
     support: false,
   });
 
-  const getProductDropDownList = async () => {
+  // FIXED: Wrap in useCallback to prevent recreation on every render
+  const getProductDropDownList = useCallback(async () => {
     try {
       const response = await getProductDropDown();
-      console.log(response, "response form data form navbar items#############........");
-      // Fixed: Assume API returns { data: [...] }; ensure it's always an array
+      console.log(response, "response from data from navbar items#############........");
       setProductsItems(Array.isArray(response?.data) ? response.data : []);
     } catch (error) {
       console.log(error, "error while fetching category products");
-      // Ensure fallback to empty array on error
       setProductsItems([]);
     }
-  };
+  }, []); // Empty deps: function is stable
+
   const toggleMenu = (menuName) => {
     setExpandedMenus((prev) => ({
       products: false,
@@ -58,7 +57,7 @@ function SideBar({ isOpen, onClose }) {
     try {
       setToken(null);
       localStorage.removeItem("token");
-      let refresh = localStorage.getItem("refresh");
+      const refresh = localStorage.getItem("refresh");
       const response = await logout(refresh, token);
       console.log(response, "logout response");
       navigate("/");
@@ -67,18 +66,6 @@ function SideBar({ isOpen, onClose }) {
       console.error("Logout error:", error);
     }
   };
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
-
- useEffect(() => {
-  getProductDropDownList();
-}, [getProductDropDownList]); // ← Fixed: Added dependency
 
   const handleProfile = () => {
     try {
@@ -89,65 +76,50 @@ function SideBar({ isOpen, onClose }) {
     }
   };
 
-  // Menu data
-  // const solutionsItems = [
-  //   { name: "Photo Editing", path: "/new-Solutions" },
-  //   { name: "Video Editing", path: "/new-Solutions" },
-  //   { name: "3D Design Animation", path: "/new-Solutions" },
-  //   { name: "Real-Time Engine", path: "/new-Solutions" },
-  //   { name: "Rendering", path: "/new-Solutions" },
-  //   { name: "Digital Audio", path: "/new-Solutions" },
-  //   { name: "Architecture CAD", path: "/new-Solutions" },
-  //   { name: "Visualization", path: "/new-Solutions" },
-  //   { name: "Scientific Computing", path: "/new-Solutions" },
-  //   { name: "Live Streaming", path: "/new-Solutions" },
-  // ];
+  // useEffect for Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
-
+  // useEffect to fetch products — now stable
+  useEffect(() => {
+    getProductDropDownList();
+  }, [getProductDropDownList]); // ← Now safe: function is memoized
 
   const supportItems = [
-    // { name: "Help", path: "/support" },
     { name: "About Us", path: "/about" },
-    // { name: 'Blogs', path: '/blogs' },
     { name: "Privacy Policy", path: "/privacy-policy" },
     { name: "Terms and Conditions", path: "/teams-and-conditions" },
     { name: "Return & Refunds", path: "/return-refunds" },
     { name: "Shipping Policy", path: "/Shipping-Policy" },
-
   ];
 
   return (
     <>
-      {/* Overlay with blur */}
+      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-[1998] transition-all duration-300 ease-in-out ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={onClose}
-      ></div>
+      />
 
-      {/* Sidebar with glass morphism effect */}
+      {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 z-[1999] h-screen w-full md:w-1/2 lg:w-[350px] bg-white/90 backdrop-blur-xl shadow-xl transition-transform duration-400 overflow-y-auto border-l border-gray-200 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{
-          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
+        style={{ transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" }}
       >
         <div className="flex flex-col h-full p-6 gap-2">
-          {/* Header row with logo, auth buttons, and close button */}
+          {/* Header */}
           <div className="flex items-center justify-between mb-6 pt-4">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img
-                src={metrixLogo}
-                alt="Metrix Logo"
-                className="h-10 w-auto object-contain"
-              />
-            </div>
+            <img src={metrixLogo} alt="Metrix Logo" className="h-10 w-auto object-contain" />
 
-            {/* Auth buttons and close button */}
             <div className="flex items-center gap-2">
               {!token ? (
                 <>
@@ -169,21 +141,15 @@ function SideBar({ isOpen, onClose }) {
                   >
                     <FiUserPlus size={12} /> Register
                   </button>
-                  
                 </>
               ) : (
                 <>
                   {user && user.profile_picture_url ? (
                     <div
-                      style={{ cursor: "pointer" }}
-                      className="w-7 h-7 rounded-full bg-blue-500 overflow-hidden flex items-center justify-center cursor-pointer"
+                      className="w-7 h-7 rounded-full bg-blue-500 overflow-hidden cursor-pointer"
                       onClick={handleProfile}
                     >
-                      <img
-                        src={user.profile_picture_url}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={user.profile_picture_url} alt="Profile" className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div
@@ -205,240 +171,70 @@ function SideBar({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Rest of the content */}
+          {/* Menu */}
           <div className="flex-1 overflow-y-auto">
-            {/* Menu */}
             <ul className="flex flex-col gap-0.5 p-0 m-0">
               {token && (
-                <li
-                  className="opacity-0 transform translate-x-5"
-                  style={{
-                    animation: isOpen
-                      ? "slideInRight 0.4s ease forwards 0.2s"
-                      : "none",
-                  }}
-                >
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
                   <Link
                     to="/profile"
                     onClick={onClose}
                     className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                   >
-                    <FiUser className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                    <FiUser className="mr-3 text-base min-w-4" />
                     <span>Profile</span>
                   </Link>
                 </li>
               )}
-{/* 
-              <li
-                className="opacity-0 transform translate-x-5"
-                style={{
-                  animation: isOpen
-                    ? "slideInRight 0.4s ease forwards 0.1s"
-                    : "none",
-                }}
-              >
-                <Link
-                  to="/store"
-                  onClick={onClose}
-                  className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
-                >
-                  <FiHome className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
-                  <span>Store</span>
-                </Link>
-              </li> */}
+
               <li>
-                 <Link
+                <Link
                   to="/cart"
                   onClick={onClose}
                   className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                 >
-                  <FiShoppingBag className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                  <FiShoppingBag className="mr-3 text-base min-w-4" />
                   <span>Cart</span>
                 </Link>
               </li>
-               <li>
-                 <Link
+
+              <li>
+                <Link
                   to="/products"
                   onClick={onClose}
                   className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                 >
-                  <FiShoppingBag className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                  <FiShoppingBag className="mr-3 text-base min-w-4" />
                   <span>Products</span>
                 </Link>
               </li>
-             
-                
-              {/* Products - Expandable */}
-              {/* <li
-                className="opacity-0 transform translate-x-5"
-                style={{
-                  animation: isOpen
-                    ? "slideInRight 0.4s ease forwards 0.15s"
-                    : "none",
-                }}
-              >
-                <div>
-                  <button
-                    onClick={() => toggleMenu("products")}
-                    className="flex items-center justify-between w-full py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
-                  >
-                    <div className="flex items-center">
-                      <FiShoppingBag className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
-                      <span>Products</span>
-                    </div>
-                    <div
-                      className={`transition-transform duration-300 ${
-                        expandedMenus.products ? "rotate-90" : "rotate-0"
-                      }`}
-                    >
-                      {expandedMenus.products ? (
-                        <FiChevronDown size={14} />
-                      ) : (
-                        <FiChevronRight size={14} />
-                      )}
-                    </div>
-                  </button>
-
-                  <div
-                    className={`ml-6 mt-1 space-y-0.5 transition-all duration-500 ease-in-out ${
-                      expandedMenus.products
-                        ? "max-h-screen opacity-100 transform translate-y-0"
-                        : "max-h-0 opacity-0 transform -translate-y-2 overflow-hidden"
-                    }`}
-                  >
-                    {productsItems.map((item, index) => (
-                      <Link
-                                             key={index}
-                                             to={`/products/product/${item.slug}`}
-                                             state={{ id: item.slug, item: item.name }}
-                                             className="block py-1.5 px-2.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded transition-all duration-200"
-                                           >
-                                          
-                                             {item.name}
-                                           </Link>
-                    ))}
-                  </div>
-                </div>
-              </li> */}
 
               {token && (
-                <li
-                  className="opacity-0 transform translate-x-5"
-                  style={{
-                    animation: isOpen
-                      ? "slideInRight 0.4s ease forwards 0.2s"
-                      : "none",
-                  }}
-                >
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
                   <Link
                     to="/myorder"
                     onClick={onClose}
                     className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                   >
-                    <ListOrdered className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                    <ListOrdered className="mr-3 text-base min-w-4" />
                     <span>My Order</span>
                   </Link>
                 </li>
               )}
 
-              {/* Solutions - Expandable */}
-              <li
-                className="opacity-0 transform translate-x-5"
-                style={{
-                  animation: isOpen
-                    ? "slideInRight 0.4s ease forwards 0.25s"
-                    : "none",
-                }}
-              >
-                {/* <div>
-                  <button
-                    onClick={() => toggleMenu("solutions")}
-                    className="flex items-center justify-between w-full py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
-                  >
-                    <div className="flex items-center">
-                      <IoBulb className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
-                      <span>Solutions</span>
-                    </div>
-                    <div
-                      className={`transition-transform duration-300 ${
-                        expandedMenus.solutions ? "rotate-90" : "rotate-0"
-                      }`}
-                    >
-                      {expandedMenus.solutions ? (
-                        <FiChevronDown size={14} />
-                      ) : (
-                        <FiChevronRight size={14} />
-                      )}
-                    </div>
-                  </button>
-
-                  <div
-                    className={`ml-6 mt-1 space-y-0.5 transition-all duration-500 ease-in-out ${
-                      expandedMenus.solutions
-                        ? "max-h-screen opacity-100 transform translate-y-0"
-                        : "max-h-0 opacity-0 transform -translate-y-2 overflow-hidden"
-                    }`}
-                  >
-                    {solutionsItems.map((item, index) => (
-                      <Link
-                        key={index}
-                        to={item.path}
-                        onClick={onClose}
-                        
-                        className="block py-1.5 px-2.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded transition-all duration-200"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div> */}
-              </li>
-              {/* <li
-                className="opacity-0 transform translate-x-5"
-                style={{
-                  animation: isOpen
-                    ? "slideInRight 0.4s ease forwards 0.1s"
-                    : "none",
-                }}
-              >
-                <Link
-                  to="/nvidia"
-                  onClick={onClose}
-                  className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
-                >
-                  <Cpu className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
-                  <span>Nvidia</span>
-                </Link>
-              </li> */}
-
               {/* Support - Expandable */}
-              <li
-                className="opacity-0 transform translate-x-5"
-                style={{
-                  animation: isOpen
-                    ? "slideInRight 0.4s ease forwards 0.3s"
-                    : "none",
-                }}
-              >
+              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.3s" : "none" }}>
                 <div>
                   <button
                     onClick={() => toggleMenu("support")}
                     className="flex items-center justify-between w-full py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                   >
                     <div className="flex items-center">
-                      <HeadphonesIcon className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
+                      <HeadphonesIcon className="mr-3 text-base min-w-4" />
                       <span>Support</span>
                     </div>
-                    <div
-                      className={`transition-transform duration-300 ${
-                        expandedMenus.support ? "rotate-90" : "rotate-0"
-                      }`}
-                    >
-                      {expandedMenus.support ? (
-                        <FiChevronDown size={14} />
-                      ) : (
-                        <FiChevronRight size={14} />
-                      )}
+                    <div className={`transition-transform duration-300 ${expandedMenus.support ? "rotate-90" : "rotate-0"}`}>
+                      {expandedMenus.support ? <FiChevronDown size={14} /> : <FiChevronRight size={14} />}
                     </div>
                   </button>
 
@@ -471,28 +267,19 @@ function SideBar({ isOpen, onClose }) {
               </li>
 
               {token && (
-                <>
-                  <li
-                    className="opacity-0 transform translate-x-5"
-                    style={{
-                      animation: isOpen
-                        ? "slideInRight 0.4s ease forwards 0.4s"
-                        : "none",
-                    }}
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.4s" : "none" }}>
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
                   >
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
-                    >
-                      <FiLogOut className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
-                      <span>Logout</span>
-                    </button>
-                  </li>
-                </>
+                    <FiLogOut className="mr-3 text-base min-w-4" />
+                    <span>Logout</span>
+                  </button>
+                </li>
               )}
             </ul>
 
-            {/* Configuration section */}
+            {/* Config & Location */}
             <div className="mt-8 pt-4 border-t border-gray-200">
               <h3 className="flex items-center gap-2 text-sm mb-3 text-gray-700 font-medium">
                 <Settings className="text-gray-500" size={16} />
@@ -501,57 +288,32 @@ function SideBar({ isOpen, onClose }) {
               </h3>
             </div>
 
-            {/* Locations */}
-            <div
-              className="mt-auto pt-6 border-t border-gray-200 animate-[fadeInUp_0.5s_ease_forwards] opacity-0"
-              style={{ animationDelay: "0.5s" }}
-            >
+            <div className="mt-auto pt-6 border-t border-gray-200 opacity-0" style={{ animation: "fadeInUp 0.5s ease forwards", animationDelay: "0.5s" }}>
               <h3 className="flex items-center gap-2 text-sm mb-3 text-gray-700 font-medium">
                 <FiMapPin className="text-gray-500" size={16} /> Our Location
               </h3>
-              <div className="flex flex-col gap-3">
-                <div className="p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition-all duration-300">
-                  <h4 className="m-0 mb-1 text-xs font-medium text-gray-800">
-                    Address
-                  </h4>
-                  <p className="m-0 text-xs text-gray-600 leading-tight">
-                    xxxxxxxxx xxxxxxxx,
-                    <br />
-                    xxxxx xx xxxxx, xxxxx,
-                    <br />
-                    xxxxx - xxxxx
-                  </p>
-                </div>
+              <div className="p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition-all duration-300">
+                <h4 className="m-0 mb-1 text-xs font-medium text-gray-800">Address</h4>
+                <p className="m-0 text-xs text-gray-600 leading-tight">
+                  xxxxxxxxx xxxxxxxx,<br />
+                  xxxxx xx xxxxx, xxxxx,<br />
+                  xxxxx - xxxxx
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Add keyframe animations via style tag */}
+      {/* Animations */}
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
-        
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </>
