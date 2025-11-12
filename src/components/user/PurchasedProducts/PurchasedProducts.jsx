@@ -12,7 +12,7 @@ import image_on_tokyo from "../../../Images/image_on_tokyo.jpg";
 function PurchasedProducts() {
   const [loader, setLoader] = useState(true);
   const [purchasedProducts, setPurchasedProducts] = useState([]);
-  const [expandedProductId, setExpandedProductId] = useState(null);
+  // const [expandedProductId, setExpandedProductId] = useState(null);
   const [openAccordions, setOpenAccordions] = useState({});
   const [error, setError] = useState(null);
   const [showDriverModal, setShowDriverModal] = useState(false);
