@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  FiPackage,
-  FiUser,
   FiEdit,
   FiTrash2,
   FiPlus,
@@ -9,15 +7,12 @@ import {
   FiAlertCircle,
   FiCheckCircle,
   FiFilter,
-  FiSearch,
   FiX,
   FiArrowUp,
   FiArrowDown,
   FiSave,
-  FiChevronDown,
   FiImage,
   FiEye,
-  FiInfo
 } from "react-icons/fi";
 import Axios from '../../../Axios/Axios';
 import Loader from '../../../Loader/Loader'

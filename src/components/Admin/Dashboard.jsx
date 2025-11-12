@@ -16,17 +16,11 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import {
-  FaBars,
-  FaTachometerAlt,
   FaBoxOpen,
-  FaShoppingBag,
   FaUsers,
-  FaCogs,
-  FaSignOutAlt,
   FaMoneyBillWave,
   FaChartLine,
   FaShoppingCart,

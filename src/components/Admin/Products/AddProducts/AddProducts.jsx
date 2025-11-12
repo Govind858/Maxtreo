@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getBrand, getCategory, getTax, addProduct, getSubCategory } from '../../../../Services/Settings';
-import Alert from '../../../user/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 
 import Sidebar  from '../../Sidebar';
@@ -270,15 +269,15 @@ productFormData.append("tax_amount", numericTaxAmount);
     return false;
   };
 
-  const discountPercentage = () => {
-    if (!formData.mrp || !formData.price) return null;
-    const mrp = parseFloat(formData.mrp);
-    const price = parseFloat(formData.price);
-    if (isNaN(mrp) || isNaN(price) || mrp <= 0) return null;
+  // const discountPercentage = () => {
+  //   if (!formData.mrp || !formData.price) return null;
+  //   const mrp = parseFloat(formData.mrp);
+  //   const price = parseFloat(formData.price);
+  //   if (isNaN(mrp) || isNaN(price) || mrp <= 0) return null;
 
-    const percentage = ((mrp - price) / mrp) * 100;
-    return percentage > 0 ? percentage.toFixed(0) + '%' : null;
-  };
+  //   const percentage = ((mrp - price) / mrp) * 100;
+  //   return percentage > 0 ? percentage.toFixed(0) + '%' : null;
+  // };
 
   if (isLoading) {
     return (

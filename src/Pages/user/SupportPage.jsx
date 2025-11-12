@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 import Logo from '../../Images/maxtreobgremoved.png';
 import NavBar from '../../components/user/NavBar/NavBar';
 import Footer from '../../components/user/Footer/Footer';
-import { Clock, Mail, Phone, MessageCircle, MapPin } from "lucide-react";
+import { Clock, Mail, Phone, MessageCircle, } from "lucide-react";
 
 // Fix duplicate imports - keep only one instance
 import { useAuth } from '../../Context/UserContext';
 import About from '../../components/user/AboutUs/About';
 import QualityStandards from '../../components/user/AboutUs/Quality';
-import DirectionalSection from '../../components/user/AboutUs/Directional';
+// import DirectionalSection from '../../components/user/AboutUs/Directional';
 
 // Card components for stacking
 const HeaderCard = () => (
@@ -56,7 +56,7 @@ const StackedCard = ({ children, index = 0, total = 1 }) => {
 };
 
 const SupportContentCard = () => {
-  const { token, setToken, user } = useAuth();
+  const {  user } = useAuth();
 
   return (
     <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
@@ -246,42 +246,42 @@ const FAQsCard = () => {
   );
 };
 
-const AboutCard = () => {
-  return (
-    <motion.div 
-      className="w-full max-w-6xl mx-auto mb-16 pb-12"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false }}
-      transition={{ duration: 0.7 }}
-    >
-      <About />
-    </motion.div>
-  );
-};
+// const AboutCard = () => {
+//   return (
+//     <motion.div 
+//       className="w-full max-w-6xl mx-auto mb-16 pb-12"
+//       initial={{ opacity: 0 }}
+//       whileInView={{ opacity: 1 }}
+//       viewport={{ once: false }}
+//       transition={{ duration: 0.7 }}
+//     >
+//       <About />
+//     </motion.div>
+//   );
+// };
 
-const QualityCard = () => {
-  return (
-    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
-      {/* Stack effect - creating shadow cards underneath */}
-      <StackedCard index={2} total={3}>
-        <div className="h-full w-full"></div>
-      </StackedCard>
+// const QualityCard = () => {
+//   return (
+//     <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
+//       {/* Stack effect - creating shadow cards underneath */}
+//       <StackedCard index={2} total={3}>
+//         <div className="h-full w-full"></div>
+//       </StackedCard>
       
-      <StackedCard index={1} total={3}>
-        <div className="h-full w-full"></div>
-      </StackedCard>
+//       <StackedCard index={1} total={3}>
+//         <div className="h-full w-full"></div>
+//       </StackedCard>
       
-      {/* Main content card */}
-      <StackedCard index={0} total={3}>
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6">Our Quality eStandards god</h2>
-          <QualityStandards />
-        </div>
-      </StackedCard>
-    </div>
-  );
-};
+//       {/* Main content card */}
+//       <StackedCard index={0} total={3}>
+//         <div className="p-8">
+//           <h2 className="text-3xl font-bold mb-6">Our Quality eStandards god</h2>
+//           <QualityStandards />
+//         </div>
+//       </StackedCard>
+//     </div>
+//   );
+// };
 
 const ContactCard = () => {
   return (

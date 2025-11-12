@@ -10,7 +10,6 @@ import {
   FiClock,
   FiAlertCircle,
   FiSearch,
-  FiFilter,
   FiEye,
   FiChevronLeft,
   FiChevronRight,
@@ -31,10 +30,10 @@ const OrderList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
-   const [dateRange, setDateRange] = useState({
-    startDate: '',
-    endDate: ''
-  });
+  //  const [dateRange, setDateRange] = useState({
+  //   startDate: '',
+  //   endDate: ''
+  // });
   const [filters, setFilters] = useState({
     paymentStatus: "ALL",
     deliveryStatus: "ALL",

@@ -229,7 +229,7 @@ const updateVideo = async(formData)=>{
         const product_id = formData.get("product_id"); // Use `get` to access FormData entries
         const vedio = formData.get("video")
         console.log(formData)
-        let data = formData.get("video")
+        // let data = formData.get("video")
         console.log(product_id,"product_idproduct_id",vedio)
         console.log()
         

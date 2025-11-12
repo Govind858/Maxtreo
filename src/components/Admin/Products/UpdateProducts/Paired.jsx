@@ -62,7 +62,7 @@ function Paired({ product, products }) {
     }
   };
 
-  const openModal = () => setIsOpen(true);
+  // const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
   return (

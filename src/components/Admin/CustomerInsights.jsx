@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Area, AreaChart } from 'recharts';
-import { Search, Filter, SortAsc, SortDesc, RefreshCw, Users, DollarSign, ShoppingCart, TrendingUp, Calendar, CreditCard } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Search, RefreshCw, Users, DollarSign, TrendingUp, Calendar, } from 'lucide-react';
 import {getCustomerAnalytics,getCustomerInsights,refreshCustomerInsights} from '../../Services/Products'
 import { useNavigate } from "react-router-dom";
 import  Sidebar  from "./Sidebar";
@@ -289,11 +289,11 @@ const CustomerInsights = () => {
     email: customer.email
   })) || [];
 
-  const leastSpendingData = insights.least_spending_customers?.slice(0, 4).map(customer => ({
-    name: customer.name.split(' ')[0],
-    spent: customer.total_spent,
-    email: customer.email
-  })) || [];
+  // const leastSpendingData = insights.least_spending_customers?.slice(0, 4).map(customer => ({
+  //   name: customer.name.split(' ')[0],
+  //   spent: customer.total_spent,
+  //   email: customer.email
+  // })) || [];
 
   const ageGroupData = insights.age_group_analysis?.map(group => ({
     age_group: group.age_group,
@@ -308,10 +308,10 @@ const CustomerInsights = () => {
     { name: 'Others', value: customers.filter(c => !c.preferred_payment_method).length, color: '#6B7280' }
   ];
 
-  const customerStatusData = [
-    { name: 'Active', value: insights.active_customers_count || 0, color: '#EC4899' },
-    { name: 'Inactive', value: insights.inactive_customers_count || 0, color: '#1F2937' }
-  ];
+  // const customerStatusData = [
+  //   { name: 'Active', value: insights.active_customers_count || 0, color: '#EC4899' },
+  //   { name: 'Inactive', value: insights.inactive_customers_count || 0, color: '#1F2937' }
+  // ];
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-IN', {
