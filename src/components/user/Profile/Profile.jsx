@@ -157,10 +157,10 @@ const deleteAddress = async (id) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // const styles = {
-  //   width: windowWidth >= 768 ? "100%" : "120%",
-  //   marginTop: windowWidth >= 768 ? "0px" : "25px"
-  // };
+  const styles = {
+    width: windowWidth >= 768 ? "100%" : "120%",
+    marginTop: windowWidth >= 768 ? "0px" : "25px"
+  };
 
 
   const handleLogout = () => {
