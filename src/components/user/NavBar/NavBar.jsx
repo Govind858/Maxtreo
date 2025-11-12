@@ -18,12 +18,12 @@ import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
 import { getCategory } from "../../../Services/Settings";
 // import NavBarMenu from "./NavBarMenu";
-import  { Link, useNavigate } from "react-router-dom";
+import  { Link } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 import metrix_logo from '../../../Images/maxtreobgremoved.png';
 
 const ModernNavbar = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   // const [lastScroll, setLastScroll] = useState(0);
   // const [navbarHidden, setNavbarHidden] = useState(false);
@@ -36,7 +36,7 @@ const ModernNavbar = () => {
   });
   const [syncingCart, setSyncingCart] = useState(false);
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   
   const { user } = useAuth();
   const dropdownRef = useRef(null);

@@ -68,6 +68,7 @@ function UpdateProduct() {
   const [showOverviewModal, setShowOverviewModal] = useState(false);
   const [ShowPairingModal, setShowPairingModal] = useState(false);
   const [RecommendationModal, setRecommendationMoal] = useState(false);
+  setRecommendationMoal(false)
   // Form states for modals
   const [photos, setPhotos] = useState([]);
   const [primaryPhotoIndex, setPrimaryPhotoIndex] = useState(0);

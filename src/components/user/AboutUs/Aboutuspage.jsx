@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import Logo from '../../../Images/LoginWith/neo_tokyo-logo.png';
+// import Logo from '../../../Images/LoginWith/neo_tokyo-logo.png';
 import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import { Clock, Mail, Phone, MessageCircle, } from "lucide-react";
 
 // Fix duplicate imports - keep only one instance
-import { useAuth } from '../../../Context/UserContext';
+// import { useAuth } from '../../../Context/UserContext';
 // import About from '../AboutUs/About';
 import QualityStandards from '../AboutUs/Quality';
 import DirectionalSection from '../AboutUs/Directional';

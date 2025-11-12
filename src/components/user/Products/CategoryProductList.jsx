@@ -18,7 +18,7 @@ import Filter from '../Filter/Filter';
 import Sorting from '../Sorting/Sorting';
 import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
-import { log } from 'three/src/utils.js';
+// import { log } from 'three/src/utils.js';
 
 function CategoryProductList({ category }) { // Receives category as prop: { id, name } or null
   const [filter, setFilter] = useState(false);
@@ -29,6 +29,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  setDarkMode(false)
   const [guestCart, setGuestCart] = useState([]);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const alertTimeoutRef = useRef(null);

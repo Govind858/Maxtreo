@@ -17,7 +17,9 @@ function Details({ product }) {
   const navigate = useNavigate();
   // State for selected options and UI
   const [selectedStorage, setSelectedStorage] = useState(".5");
+  setSelectedStorage(".5")
   const [selectedRam, setSelectedRam] = useState("8");
+  setSelectedRam("8")
   const [price, setPrice] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -67,28 +69,28 @@ function Details({ product }) {
     }
   };
 
-  const addToGuestCart = (productId, product) => {
-    const currentCart = getGuestCart();
-    const existingItemIndex = currentCart.findIndex(item => item.productId === productId);
+  // const addToGuestCart = (productId, product) => {
+  //   const currentCart = getGuestCart();
+  //   const existingItemIndex = currentCart.findIndex(item => item.productId === productId);
     
-    if (existingItemIndex > -1) {
-      // If item already exists, increase quantity
-      currentCart[existingItemIndex].quantity += 1;
-    } else {
-      // Add new item to cart
-      currentCart.push({
-        productId: productId,
-        productName: product.name,
-        productPrice: product.price,
-        productImage: product.images?.[0]?.image || null,
-        quantity: 1,
-        addedAt: new Date().toISOString()
-      });
-    }
+  //   if (existingItemIndex > -1) {
+  //     // If item already exists, increase quantity
+  //     currentCart[existingItemIndex].quantity += 1;
+  //   } else {
+  //     // Add new item to cart
+  //     currentCart.push({
+  //       productId: productId,
+  //       productName: product.name,
+  //       productPrice: product.price,
+  //       productImage: product.images?.[0]?.image || null,
+  //       quantity: 1,
+  //       addedAt: new Date().toISOString()
+  //     });
+  //   }
     
-    saveGuestCart(currentCart);
-    return currentCart;
-  };
+  //   saveGuestCart(currentCart);
+  //   return currentCart;
+  // };
 
   const getGuestCartCount = () => {
     return guestCart.reduce((total, item) => total + item.quantity, 0);

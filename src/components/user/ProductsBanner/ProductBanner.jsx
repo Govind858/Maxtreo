@@ -10,7 +10,7 @@ import SingeProductOverview from '../CardPage/SingleProductOverView';
 import Loader from '../../../Loader/Loader';
 import {useAuth} from '../../../Context/UserContext'
 function ProductBanner() {
-    const { token, setToken, user } = useAuth();
+    const { user } = useAuth();
   
   const [darkMode, setDarkMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: "50%", y: "50%" });
@@ -47,9 +47,7 @@ function ProductBanner() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [
-    
-  ]);
+  }, [showOverview]);
 
   // Fetch featured products
   const getFeaturedProduct = async () => {

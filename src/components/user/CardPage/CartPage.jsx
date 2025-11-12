@@ -84,10 +84,10 @@ const CartPage = () => {
     saveGuestCart(updatedCart);
   };
 
-  const clearGuestCart = () => {
-    sessionStorage.removeItem('guestCart');
-    setGuestCart([]);
-  };
+  // const clearGuestCart = () => {
+  //   sessionStorage.removeItem('guestCart');
+  //   setGuestCart([]);
+  // };
 
   const fetchCartItems = useCallback(async () => {
     try {
