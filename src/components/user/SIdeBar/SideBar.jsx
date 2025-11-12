@@ -73,7 +73,7 @@ function SideBar({ isOpen, onClose }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // useEffect to fetch products
+  // useEffect to fetch products — runs once on mount, no external deps
   useEffect(() => {
     const getProductDropDownList = async () => {
       try {
@@ -86,7 +86,7 @@ function SideBar({ isOpen, onClose }) {
       }
     };
     getProductDropDownList();
-  }, []); // Empty deps: runs once on mount
+  }, []); // Empty deps: stable, runs only on mount
 
   const supportItems = [
     { name: "About Us", path: "/about" },
