@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Register.css';
 import NavBar from '../NavBar/NavBar';
 
@@ -22,19 +22,20 @@ function Register() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
-  const formFields = [
-    { id: "email", label: "EMAIL", type: "email", placeholder: "your@email.com" },
-    { id: "password", label: "PASSWORD", type: "password", placeholder: "Your secure password" },
-    { id: "first_name", label: "FIRST NAME", type: "text", placeholder: "John" },
-    { id: "last_name", label: "LAST NAME", type: "text", placeholder: "Doe" },
-    { id: "phone_number", label: "PHONE NUMBER", type: "tel", placeholder: "+1234567890" },
-    { id: "date_of_birth", label: "DATE OF BIRTH", type: "date", placeholder: "" },
-    { id: "pin_code", label: "PIN CODE", type: "text", placeholder: "123456" },
-    { id: "age", label: "AGE", type: "number", placeholder: "25" },
-    { id: "district", label: "DISTRICT", type: "text", placeholder: "Your district" },
-    { id: "state", label: "STATE", type: "text", placeholder: "Your state" },
-    { id: "address", label: "ADDRESS", type: "text", placeholder: "123 Cyber Street" }
-  ];
+
+const formFields = useMemo(() => [
+  { id: "email", label: "EMAIL", type: "email", placeholder: "your@email.com" },
+  { id: "password", label: "PASSWORD", type: "password", placeholder: "Your secure password" },
+  { id: "first_name", label: "FIRST NAME", type: "text", placeholder: "John" },
+  { id: "last_name", label: "LAST NAME", type: "text", placeholder: "Doe" },
+  { id: "phone_number", label: "PHONE NUMBER", type: "tel", placeholder: "+1234567890" },
+  { id: "date_of_birth", label: "DATE OF BIRTH", type: "date", placeholder: "" },
+  { id: "pin_code", label: "PIN CODE", type: "text", placeholder: "123456" },
+  { id: "age", label: "AGE", type: "number", placeholder: "25" },
+  { id: "district", label: "DISTRICT", type: "text", placeholder: "Your district" },
+  { id: "state", label: "STATE", type: "text", placeholder: "Your state" },
+  { id: "address", label: "ADDRESS", type: "text", placeholder: "123 Cyber Street" }
+], []); // Empty dependency array means this array never changes
 
   const progressPercentage = (currentStep / formFields.length) * 100;
 

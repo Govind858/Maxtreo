@@ -23,7 +23,7 @@ import { logout, getProductDropDown } from "../../../Services/userApi";
 function SideBar({ isOpen, onClose }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
-  const [productsItems, setProductsItems] = useState([]);
+  // const [productsItems, setProductsItems] = useState([]);
 
   // State for expandable menu items
   const [expandedMenus, setExpandedMenus] = useState({
@@ -79,10 +79,10 @@ function SideBar({ isOpen, onClose }) {
       try {
         const response = await getProductDropDown();
         console.log(response, "response from data from navbar items#############........");
-        setProductsItems(Array.isArray(response?.data) ? response.data : []);
+        // setProductsItems(Array.isArray(response?.data) ? response.data : []);
       } catch (error) {
         console.log(error, "error while fetching category products");
-        setProductsItems([]);
+        // setProductsItems([]);
       }
     };
     getProductDropDownList();

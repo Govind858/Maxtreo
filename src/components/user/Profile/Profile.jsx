@@ -22,7 +22,6 @@ import {
 import AddressPopup from "./AddNewAddress";
 import BaseURL from "../../../Static/Static";
 import Loader from "../../../Loader/Loader";
-import image_on_tokyo from "../../../Images/image_on_tokyo.jpg";
 function UserProfile() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
@@ -35,9 +34,6 @@ function UserProfile() {
   const [updateError, setUpdateError] = useState(null);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("profile");
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
 const deleteAddress = async (id) => {
