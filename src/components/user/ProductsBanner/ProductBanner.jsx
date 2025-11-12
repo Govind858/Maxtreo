@@ -10,12 +10,14 @@ import SingeProductOverview from '../CardPage/SingleProductOverView';
 import Loader from '../../../Loader/Loader';
 import {useAuth} from '../../../Context/UserContext'
 function ProductBanner() {
-    const {  user } = useAuth();
+    const { token, setToken, user } = useAuth();
   
+  const [darkMode, setDarkMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: "50%", y: "50%" });
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const overlayRef = useRef(null);
+  const carouselRef = useRef(null);
   const intervalRef = useRef(null);
   const [showOverview, setShowOverview] = useState(false);
   const modalRef = useRef(null);
@@ -140,7 +142,7 @@ function ProductBanner() {
 
   // Calculate discount
   const calculateDiscount = (price, mrp) => {
-    // const discountPercentage = 10; // 10% discount for example
+    const discountPercentage = 10; // 10% discount for example
     const discountedPrice = parseFloat(mrp) - parseFloat(price);
     return {
       original: formatPrice(mrp),

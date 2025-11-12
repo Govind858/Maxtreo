@@ -34,6 +34,7 @@ function UserProfile() {
   const [updateError, setUpdateError] = useState(null);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
 const deleteAddress = async (id) => {
