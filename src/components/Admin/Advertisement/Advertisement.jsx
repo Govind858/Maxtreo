@@ -272,9 +272,24 @@ const ProductCategoryAdmin = () => {
     }
   };
 
-  useEffect(() => {
-    fetchDropDownCategories();
-  }, []);
+  // useEffect(() => {
+  //    const fetchDropDownCategories = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.get("/advertisement/product/categories/");
+  //     setCategories(response.data);
+  //     console.log(response.data, "data from dropdown model.............");
+  //     setError(null);
+  //   } catch (err) {
+  //     setError("Failed to load product categories");
+  //     showToast("Failed to load categories", "error");
+  //     console.error("Error fetching categories:", err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  //   fetchDropDownCategories();
+  // },[]);
 
   // Filter categories based on search and filter criteria
   const filteredCategories = categories.filter((category) => {

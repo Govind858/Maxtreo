@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../../Context/UserContext";
 import { addTocart } from "../../../Services/userApi";
 import SingleProductOverview from "../CardPage/SingleProductOverView";
@@ -17,9 +17,7 @@ function Details({ product }) {
   const navigate = useNavigate();
   // State for selected options and UI
   const [selectedStorage, setSelectedStorage] = useState(".5");
-  setSelectedStorage(".5")
   const [selectedRam, setSelectedRam] = useState("8");
-  setSelectedRam("8")
   const [price, setPrice] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -60,14 +58,14 @@ function Details({ product }) {
     }
   };
 
-  const saveGuestCart = (cartItems) => {
-    try {
-      sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
-      setGuestCart(cartItems);
-    } catch (error) {
-      console.error('Error saving guest cart:', error);
-    }
-  };
+  // const saveGuestCart = (cartItems) => {
+  //   try {
+  //     sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
+  //     setGuestCart(cartItems);
+  //   } catch (error) { 172:6g
+  //     console.error('Error saving guest cart:', error);
+  //   }
+  // };
 
   // const addToGuestCart = (productId, product) => {
   //   const currentCart = getGuestCart();
@@ -144,7 +142,24 @@ function Details({ product }) {
   // Set initial main image and all images when product loads
   useEffect(() => {
     if (product) {
-      const initialImage = getProductImage();
+      // Inline getProductImage logic
+      let initialImage = null;
+      if (product?.images && Array.isArray(product.images) && product.images.length > 0) {
+        const primaryImageObj = product.images.find(
+          (img) => typeof img === "object" && img.is_primary && img.image
+        );
+
+        if (primaryImageObj) {
+          initialImage = primaryImageObj.image;
+        } else if (typeof product.images[0] === "object" && product.images[0].image) {
+          initialImage = product.images[0].image;
+        } else if (typeof product.images[0] === "string") {
+          initialImage = product.images[0];
+        }
+      } else if (product?.image) {
+        initialImage = product.image;
+      }
+
       setMainImage(initialImage);
       
       // Create array of all images
@@ -194,7 +209,6 @@ function Details({ product }) {
     if (product) {
       const timer = setTimeout(() => {
         setShowOptions(true);
-        console.log(showOptions)
       }, 800);
 
       return () => clearTimeout(timer);
@@ -258,21 +272,21 @@ function Details({ product }) {
   };
 
   // Modal navigation functions
-  const goToPrevImage = () => {
+  const goToPrevImage = useCallback(() => {
     setCurrentImageIndex((prev) => 
       prev === 0 ? allImages.length - 1 : prev - 1
     );
-  };
+  }, [allImages.length]);
 
-  const goToNextImage = () => {
+  const goToNextImage = useCallback(() => {
     setCurrentImageIndex((prev) => 
       prev === allImages.length - 1 ? 0 : prev + 1
     );
-  };
+  }, [allImages.length]);
 
-  const closeImageModal = () => {
+  const closeImageModal = useCallback(() => {
     setShowImageModal(false);
-  };
+  }, []);
 
   // Handle keyboard navigation in modal
   useEffect(() => {
@@ -290,7 +304,7 @@ function Details({ product }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [showImageModal]);
+  }, [showImageModal, goToPrevImage, goToNextImage, closeImageModal]);
 
   // const handleStorageSelect = (storage) => {
   //   setSelectedStorage(storage);
@@ -378,28 +392,6 @@ function Details({ product }) {
     if (product?.youtube_url) {
       window.open(product.youtube_url, "_blank");
     }
-  };
-
-  const getProductImage = () => {
-    if (product?.images && Array.isArray(product.images) && product.images.length > 0) {
-      const primaryImageObj = product.images.find(
-        (img) => typeof img === "object" && img.is_primary && img.image
-      );
-
-      if (primaryImageObj) {
-        return primaryImageObj.image;
-      }
-
-      if (typeof product.images[0] === "object" && product.images[0].image) {
-        return product.images[0].image;
-      } else if (typeof product.images[0] === "string") {
-        return product.images[0];
-      }
-    } else if (product?.image) {
-      return product.image;
-    }
-
-    return null;
   };
 
   const videoId = getYoutubeVideoId(product?.youtube_url);
@@ -502,7 +494,7 @@ function Details({ product }) {
             <div className="w-full h-full flex items-center justify-center">
               <img
                 src={BaseURL + allImages[currentImageIndex]}
-                alt={`Product image ${currentImageIndex + 1}`}
+                alt={`${product.name} view ${currentImageIndex + 1}`}
                 className="max-w-full max-h-full object-contain"
               />
             </div>
@@ -527,7 +519,7 @@ function Details({ product }) {
                   >
                     <img
                       src={BaseURL + image}
-                      alt={`Thumbnail ${index + 1}`}
+                      alt={`${product.name} ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -579,7 +571,7 @@ function Details({ product }) {
                 <div className="relative h-64 flex items-center justify-center overflow-hidden">
                   <img
                     src={BaseURL + mainImage}
-                    alt={product.name || "Product image"}
+                    alt={product.name || "Product"}
                     onLoad={() => setImageLoaded(true)}
                     className={`w-full h-auto object-contain max-h-64 rounded-lg transform transition-all duration-500 ${
                       imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
@@ -613,7 +605,7 @@ function Details({ product }) {
                 >
                   <img
                     src={BaseURL + obj.image}
-                    alt={`Thumbnail ${index + 1}`}
+                    alt={`${product.name} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </div>
