@@ -12,12 +12,11 @@ import {useAuth} from '../../../Context/UserContext'
 function ProductBanner() {
     const { user } = useAuth();
   
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = false;
   const [mousePosition, setMousePosition] = useState({ x: "50%", y: "50%" });
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const overlayRef = useRef(null);
-  const carouselRef = useRef(null);
   const intervalRef = useRef(null);
   const [showOverview, setShowOverview] = useState(false);
   const modalRef = useRef(null);
@@ -59,10 +58,12 @@ function ProductBanner() {
     }
   };
 
-  // Handle animations on component mount
   useEffect(() => {
     getFeaturedProduct();
-    
+  }, []);
+
+  // Handle animations on component mount
+  useEffect(() => {
     const textContent = document.querySelector(".textContents");
     const smallText = document.querySelector(".smallText");
     const rate = document.querySelector(".rate");
@@ -88,47 +89,65 @@ function ProductBanner() {
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Auto-rotate carousel if more than one product
-    if (products.length > 1) {
-      intervalRef.current = setInterval(() => {
-        goToNext();
-      }, 5000);
-    }
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      if (intervalRef.current) clearInterval(intervalRef.current);
       document.body.style.overflow = 'auto'; // Cleanup
     };
+  }, []);
+
+  // Auto-rotate carousel if more than one product
+  useEffect(() => {
+    if (products.length <= 1) return;
+
+    const intervalId = setInterval(() => {
+      setCurrentIndex(prev => {
+        const isLast = prev === products.length - 1;
+        return isLast ? 0 : prev + 1;
+      });
+    }, 5000);
+
+    intervalRef.current = intervalId;
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [products.length]);
+
+  // Reset interval timer on manual navigation
+  useEffect(() => {
+    if (products.length <= 1 || !intervalRef.current) return;
+
+    clearInterval(intervalRef.current);
+
+    const intervalId = setInterval(() => {
+      setCurrentIndex(prev => {
+        const isLast = prev === products.length - 1;
+        return isLast ? 0 : prev + 1;
+      });
+    }, 5000);
+
+    intervalRef.current = intervalId;
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [currentIndex, products.length]);
 
   // Carousel navigation functions
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? products.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
-    resetInterval();
   };
 
   const goToNext = () => {
     const isLastSlide = currentIndex === products.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
-    resetInterval();
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
-    resetInterval();
-  };
-
-  const resetInterval = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (products.length > 1) {
-      intervalRef.current = setInterval(() => {
-        goToNext();
-      }, 5000);
-    }
   };
 
   // Format price with commas
@@ -142,7 +161,6 @@ function ProductBanner() {
 
   // Calculate discount
   const calculateDiscount = (price, mrp) => {
-    const discountPercentage = 10; // 10% discount for example
     const discountedPrice = parseFloat(mrp) - parseFloat(price);
     return {
       original: formatPrice(mrp),

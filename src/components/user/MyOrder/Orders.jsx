@@ -482,7 +482,7 @@ export default function Orders() {
                             Order Id
                           </span>
                           <div className="font-medium text-dark text-semibold">
-                            #{order.invoice_number}
+                            #{order.invoice_number} 
                           </div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">
                             {formatDate(order.created_at)}

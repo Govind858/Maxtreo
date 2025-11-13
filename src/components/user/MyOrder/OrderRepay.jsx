@@ -10,8 +10,6 @@ const OrderRepay = ({ orderId, orderAmount, onSuccess, onCancel }) => {
   const [displayRazorpay, setDisplayRazorpay] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
 
-  const navigate = useNavigate();
-
   const handlePayment = async () => {
     if (!orderId) {
       setError("Order ID is required");

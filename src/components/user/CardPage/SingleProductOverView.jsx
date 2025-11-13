@@ -65,7 +65,6 @@ function Overview({ product }) {
 
   // Fetch addresses on component mount
   useEffect(() => {
-    console.log(product, "product..Over view");
     const fetchAddresses = async () => {
       try {
         setLoading(true);

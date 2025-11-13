@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {  FaTimes } from "react-icons/fa";
 import { getPairedProduct } from "../../../Services/Products";
 import SingeProductOverview from "../CardPage/SingleProductOverView";
@@ -11,13 +11,11 @@ function BestPairedWith({ product }) {
 
   const [isVisible, setIsVisible] = useState(false);
   const [pairedProducts, setPairedProducts] = useState([]);
-  const [activeProduct, setActiveProduct] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollContainerRef = useRef(null);
-  const scrollInterval = useRef(null);
 
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     try {
       const response = await getPairedProduct(product.id);
       setPairedProducts(response.data.paired_products || []);
@@ -25,11 +23,10 @@ function BestPairedWith({ product }) {
       console.error("Error fetching paired products:", error);
       setPairedProducts([]);
     }
-  };
+  }, [product.id]);
 
   useEffect(() => {
     getProducts();
-    console.log("Product from :", product);
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -44,14 +41,8 @@ function BestPairedWith({ product }) {
 
     return () => {
       if (section) observer.unobserve(section);
-      if (scrollInterval.current) clearInterval(scrollInterval.current);
     };
-  }, [product.id]);
-
-  const handleProductHover = (id) => {
-    setActiveProduct(id);
-    console.log(activeProduct)
-  };
+  }, [getProducts]);
 
   // const handleAddToCart = (productId, e) => {
   //   e.stopPropagation();
@@ -125,8 +116,6 @@ function BestPairedWith({ product }) {
                   <div
                     key={product.id}
                     className="flex-none w-48 snap-start bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1 border border-gray-300"
-                    onMouseEnter={() => handleProductHover(product.id)}
-                    onMouseLeave={() => setActiveProduct(null)}
                   >
                     {/* Product Image */}
                     <div className="h-32 flex items-center justify-center p-2 bg-gray-50 relative">
@@ -168,7 +157,6 @@ function BestPairedWith({ product }) {
                             Buy Now
                           </button>
                         ) : (
-                          <div>
                           <button
                             className="w-full py-2 rounded-lg text-xs font-[Rajdhani] font-bold tracking-wider text-black bg-gray-200 hover:bg-gray-300 flex items-center justify-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-md border border-gray-300"
                             onClick={() =>
@@ -177,7 +165,6 @@ function BestPairedWith({ product }) {
                           >
                             Quick View
                           </button>
-                        </div>
                         )}
                       </div>
                     </div>

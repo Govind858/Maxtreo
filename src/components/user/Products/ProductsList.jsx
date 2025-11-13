@@ -18,14 +18,11 @@ import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
 
 function ProductsList() {
-  const [filter, setFilter] = useState(false);
-  const [sort, setSort] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(false);
   const [guestCart, setGuestCart] = useState([]);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
@@ -177,7 +174,7 @@ function ProductsList() {
       if (!user) {
         const product = products.find(p => p.id === id);
         if (product) {
-          const updatedCart = addToGuestCart(id, product);
+          addToGuestCart(id, product);
           const cartCount = getGuestCartCount();
           
           showAlert({
@@ -229,29 +226,7 @@ function ProductsList() {
     navigate(`/Details/${id}`);
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
-  const viewGuestCart = () => {
-    if (guestCart.length === 0) {
-      showAlert({
-        type: "info",
-        message: "Your cart is empty"
-      });
-      return;
-    }
-
-    console.log('Guest cart:', guestCart);
-    showAlert({
-      type: "info",
-      message: `You have ${getGuestCartCount()} items in your cart. Login to sync.`
-    });
-  };
-
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products;
 
   return (
     <div className={`min-h-screen px-4 py-8 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
@@ -330,18 +305,14 @@ function ProductsList() {
         </div> */} 
 
         {/* Filter Section */}
-        {filter && (
-          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
-            <Filter products={products} setProducts={setProducts} />
-          </div>
-        )}
+        <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <Filter products={products} setProducts={setProducts} />
+        </div>
 
         {/* Sort Section */}
-        {sort && (
-          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
-            <Sorting products={products} setProducts={setProducts} />
-          </div>
-        )}
+        <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <Sorting products={products} setProducts={setProducts} />
+        </div>
 
         {/* Products Container - Responsive Layout */}
         {loading ? (
@@ -350,7 +321,7 @@ function ProductsList() {
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className={`text-center py-16 px-6 rounded-xl border ${darkMode ? 'bg-gray-900 text-gray-400 border-gray-700' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
-            <p className="text-lg font-semibold">No products found. Try adjusting your filters or search term.</p>
+            <p className="text-lg font-semibold">No products found. Try adjusting your filters.</p>
           </div>
         ) : (
           <div className="relative">
