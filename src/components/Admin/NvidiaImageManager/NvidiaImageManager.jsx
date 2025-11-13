@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Upload,
   Edit,
@@ -30,16 +30,12 @@ const NvidiaImageManager = () => {
   const [editFormData, setEditFormData] = useState({});
   const [message, setMessage] = useState({ text: "", type: "" });
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
-
-  const showMessage = (text, type = "success") => {
+  const showMessage = useCallback((text, type = "success") => {
     setMessage({ text, type });
     setTimeout(() => setMessage({ text: "", type: "" }), 3000);
-  };
+  }, []);
 
-  const fetchImages = async () => {
+  const fetchImages = useCallback(async () => {
     try {
       const response = await Axios.get("/authentication/nvidia-images/");
       // Axios returns data directly in response.data
@@ -50,7 +46,11 @@ const NvidiaImageManager = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showMessage]);
+
+  useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
 
   const handleUpload = async () => {
     if (!formData.image) {

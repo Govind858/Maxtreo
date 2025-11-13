@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getVarient, deleteVarient } from '../../../../Services/Products';
 import { AlertCircle, Trash2 } from 'lucide-react';
 
@@ -10,17 +10,7 @@ function Variant({ product }) {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  useEffect(() => {
-    // Only fetch if product exists and has an id
-    console.log(product,"prduct")
-    if (product && product.id) {
-      fetchVariants();
-    } else {
-      setLoading(false);
-    }
-  }, [product]);
-
-  const fetchVariants = async () => {
+  const fetchVariants = useCallback(async () => {
     try {
       setLoading(true);
       const response = await getVarient(product.id);
@@ -31,7 +21,7 @@ function Variant({ product }) {
         // Check if data is an array, if not, convert to array for mapping
         const variantData = Array.isArray(response.data) ? response.data : [response.data];
         setVariants(variantData);
-        console.log(variants)
+        console.log(variantData)
       } else {
         setVariants([]);
       }
@@ -41,7 +31,17 @@ function Variant({ product }) {
       setError("Failed to load variants");
       setLoading(false);
     }
-  };
+  }, [product.id]);
+
+  useEffect(() => {
+    // Only fetch if product exists and has an id
+    console.log(product,"prduct")
+    if (product && product.id) {
+      fetchVariants();
+    } else {
+      setLoading(false);
+    }
+  }, [product, fetchVariants]);
 
   const showDeleteConfirmation = (variantId) => {
     setDeleteItemId(variantId);
@@ -88,7 +88,7 @@ function Variant({ product }) {
     );
   }
 
-  if (!product || product.variant_parent.length === 0) {
+  if (!product || variants.length === 0) {
     return (
       <div className="p-4 bg-gray-800 rounded-md text-center">
         <p className="text-gray-400">No variants available for this product</p>
@@ -117,7 +117,7 @@ function Variant({ product }) {
             </tr>
           </thead>
           <tbody className="bg-gray-900 divide-y divide-gray-800">
-            {product.variant_parent.map((variant, index) => (
+            {variants.map((variant, index) => (
               <tr key={variant.id || index} className="hover:bg-gray-800 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-300">

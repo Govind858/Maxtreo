@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Search, RefreshCw, Users, DollarSign, TrendingUp, Calendar, } from 'lucide-react';
 import {getCustomerAnalytics,getCustomerInsights,refreshCustomerInsights} from '../../Services/Products'
@@ -208,7 +208,7 @@ const CustomerInsights = () => {
 //   };
 
   // Simulate API calls
-  const fetchCustomerAnalytics = async () => {
+  const fetchCustomerAnalytics = useCallback(async () => {
     setLoading(true);
     try {
       // Replace with actual API call: await fetch('/analytics/customer-analytics/')
@@ -220,9 +220,9 @@ const CustomerInsights = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchInsights = async () => {
+  const fetchInsights = useCallback(async () => {
     try {
       // Replace with actual API call: await fetch('/analytics/insights/')
       const Insights = await getCustomerInsights()
@@ -230,9 +230,9 @@ const CustomerInsights = () => {
     } catch (error) {
       console.error('Error fetching insights:', error);
     }
-  };
+  }, []);
 
-  const refreshAnalytics = async () => {
+  const refreshAnalytics = useCallback(async () => {
     setRefreshing(true);
     try {
       await refreshCustomerInsights()
@@ -244,7 +244,7 @@ const CustomerInsights = () => {
     } finally {
       setRefreshing(false);
     }
-  };
+  }, [fetchCustomerAnalytics, fetchInsights]);
 
   useEffect(() => {
     fetchCustomerAnalytics();
@@ -256,7 +256,7 @@ const CustomerInsights = () => {
     }, 300000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshAnalytics]);
 
   // Filter and sort customers
   const filteredAndSortedCustomers = customers

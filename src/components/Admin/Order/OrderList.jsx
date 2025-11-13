@@ -143,7 +143,7 @@ const OrderList = () => {
 
     setFilteredOrders(result);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [orders, filters, searchQuery]);
+  }, [orders, filters, searchQuery, dateRange]);
 
   // Pagination logic
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -287,14 +287,14 @@ const OrderList = () => {
   //       delivery_status: status
   //     };
   //     setSelectedOrder(updatedOrder);
-      
+  //     
   //     // Update the orders list as well
   //     const updatedOrders = orders.map(order => 
   //       order.id === selectedOrder.id ? updatedOrder : order
   //     );
   //     setOrders(updatedOrders);
   //     setFilteredOrders(updatedOrders);
-      
+  //     
   //     setLoading(false);
   //   } catch (error) {
   //     console.error("Error updating order status:", error);
