@@ -1,7 +1,7 @@
 // Updated Parent Component: ModernNavbar.jsx
 // Navigation path changed to "/categoryproductlist" with query params for category.
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   FaBars,
   FaUser,
@@ -63,7 +63,7 @@ const ModernNavbar = () => {
   };
 
   // Sync guest cart to user account
-  const syncGuestCartToBackend = async () => {
+  const syncGuestCartToBackend = useCallback(async () => {
     const guestCartItems = getGuestCart();
     
     if (guestCartItems.length === 0) {
@@ -129,7 +129,7 @@ const ModernNavbar = () => {
     } finally {
       setSyncingCart(false);
     }
-  };
+  }, []);
 
   // Monitor user login state and sync cart
   useEffect(() => {
@@ -142,7 +142,7 @@ const ModernNavbar = () => {
     };
 
     handleUserLogin();
-  }, [user]);
+  }, [user, syncGuestCartToBackend]);
 
   const getProductDropDownList = async () => {
     try {

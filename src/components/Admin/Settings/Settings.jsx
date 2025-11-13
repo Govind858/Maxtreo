@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Tax from "../Tax/Tax";
 import {
   updateCategory,
@@ -44,7 +44,7 @@ function Settings() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingSubCategory, setEditingSubCategory] = useState(null);
 
-  const fetchBrands = async () => {
+  const fetchBrands = useCallback(async () => {
     try {
       setIsLoading(true);
       const Totalbrands = await getBrand();
@@ -56,9 +56,9 @@ function Settings() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const fetchCategory = async () => {
+  const fetchCategory = useCallback(async () => {
     try {
       setIsLoading(true);
       const category = await getCategory();
@@ -70,9 +70,9 @@ function Settings() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const fetchSubCategory = async () => {
+  const fetchSubCategory = useCallback(async () => {
     try {
       setIsLoading(true);
       const subcategories = await getSubCategory();
@@ -84,17 +84,17 @@ function Settings() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const fetchtax = async () => {
+  const fetchtax = useCallback(async () => {
     try {
       const Taxes = await getTax();
       setTax(Taxes.data || []);
-      console.log(tax)
+      console.log(Taxes.data || []);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -104,7 +104,7 @@ function Settings() {
       await fetchtax();
     };
     loadData();
-  }, []);
+  }, [fetchBrands, fetchCategory, fetchSubCategory, fetchtax]);
 
   // const getParentCategoryName = (parentId) => {
   //   if (!parentId) return "None";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getTax, DeleteTax, AddTax } from '../../../Services/Settings';
 
 function Tax() {
@@ -13,18 +13,14 @@ function Tax() {
     rate: ''
   });
 
-  useEffect(() => {
-    fetchTax();
-  }, []);
-
-  const showToast = (message, type = 'success') => {
+  const showToast = useCallback((message, type = 'success') => {
     setToast({ show: true, message, type });
     setTimeout(() => {
       setToast({ show: false, message: '', type: '' });
     }, 3000);
-  };
+  }, []);
 
-  const fetchTax = async () => {
+  const fetchTax = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await getTax();
@@ -37,7 +33,11 @@ function Tax() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchTax();
+  }, [fetchTax]);
 
   const handleTaxChange = (e) => {
     const { name, value } = e.target;
