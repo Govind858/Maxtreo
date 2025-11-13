@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import { Plus, X, Star, Edit, Trash2 } from "lucide-react";
 import { getAllProductAdmin } from "../../../../Services/Products";
 import {
@@ -51,7 +51,7 @@ function ProductsTab({ category, onRemoveProduct }) {
     }
   };
 
-  const getProductFromCategory = async () => {
+  const getProductFromCategory = useCallback(async () => {
     if (!category || !category.id) return;
 
     try {
@@ -71,7 +71,7 @@ function ProductsTab({ category, onRemoveProduct }) {
     } finally {
       setCategoryLoading(false);
     }
-  };
+  }, [category]);
 
   const handleAddProduct = async (product) => {
     if (!category || !category.id) {
@@ -146,7 +146,7 @@ function ProductsTab({ category, onRemoveProduct }) {
     } else {
       setProductFromCategory([]);
     }
-  }, [category]);
+  }, [category, getProductFromCategory]);
 
   const filteredProducts = products.filter(
     (product) =>

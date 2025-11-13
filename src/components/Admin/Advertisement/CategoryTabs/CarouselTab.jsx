@@ -1,5 +1,5 @@
 // CategoryTabs/CarouselTab.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Plus, Edit, Trash2, X, Upload, Loader2 } from "lucide-react";
 import {
   createHeroCarouselForDropDown,
@@ -137,7 +137,7 @@ const CarouselTab = ({ category, onUpdate }) => {
     is_active: true,
   });
 
-  const fetchHeroCarouselForDropDownFromCategory = async () => {
+  const fetchHeroCarouselForDropDownFromCategory = useCallback(async () => {
     if (!category?.slug) return;
     
     setFetchLoading(true);
@@ -150,7 +150,7 @@ const CarouselTab = ({ category, onUpdate }) => {
     } finally {
       setFetchLoading(false);
     }
-  };
+  }, [category?.slug]);
 
   const resetForm = () => {
     setCarouselForm({
@@ -356,7 +356,7 @@ const CarouselTab = ({ category, onUpdate }) => {
       }));
     }
     fetchHeroCarouselForDropDownFromCategory();
-  }, [category]);
+  }, [category, fetchHeroCarouselForDropDownFromCategory]);
 
   // Show loading spinner while fetching data
   if (fetchLoading) {

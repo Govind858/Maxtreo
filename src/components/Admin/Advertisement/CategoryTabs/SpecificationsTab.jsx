@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Plus, Edit, Trash2, X } from "lucide-react";
 import {
   createSpecificationForDropDownFromCategory,
@@ -53,7 +53,7 @@ function SpecificationsTab({ category, onUpdate }) {
     setEditingSpec(null);
   };
 
-  const fetchHeroCarouselForDropDownFromCategory = async () => {
+  const fetchHeroCarouselForDropDownFromCategory = useCallback(async () => {
     if (!category?.slug) return;
 
     setLoading(true);
@@ -67,7 +67,7 @@ function SpecificationsTab({ category, onUpdate }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [category?.slug]);
 
   const handleOpenModal = (spec = null) => {
     if (spec) {
@@ -154,7 +154,7 @@ function SpecificationsTab({ category, onUpdate }) {
 
   useEffect(() => {
     fetchHeroCarouselForDropDownFromCategory();
-  }, [category?.slug]);
+  }, [category?.slug, fetchHeroCarouselForDropDownFromCategory]);
 
   return (
     <div className="space-y-6">

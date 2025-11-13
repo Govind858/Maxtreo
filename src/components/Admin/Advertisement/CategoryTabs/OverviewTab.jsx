@@ -1,5 +1,5 @@
 // CategoryTabs/OverviewTab.jsx
-import { React, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { getHeroCarouselForDropDownFromCategory } from "../../../../Services/Settings";
 
@@ -11,7 +11,7 @@ const OverviewTab = ({ category }) => {
   console.log("Category prop received:", category);
 
   // Ensure all values have defaults to prevent errors
-  const fetchHeroCarouselForDropDownFromCategory = async () => {
+  const fetchHeroCarouselForDropDownFromCategory = useCallback(async () => {
     console.log("fetchHeroCarouselForDropDownFromCategory called");
     console.log("Category slug:", category?.slug);
     
@@ -38,7 +38,7 @@ const OverviewTab = ({ category }) => {
       setLoading(false);
       console.log("API call completed");
     }
-  };
+  }, [category]);
 
   console.log(categoryData, "data from console........");
   
@@ -51,7 +51,7 @@ const OverviewTab = ({ category }) => {
   useEffect(() => {
     console.log("useEffect triggered, category:", category);
     fetchHeroCarouselForDropDownFromCategory();
-  }, [category?.slug]); // Make sure dependency array includes category.slug
+  }, [category, fetchHeroCarouselForDropDownFromCategory]);
 
   // Add loading state display
   if (loading) {
