@@ -90,6 +90,7 @@ function Settings() {
     try {
       const Taxes = await getTax();
       setTax(Taxes.data || []);
+      console.log(tax)
       console.log(Taxes.data || []);
     } catch (error) {
       console.error(error);

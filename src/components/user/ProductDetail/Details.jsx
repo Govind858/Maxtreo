@@ -17,10 +17,14 @@ function Details({ product }) {
   const navigate = useNavigate();
   // State for selected options and UI
   const [selectedStorage, setSelectedStorage] = useState(".5");
+  setSelectedStorage(".5")
   const [selectedRam, setSelectedRam] = useState("8");
+  setSelectedRam("8")
   const [price, setPrice] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  setShowOptions(false)
+  console.log(showOptions)
   const [showVideoPopup, setShowVideoPopup] = useState(false);
   const [cartData, setCartData] = useState(false);
   const [overView, setOverView] = useState(false);
