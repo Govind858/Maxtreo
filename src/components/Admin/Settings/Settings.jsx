@@ -8,7 +8,6 @@ import {
   getCategory,
   addCategory,
   deleteCategory,
-  getTax,
   updateBrand,
   getSubCategory,
   addSubCategory,
@@ -26,7 +25,6 @@ function Settings() {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [tax, setTax] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
@@ -86,26 +84,14 @@ function Settings() {
     }
   }, []);
 
-  const fetchtax = useCallback(async () => {
-    try {
-      const Taxes = await getTax();
-      setTax(Taxes.data || []);
-      console.log(tax)
-      console.log(Taxes.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   useEffect(() => {
     const loadData = async () => {
       await fetchBrands();
       await fetchCategory();
       await fetchSubCategory();
-      await fetchtax();
     };
     loadData();
-  }, [fetchBrands, fetchCategory, fetchSubCategory, fetchtax]);
+  }, [fetchBrands, fetchCategory, fetchSubCategory]);
 
   // const getParentCategoryName = (parentId) => {
   //   if (!parentId) return "None";

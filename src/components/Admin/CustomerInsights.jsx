@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Search, RefreshCw, Users, DollarSign, TrendingUp, Calendar, } from 'lucide-react';
+import { Search, RefreshCw, Users, DollarSign, TrendingUp, Calendar } from 'lucide-react';
 import {getCustomerAnalytics,getCustomerInsights,refreshCustomerInsights} from '../../Services/Products'
 import { useNavigate } from "react-router-dom";
 import  Sidebar  from "./Sidebar";
@@ -16,196 +16,6 @@ const CustomerInsights = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [paymentFilter, setPaymentFilter] = useState('all');
   const navigate = useNavigate();
-
-  // Mock data - replace with your actual API calls
-//   const mockCustomers = [
-//     {
-//       id: 4,
-//       user_email: "anazks10@gmail.com",
-//       user_name: "Admin k",
-//       total_orders: 21,
-//       total_spent: "234207.05",
-//       average_order_value: "11152.72",
-//       first_purchase_date: "2025-04-03T16:44:15.280338+05:30",
-//       last_purchase_date: "2025-06-02T19:19:52.818003+05:30",
-//       purchase_frequency_days: 3,
-//       return_rate: 0,
-//       is_active: true,
-//       preferred_payment_method: "netbanking",
-//       days_since_last_order: 6
-//     },
-//     {
-//       id: 1,
-//       user_email: "gopinath.pramod@gmail.com",
-//       user_name: "Pramod Gopinath",
-//       total_orders: 13,
-//       total_spent: "216309.71",
-//       average_order_value: "16639.21",
-//       first_purchase_date: "2025-04-30T20:22:16.597867+05:30",
-//       last_purchase_date: "2025-06-09T09:39:43.378412+05:30",
-//       purchase_frequency_days: 3.25,
-//       return_rate: 0,
-//       is_active: true,
-//       preferred_payment_method: "upi",
-//       days_since_last_order: 0
-//     },
-//     {
-//       id: 20,
-//       user_email: "nihal.techworks@gmail.com",
-//       user_name: "Nihal A None",
-//       total_orders: 1,
-//       total_spent: "36700.00",
-//       average_order_value: "36700.00",
-//       first_purchase_date: "2025-05-26T20:29:41.620501+05:30",
-//       last_purchase_date: "2025-05-26T20:29:41.620501+05:30",
-//       purchase_frequency_days: 0,
-//       return_rate: 0,
-//       is_active: true,
-//       preferred_payment_method: "netbanking",
-//       days_since_last_order: 13
-//     },
-//     {
-//       id: 10,
-//       user_email: "anushava740@gmail.com",
-//       user_name: "Anusha V A None",
-//       total_orders: 2,
-//       total_spent: "24790.03",
-//       average_order_value: "12395.02",
-//       first_purchase_date: "2025-05-13T12:31:57.583806+05:30",
-//       last_purchase_date: "2025-05-21T19:23:36.963015+05:30",
-//       purchase_frequency_days: 8,
-//       return_rate: 0,
-//       is_active: true,
-//       preferred_payment_method: "upi",
-//       days_since_last_order: 18
-//     },
-//     {
-//       id: 2,
-//       user_email: "nihalonline24@gmail.com",
-//       user_name: "Nihal A",
-//       total_orders: 2,
-//       total_spent: "23969.69",
-//       average_order_value: "11984.84",
-//       first_purchase_date: "2025-05-04T13:52:28.064391+05:30",
-//       last_purchase_date: "2025-05-20T09:23:45.526945+05:30",
-//       purchase_frequency_days: 15,
-//       return_rate: 0,
-//       is_active: true,
-//       preferred_payment_method: "netbanking",
-//       days_since_last_order: 20
-//     }
-//   ];
-
-//   const mockInsights = {
-//     average_order_value: "13482.10",
-//     active_customers_count: 9,
-//     inactive_customers_count: 12,
-//     most_loyal_customers: [
-//       {
-//         id: 4,
-//         name: "Admin k",
-//         email: "anazks10@gmail.com",
-//         order_count: 21
-//       },
-//       {
-//         id: 1,
-//         name: "Pramod Gopinath",
-//         email: "gopinath.pramod@gmail.com",
-//         order_count: 13
-//       },
-//       {
-//         id: 10,
-//         name: "Anusha V A None",
-//         email: "anushava740@gmail.com",
-//         order_count: 2
-//       },
-//       {
-//         id: 2,
-//         name: "Nihal A",
-//         email: "nihalonline24@gmail.com",
-//         order_count: 2
-//       }
-//     ],
-//     top_customers_by_revenue: [
-//       {
-//         id: 4,
-//         name: "Admin k",
-//         email: "anazks10@gmail.com",
-//         total_spent: 234207.05
-//       },
-//       {
-//         id: 1,
-//         name: "Pramod Gopinath",
-//         email: "gopinath.pramod@gmail.com",
-//         total_spent: 216309.71
-//       },
-//       {
-//         id: 20,
-//         name: "Nihal A None",
-//         email: "nihal.techworks@gmail.com",
-//         total_spent: 36700
-//       },
-//       {
-//         id: 10,
-//         name: "Anusha V A None",
-//         email: "anushava740@gmail.com",
-//         total_spent: 24790.03
-//       }
-//     ],
-//     least_spending_customers: [
-//       {
-//         id: 7,
-//         name: "anaz",
-//         email: "anazksunil24@gmail.com",
-//         total_spent: 3913.38
-//       },
-//       {
-//         id: 17,
-//         name: "anaz ksunil k",
-//         email: "anazksunil2@gmail.com",
-//         total_spent: 3939.38
-//       },
-//       {
-//         id: 14,
-//         name: "Nikhil Tn None",
-//         email: "nikhil.tn007@gmail.com",
-//         total_spent: 16101
-//       },
-//       {
-//         id: 21,
-//         name: "Retro Hub None",
-//         email: "retrohubmusic@gmail.com",
-//         total_spent: 19800
-//       }
-//     ],
-//     age_group_analysis: [
-//       {
-//         age_group: "18-24",
-//         customer_count: 1,
-//         total_revenue: 234207.05,
-//         average_order_value: 11152.72,
-//         most_popular_product: {
-//           id: 10,
-//           name: "New PC Pharaoh RL500",
-//           count: 6
-//         }
-//       },
-//       {
-//         age_group: "25-34",
-//         customer_count: 5,
-//         total_revenue: 240279.4,
-//         average_order_value: 16018.63,
-//         most_popular_product: {
-//           id: 13,
-//           name: "Neoo PC Pharaoh RL500",
-//           count: 7
-//         }
-//       }
-//     ],
-//     average_purchase_frequency: 7.3125,
-//     customer_churn_rate: 0,
-//     return_rate: 0
-//   };
 
   // Simulate API calls
   const fetchCustomerAnalytics = useCallback(async () => {
@@ -256,7 +66,7 @@ const CustomerInsights = () => {
     }, 300000);
 
     return () => clearInterval(interval);
-  }, [refreshAnalytics]);
+  }, [fetchCustomerAnalytics, fetchInsights, refreshAnalytics]);
 
   // Filter and sort customers
   const filteredAndSortedCustomers = customers
@@ -289,12 +99,6 @@ const CustomerInsights = () => {
     email: customer.email
   })) || [];
 
-  // const leastSpendingData = insights.least_spending_customers?.slice(0, 4).map(customer => ({
-  //   name: customer.name.split(' ')[0],
-  //   spent: customer.total_spent,
-  //   email: customer.email
-  // })) || [];
-
   const ageGroupData = insights.age_group_analysis?.map(group => ({
     age_group: group.age_group,
     customers: group.customer_count,
@@ -307,11 +111,6 @@ const CustomerInsights = () => {
     { name: 'Net Banking', value: customers.filter(c => c.preferred_payment_method === 'netbanking').length, color: '#1F2937' },
     { name: 'Others', value: customers.filter(c => !c.preferred_payment_method).length, color: '#6B7280' }
   ];
-
-  // const customerStatusData = [
-  //   { name: 'Active', value: insights.active_customers_count || 0, color: '#EC4899' },
-  //   { name: 'Inactive', value: insights.inactive_customers_count || 0, color: '#1F2937' }
-  // ];
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-IN', {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FaSearch, 
   FaSpinner, 
@@ -28,7 +28,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const [searchTerm, setSearchTerm] = useState('');
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = false;
   const [guestCart, setGuestCart] = useState([]);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const alertTimeoutRef = useRef(null);

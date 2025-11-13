@@ -7,17 +7,13 @@ import ProductFooter from "../../components/user/Footer/ProductFooter";
 import BestPairedWith from "../../components/user/BestPairedWith/BestPairedWith";
 import { useParams } from "react-router-dom";
 import { getSingleProduct } from "../../Services/Products";
-import  Loader from "../../Loader/Loader"
+import  Loader from "../../Loader/Loader"
 import FloatingWhatsAppButton from "../../components/user/ProductDetail/FloatingWhatsAppButton"; // Your specified path
 
 function DetailedView() {
   const { id } = useParams(); 
   const [product, setProduct] = useState(null); 
   const [loading, setLoading] = useState(true); 
-
-  // Get the current URL for the WhatsApp message
-  const currentPageLink = typeof window !== 'undefined' ? window.location.href : 'Loading Page Link...';
-
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -54,6 +50,9 @@ function DetailedView() {
         </div>
       );
   }
+
+  // Compute current URL inside render, after loading
+  const currentPageLink = window.location.href;
 
   return (
     <div className="relative">

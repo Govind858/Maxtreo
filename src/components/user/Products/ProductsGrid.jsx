@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { 
   FaSearch, 
@@ -26,7 +26,7 @@ function ProductsGrid() {
   const [searchTerm, setSearchTerm] = useState('');
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = false;
 
   const [guestCart, setGuestCart] = useState([]);
   const alertTimeoutRef = useRef(null);
@@ -83,21 +83,6 @@ function ProductsGrid() {
     const initialCart = getGuestCart();
     setGuestCart(initialCart);
   }, []);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-      document.body.classList.remove('light');
-    } else {
-      document.body.classList.add('light');
-      document.body.classList.remove('dark');
-    }
-
-    return () => {
-      document.body.classList.remove('dark');
-      document.body.classList.remove('light');
-    };
-  }, [darkMode]);
 
   useEffect(() => {
     const fetchProducts = async () => {
