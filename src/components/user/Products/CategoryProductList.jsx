@@ -29,7 +29,6 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
-  setDarkMode(false)
   const [guestCart, setGuestCart] = useState([]);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const alertTimeoutRef = useRef(null);

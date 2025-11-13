@@ -27,7 +27,6 @@ function ProductsGrid() {
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
-  setDarkMode(false)
 
   const [guestCart, setGuestCart] = useState([]);
   const alertTimeoutRef = useRef(null);

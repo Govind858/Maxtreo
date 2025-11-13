@@ -18,7 +18,7 @@ import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
 import { getCategory } from "../../../Services/Settings";
 // import NavBarMenu from "./NavBarMenu";
-import  { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 import metrix_logo from '../../../Images/maxtreobgremoved.png';
 
@@ -42,6 +42,7 @@ const ModernNavbar = () => {
   const dropdownRef = useRef(null);
   const [productsItems, setProductsItems] = useState([]);
   const prevUserRef = useRef(user);
+  const location = useLocation();
 
   // Guest cart management functions
   const getGuestCart = () => {
@@ -133,16 +134,17 @@ const ModernNavbar = () => {
 
   // Monitor user login state and sync cart
   useEffect(() => {
-    const handleUserLogin = async () => {
-      if (!prevUserRef.current && user) {
-        console.log('User logged in, syncing guest cart...');
-        await syncGuestCartToBackend();
-      }
-      prevUserRef.current = user;
-    };
-
-    handleUserLogin();
+    if (!prevUserRef.current && user) {
+      console.log('User logged in, syncing guest cart...');
+      syncGuestCartToBackend();
+    }
+    prevUserRef.current = user;
   }, [user, syncGuestCartToBackend]);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setActiveDropdown(null);
+  }, [location.pathname]);
 
   const getProductDropDownList = async () => {
     try {
@@ -306,11 +308,14 @@ const ModernNavbar = () => {
                 <h1 className="text-2xl ">Maxtreo</h1>
               </div>
               {!isMobile && (
-                <div className="dropdown-container">
+                <div 
+                  className="dropdown-container"
+                  onMouseEnter={() => setActiveDropdown("categories")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
                   <button
                     className="category-dropdown-trigger"
                     onClick={() => handleDropdownToggle("categories")}
-                    onMouseEnter={() => setActiveDropdown("categories")}
                   >
                     <FaBars className="categories-icon" />
                     All Categories
@@ -320,7 +325,6 @@ const ModernNavbar = () => {
                     className={`categories-dropdown ${
                       activeDropdown === "categories" ? "active" : ""
                     }`}
-                    onMouseLeave={() => setActiveDropdown(null)}
                   >
                     <div className="dropdown-wrapper">
                       {!dropdownScroll.top && (
@@ -341,7 +345,6 @@ const ModernNavbar = () => {
                             key={index}
                             to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`} // Updated path to match page
                             className="dropdown-item"
-                            onClick={() => console.log(`Navigating to category: ${item.name}`)} // Debug log
                           >
                             {item.name}
                           </Link>
