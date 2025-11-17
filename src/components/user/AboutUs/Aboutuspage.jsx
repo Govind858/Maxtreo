@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 // import Logo from '../../../Images/LoginWith/neo_tokyo-logo.png';
 import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
+import ContactCard  from '../../../Pages/user/ContactCard';
 import { Clock, Mail, Phone, MessageCircle, } from "lucide-react";
 
 // Fix duplicate imports - keep only one instance
@@ -294,130 +295,6 @@ const QualityCard = () => {
   );
 };
 
-const ContactCard = () => {
-  return (
-    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
-      {/* Stack effect - creating shadow cards underneath */}
-      <StackedCard index={2} total={3}>
-        <div className="h-full w-full bg-gray-800"></div>
-      </StackedCard>
-      
-      <StackedCard index={1} total={3}>
-        <div className="h-full w-full bg-gray-900"></div>
-      </StackedCard>
-      
-      {/* Main content card */}
-      <StackedCard index={0} total={3}>
-        <div className="bg-black text-white p-10 rounded-2xl">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
-              Get in <span className="text-blue-600">Touch</span>
-            </h2>
-            <p className="text-gray-300 text-lg">
-              Ready to upgrade your tech? Our store has everything you need to power your lifestyle
-            </p>
-          </div>
-
-          {/* Contact Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Support Hours */}
-            <div className="space-y-6">
-              <div className="flex items-center mb-6">
-                <div className="bg-blue-600 p-3 rounded-full mr-4">
-                  <Clock size={24} className="text-white" />
-                </div>
-                <h3 className="text-2xl font-bold">Support Hours</h3>
-              </div>
-              
-              <div className="space-y-4 ml-16">
-                <div className="flex justify-between items-center py-2 border-b border-gray-700">
-                  <span className="text-gray-300">Monday - Friday</span>
-                  <span className="font-semibold text-blue-600">9AM - 8PM</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-700">
-                  <span className="text-gray-300">Saturday</span>
-                  <span className="font-semibold text-blue-600">10AM - 6PM</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-300">Sunday</span>
-                  <span className="font-semibold text-gray-500">Closed</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Methods */}
-            <div className="space-y-6">
-              <div className="flex items-center mb-6">
-                <div className="bg-blue-600 p-3 rounded-full mr-4">
-                  <MessageCircle size={24} className="text-white" />
-                </div>
-                <h3 className="text-2xl font-bold">Contact Methods</h3>
-              </div>
-              
-              <div className="space-y-6 ml-16">
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Mail size={20} className="text-blue-600 mr-4" />
-                  <div>
-                    <p className="text-gray-300 text-sm">Email</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">maxtreo99@gmail.com</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Phone size={20} className="text-blue-600 mr-4" />
-                  <div>
-                    <p className="text-gray-300 text-sm">Phone</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">+91 94460 67663</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <MessageCircle size={20} className="text-blue-600 mr-4" />
-                  <div>
-                    <p className="text-gray-300 text-sm">Live Chat</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">Available during business hours</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          {/* <div className="mt-12 text-center">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6 rounded-xl">
-              <h4 className="text-xl font-bold mb-2">Ready to Start Your Build?</h4>
-              <p className="text-blue-100 mb-4">Join thousands of satisfied gamers who chose NeoTokyo for their custom PC builds.</p>
-              <button className="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors">
-                Start Your Build
-              </button>
-            </div>
-          </div> */}
-        </div>
-      </StackedCard>
-    </div>
-  );
-};
-
-// Live Chat Button Component
-// const LiveChatButton = () => (
-//   <div className="fixed top-20 right-8 z-50">
-//     <motion.button 
-//       className="bg-black text-white rounded-full py-3 px-8 flex items-center shadow-lg"
-//       initial={{ x: 100, opacity: 0 }}
-//       animate={{ x: 0, opacity: 1 }}
-//       transition={{ duration: 0.5, delay: 1 }}
-//       whileHover={{ scale: 1.05 }}
-//     >
-//       <span className="mr-2">Live Chat</span>
-//       <span className="inline-block w-5 h-5 rounded-full border-2 border-white flex items-center justify-center">
-//         ↗
-//       </span>
-//     </motion.button>
-//   </div>
-// );
-
-// Main component
 function AboutPage() {
   const containerRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
@@ -461,7 +338,8 @@ function AboutPage() {
             <WhyWeStandOut/>
             <QualityCard />
             <DirectionalSection />
-            <ContactCard />
+            {/* <ContactCard /> */}
+            <ContactCard/>
           </div>
         </div>
         

@@ -16,7 +16,8 @@ import {
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
-import { getCategory } from "../../../Services/Settings";
+// import { getCategory } from "../../../Services/Settings";
+import { getProductCategories } from "../../../Services/Settings"
 // import NavBarMenu from "./NavBarMenu";
 import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
@@ -148,7 +149,7 @@ const ModernNavbar = () => {
 
   const getProductDropDownList = async () => {
     try {
-      const categories = await getCategory();
+      const categories = await getProductCategories();
       console.log("categories:", categories);
       const categoryData = Array.isArray(categories) ? categories : (categories.data || []);
       setProductsItems(categoryData);

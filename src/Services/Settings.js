@@ -577,3 +577,15 @@ export const getPageData = async (slug) => {
         return null;
     }
 }
+
+export const getProductCategories = async () => {
+  try {
+    let categories = await Axios.get("/advertisement/product/categories");
+    console.log(categories, "product categories");
+    return categories;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+

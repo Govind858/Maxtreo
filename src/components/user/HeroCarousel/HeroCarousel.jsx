@@ -9,8 +9,8 @@ import {
   FaShoppingCart,
   FaBolt,
   FaStar,
-  // FaChevronLeft as FaLeft,
-  // FaChevronRight as FaRight
+  FaChevronLeft as FaLeft,
+  FaChevronRight as FaRight
 } from "react-icons/fa";
 import { getAllProduct } from '../../../Services/Products';
 import baseUrl from '../../../Static/Static';
@@ -198,8 +198,8 @@ const HeroCarousel = () => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
       
-      // Check scroll buttons only on desktop
-      if (scrollContainerRef.current && window.innerWidth >= 1024) {
+      // Check scroll buttons for tablet and desktop (>=768px)
+      if (scrollContainerRef.current && window.innerWidth >= 768) {
         const { scrollWidth, clientWidth } = scrollContainerRef.current;
         setShowScrollButtons(scrollWidth > clientWidth);
       } else {
@@ -232,17 +232,19 @@ const HeroCarousel = () => {
     };
   }, []);
 
-  // const scrollLeft = () => {
-  //   if (scrollContainerRef.current) {
-  //     scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-  //   }
-  // };
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = window.innerWidth >= 1024 ? 300 : 200;
+      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    }
+  };
 
-  // const scrollRight = () => {
-  //   if (scrollContainerRef.current) {
-  //     scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-  //   }
-  // };
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = window.innerWidth >= 1024 ? 300 : 200;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   const addTocart = async (id, event) => {
     event.stopPropagation();
@@ -326,10 +328,10 @@ const HeroCarousel = () => {
   if (isOverallLoading) {
     return (
       <div className="w-full flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/2 h-64 lg:h-[400px] bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
           <div className="animate-pulse text-slate-600 text-lg">Loading Hero...</div>
         </div>
-        <div className="w-full lg:w-1/2 h-64 lg:h-[400px] bg-white flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-white flex items-center justify-center">
           <Loader />
         </div>
       </div>
@@ -339,13 +341,13 @@ const HeroCarousel = () => {
   if (error) {
     return (
       <div className="w-full flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/2 h-64 lg:h-[400px] bg-red-50 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-red-50 flex items-center justify-center">
           <div className="text-red-600 text-center">
             <p className="text-lg font-semibold">Error loading carousel</p>
             <p className="text-sm">{error}</p>
           </div>
         </div>
-        <div className="w-full lg:w-1/2 h-64 lg:h-[400px] bg-white flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-white flex items-center justify-center">
           <p className="text-gray-600">Products loading...</p>
         </div>
       </div>
@@ -356,7 +358,7 @@ const HeroCarousel = () => {
     <div className="w-full">
       <div className={`flex flex-col lg:flex-row ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
         {/* Left Side: Hero Carousel */}
-        <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-64 lg:h-[400px]">
+        <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[40vh] lg:h-[50vh] md:h-[45vh]">
           {carouselData.length === 0 ? (
             <div className="w-full h-full bg-slate-100 flex items-center justify-center">
               <p className="text-slate-600">No carousel items available</p>
@@ -444,7 +446,7 @@ const HeroCarousel = () => {
         </div>
 
         {/* Right Side: Product Carousel */}
-        <div className="w-full lg:w-1/2 relative h-64 lg:h-[400px] overflow-hidden bg-white dark:bg-black">
+        <div className="w-full lg:w-1/2 relative h-[40vh] lg:h-[50vh] md:h-[45vh] overflow-hidden bg-white dark:bg-black">
           {alertData && (
             <Alert 
               type={alertData.type}
@@ -464,278 +466,158 @@ const HeroCarousel = () => {
               <p className="text-lg font-semibold">No products found.</p>
             </div>
           ) : (
-            <div className="relative h-full p-3">
-              {/* Desktop: Horizontal Scroll Container */}
-              {isDesktop ? (
+            <div className="relative h-full p-2 lg:p-3">
+              {/* Scroll Buttons */}
+              {showScrollButtons && (
                 <>
-                  {/* Scroll Buttons - Desktop Only */}
-                  {showScrollButtons && (
-                    <>
-                      {/* <button 
-                        onClick={scrollLeft}
-                        className={`absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          darkMode 
-                            ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                            : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                        } shadow-lg`}
-                      >
-                        <FaLeft className="text-xs" />
-                      </button> */}
-                      {/* <button 
-                        onClick={scrollRight}
-                        className={`absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          darkMode 
-                            ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                            : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                        } shadow-lg`}
-                      >
-                        <FaRight className="text-xs" />
-                      </button> */}
-                    </>
-                  )}
-
-                  {/* Desktop Products Scroll Container - Adjusted for half width */}
-                  <div 
-                    ref={scrollContainerRef}
-                    className="flex overflow-x-auto gap-3 pb-6 h-full px-1 -mx-1 scrollbar-hide scroll-smooth"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  <button 
+                    onClick={scrollLeft}
+                    className={`absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      darkMode 
+                        ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
+                        : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
+                    } shadow-lg`}
                   >
-                    {filteredProducts.map((product) => (
-                      <div 
-                        key={product.id}
-                        onClick={() => navigateToDetails(product.id)}
-                        className={`flex-shrink-0 w-56 group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col ${darkMode 
-                          ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
-                          : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
-                        }`}
-                      >
-                       
+                    <FaLeft className="text-xs" />
+                  </button>
+                  <button 
+                    onClick={scrollRight}
+                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      darkMode 
+                        ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
+                        : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
+                    } shadow-lg`}
+                  >
+                    <FaRight className="text-xs" />
+                  </button>
+                </>
+              )}
 
-                        {/* Image Container */}
-                        <div className="relative h-32 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
-                          <img 
-                            src={product.images?.[0]?.image 
-                              ? baseUrl + product.images[0].image 
-                              : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                            } 
-                            alt={product.name}
-                            className="h-24 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                          />
-                          
-                          {/* Quick Action Overlay */}
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                            <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white`}>
-                              <button className="w-8 h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
-                                <FaBolt className="text-xs" />
-                              </button>
-                              <span className="text-xs font-semibold">Quick View</span>
-                            </div>
-                          </div>
-                        </div>
+              {/* Products Scroll Container */}
+              <div 
+                ref={scrollContainerRef}
+                className="flex overflow-x-auto gap-2 lg:gap-3 pb-4 lg:pb-6 h-full px-1 -mx-1 scrollbar-hide scroll-smooth"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {filteredProducts.map((product) => (
+                  <div 
+                    key={product.id}
+                    onClick={() => navigateToDetails(product.id)}
+                    className={`flex-shrink-0 w-48 lg:w-56 group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col ${darkMode 
+                      ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
+                      : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
+                    }`}
+                  >
+                    {/* Product Badge - Mobile Only */}
+                    {!isDesktop && (
+                      <div className="absolute top-2 left-2 z-10">
+                        <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg">
+                          FEATURED
+                        </span>
+                      </div>
+                    )}
 
-                        {/* Product Content */}
-                        <div className="p-3 flex-1 flex flex-col justify-between">
-                          <div className="mb-2">
-                            <h2 className="font-[Rajdhani] text-sm font-bold mb-1.5 line-clamp-2 leading-tight text-black dark:text-white">
-                              {product.name}
-                            </h2>
-                            
-                            {/* Rating */}
-                            <div className="flex items-center gap-0.5 mb-1.5">
-                              {[1,2,3,4,5].map((star) => (
-                                <FaStar 
-                                  key={star}
-                                  className={`text-xs ${
-                                    star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
-                                  }`}
-                                />
-                              ))}
-                              <span className={`text-xs ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                                (4.0)
-                              </span>
-                            </div>
-
-                            <div className="flex items-baseline gap-1.5">
-                              <span className="text-lg font-bold font-[Rajdhani] text-black dark:text-white">
-                                ₹ {product.price?.toLocaleString()}
-                              </span>
-                              <span className={`text-xs line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                                ₹ {(product.price * 1.2)?.toLocaleString()}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex gap-1.5">
-                            <button 
-                              onClick={(e) => addTocart(product.id, e)}
-                              disabled={addingToCart === product.id}
-                              className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
-                                addingToCart === product.id
-                                  ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
-                                  : darkMode
-                                    ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
-                              }`}
-                            >
-                              {addingToCart === product.id ? (
-                                <>
-                                  <FaSpinner className="animate-spin text-xs" /> 
-                                  <span>ADD</span>
-                                </>
-                              ) : (
-                                <>
-                                  <FaShoppingCart className="text-xs" /> 
-                                  <span>CART</span>
-                                </>
-                              )}
-                            </button>
-
-                            <button 
-                              onClick={(e) => handleBuyNow(product, e)}
-                              className="flex-1 py-1.5 rounded-lg text-xs font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 bg-blue-500 shadow-lg hover:bg-blue-600"
-                            >
-                              <FaBolt className="text-xs" />
-                              <span>BUY</span>
-                            </button>
-                          </div>
+                    {/* Image Container */}
+                    <div className="relative h-24 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                      <img 
+                        src={product.images?.[0]?.image 
+                          ? baseUrl + product.images[0].image 
+                          : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
+                        } 
+                        alt={product.name}
+                        className="h-20 lg:h-24 w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      />
+                      
+                      {/* Quick Action Overlay */}
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                        <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white`}>
+                          <button className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
+                            <FaBolt className="text-xs" />
+                          </button>
+                          <span className="text-xs font-semibold">Quick View</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Scroll Indicator - Desktop Only */}
-                  <div className="flex justify-center mt-3 absolute bottom-3 left-1/2 -translate-x-1/2">
-                    <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1`}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#07bff]"></div>
-                      <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                      <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
                     </div>
-                  </div>
-                </>
-              ) : (
-                /* Mobile: Vertical Grid Layout */
-                <div className="h-full overflow-y-auto">
-                  <div className="grid grid-cols-2 gap-2 h-full">
-                    {filteredProducts.map((product) => (
-                      <div 
-                        key={product.id}
-                        onClick={() => navigateToDetails(product.id)}
-                        className={`group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col ${darkMode 
-                          ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
-                          : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
-                        }`}
-                      >
-                        {/* Product Badge */}
-                        <div className="absolute top-2 left-2 z-10">
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg">
-                            FEATURED
+
+                    {/* Product Content */}
+                    <div className="p-2 lg:p-3 flex-1 flex flex-col justify-between">
+                      <div className="mb-2">
+                        <h2 className="font-[Rajdhani] text-xs lg:text-sm font-bold mb-1.5 line-clamp-2 leading-tight text-black dark:text-white">
+                          {product.name}
+                        </h2>
+                        
+                        {/* Rating */}
+                        <div className="flex items-center gap-0.5 mb-1.5">
+                          {[1,2,3,4,5].map((star) => (
+                            <FaStar 
+                              key={star}
+                              className={`text-xs ${
+                                star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
+                              }`}
+                            />
+                          ))}
+                          <span className={`text-xs ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            (4.0)
                           </span>
                         </div>
 
-                        {/* Image Container */}
-                        <div className="relative h-28 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
-                          <img 
-                            src={product.images?.[0]?.image 
-                              ? baseUrl + product.images[0].image 
-                              : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                            } 
-                            alt={product.name}
-                            className="h-20 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                          />
-                          
-                          {/* Quick Action Overlay */}
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                            <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white`}>
-                              <button className="w-7 h-7 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
-                                <FaBolt className="text-xs" />
-                              </button>
-                              <span className="text-xs font-semibold">View</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Product Content */}
-                        <div className="p-2.5 flex-1 flex flex-col justify-between min-h-0">
-                          <div className="mb-2 flex-shrink-0">
-                            <h2 className="font-[Rajdhani] text-xs font-bold mb-1 line-clamp-2 leading-tight text-black dark:text-white">
-                              {product.name}
-                            </h2>
-                            
-                            {/* Rating */}
-                            <div className="flex items-center gap-0.5 mb-1">
-                              {[1,2,3,4,5].map((star) => (
-                                <FaStar 
-                                  key={star}
-                                  className={`text-[10px] ${
-                                    star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
-                                  }`}
-                                />
-                              ))}
-                              <span className={`text-[10px] ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                                (4.0)
-                              </span>
-                            </div>
-
-                            <div className="flex items-baseline gap-1 flex-wrap">
-                              <span className="text-sm font-bold font-[Rajdhani] text-black dark:text-white">
-                                ₹ {product.price?.toLocaleString()}
-                              </span>
-                              <span className={`text-[10px] line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                                ₹ {(product.price * 1.2)?.toLocaleString()}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex gap-1.5 flex-shrink-0">
-                            <button 
-                              onClick={(e) => addTocart(product.id, e)}
-                              disabled={addingToCart === product.id}
-                              className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-0.5 text-[10px] font-[Rajdhani] font-semibold transition-all duration-300 ${
-                                addingToCart === product.id
-                                  ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
-                                  : darkMode
-                                    ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
-                              }`}
-                            >
-                              {addingToCart === product.id ? (
-                                <>
-                                  <FaSpinner className="animate-spin text-[10px]" /> 
-                                  <span>ADD</span>
-                                </>
-                              ) : (
-                                <>
-                                  <FaShoppingCart className="text-[10px]" /> 
-                                  <span>CART</span>
-                                </>
-                              )}
-                            </button>
-
-                            <button 
-                              onClick={(e) => handleBuyNow(product, e)}
-                              className="flex-1 py-1.5 rounded-lg text-[10px] font-[Rajdhani] font-bold text-white flex items-center justify-center gap-0.5 bg-blue-500 shadow-lg hover:bg-blue-600"
-                            >
-                              <FaBolt className="text-[10px]" />
-                              <span>BUY</span>
-                            </button>
-                          </div>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-base lg:text-lg font-bold font-[Rajdhani] text-black dark:text-white">
+                            ₹ {product.price?.toLocaleString()}
+                          </span>
+                          <span className={`text-xs line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                            ₹ {(product.price * 1.2)?.toLocaleString()}
+                          </span>
                         </div>
                       </div>
-                    ))}
-                  </div>
 
-                  {/* Mobile: Load More Indicator */}
-                  <div className="flex justify-center mt-3">
-                    <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1`}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#07bff]"></div>
-                      <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                      <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                      {/* Action Buttons */}
+                      <div className="flex gap-1.5">
+                        <button 
+                          onClick={(e) => addTocart(product.id, e)}
+                          disabled={addingToCart === product.id}
+                          className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
+                            addingToCart === product.id
+                              ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
+                              : darkMode
+                                ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
+                                : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
+                          }`}
+                        >
+                          {addingToCart === product.id ? (
+                            <>
+                              <FaSpinner className="animate-spin text-xs" /> 
+                              <span>ADD</span>
+                            </>
+                          ) : (
+                            <>
+                              <FaShoppingCart className="text-xs" /> 
+                              <span>CART</span>
+                            </>
+                          )}
+                        </button>
+
+                        <button 
+                          onClick={(e) => handleBuyNow(product, e)}
+                          className="flex-1 py-1.5 rounded-lg text-xs font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 bg-blue-500 shadow-lg hover:bg-blue-600"
+                        >
+                          <FaBolt className="text-xs" />
+                          <span>BUY</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Scroll Indicator */}
+              <div className="flex justify-center mt-2 lg:mt-3 absolute bottom-2 lg:bottom-3 left-1/2 -translate-x-1/2">
+                <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1`}>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#07bff]"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
                 </div>
-              )}
+              </div>
 
               {/* Custom scrollbar hide */}
               <style jsx>{`

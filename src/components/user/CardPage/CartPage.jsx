@@ -295,7 +295,7 @@ const CartPage = () => {
   const isCartEmpty = !cartItems.items?.length;
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
 
       {displayRazorpay && (

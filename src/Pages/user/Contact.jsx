@@ -284,7 +284,7 @@ const StackedCard = ({ children, index = 0, total = 1 }) => {
 
 const ContactCard = () => {
   return (
-    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
+    <div className="relative w-full max-w-6xl mx-auto mb-8 pb-6 md:mb-12 md:pb-8 lg:mb-16 lg:pb-12">
       {/* Stack effect - creating shadow cards underneath */}
       <StackedCard index={2} total={3}>
         <div className="h-full w-full bg-gray-800"></div>
@@ -296,75 +296,75 @@ const ContactCard = () => {
       
       {/* Main content card */}
       <StackedCard index={0} total={3}>
-        <div className="bg-black text-white p-10 rounded-2xl">
+        <div className="bg-black text-white p-4 sm:p-6 md:p-10 rounded-2xl">
           {/* Header Section */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
+          <div className="text-center mb-6 sm:mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">
               Get in <span className="text-blue-600">Touch</span>
             </h2>
-            <p className="text-gray-300 text-lg">
+            <p className="text-sm sm:text-base md:text-lg text-gray-300">
               "Ready to upgrade your tech? Our store has everything you need to power your lifestyle
             </p>
           </div>
 
           {/* Contact Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             {/* Support Hours */}
-            <div className="space-y-6">
-              <div className="flex items-center mb-6">
-                <div className="bg-blue-600 p-3 rounded-full mr-4">
-                  <Clock size={24} className="text-white" />
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-blue-600 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold">Support Hours</h3>
+                <h3 className="text-xl sm:text-2xl font-bold">Support Hours</h3>
               </div>
               
-              <div className="space-y-4 ml-16">
-                <div className="flex justify-between items-center py-2 border-b border-gray-700">
-                  <span className="text-gray-300">Monday - Friday</span>
-                  <span className="font-semibold text-blue-600">9AM - 8PM</span>
+              <div className="space-y-2 sm:space-y-4 ml-4 sm:ml-8 md:ml-12 lg:ml-16">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2 border-b border-gray-700">
+                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Monday - Friday</span>
+                  <span className="font-semibold text-blue-600 text-sm sm:text-base">9AM - 8PM</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-700">
-                  <span className="text-gray-300">Saturday</span>
-                  <span className="font-semibold text-blue-600">10AM - 6PM</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2 border-b border-gray-700">
+                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Saturday</span>
+                  <span className="font-semibold text-blue-600 text-sm sm:text-base">10AM - 6PM</span>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-300">Sunday</span>
-                  <span className="font-semibold text-gray-500">Closed</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2">
+                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Sunday</span>
+                  <span className="font-semibold text-gray-500 text-sm sm:text-base">Closed</span>
                 </div>
               </div>
             </div>
 
             {/* Contact Methods */}
-            <div className="space-y-6">
-              <div className="flex items-center mb-6">
-                <div className="bg-blue-600 p-3 rounded-full mr-4">
-                  <MessageCircle size={24} className="text-white" />
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-blue-600 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold">Contact Methods</h3>
+                <h3 className="text-xl sm:text-2xl font-bold">Contact Methods</h3>
               </div>
               
-              <div className="space-y-6 ml-16">
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Mail size={20} className="text-blue-600 mr-4" />
+              <div className="space-y-3 sm:space-y-6 ml-4 sm:ml-8 md:ml-12 lg:ml-16">
+                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
+                  <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300 text-sm">Email</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">maxtreo99@gmail.com@gmail.com</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Email</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">maxtreo99@gmail.com</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Phone size={20} className="text-blue-600 mr-4" />
+                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
+                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300 text-sm">Phone</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">+91 94460 67663</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Phone</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">+91 94460 67663</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <MessageCircle size={20} className="text-blue-600 mr-4" />
+                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
+                  <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300 text-sm">Live Chat</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors">Available during business hours</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Live Chat</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">Available during business hours</p>
                   </div>
                 </div>
               </div>
@@ -386,24 +386,6 @@ const ContactCard = () => {
   );
 };
 
-
-// Live Chat Button Component
-const LiveChatButton = () => (
-  <div className="fixed top-20 right-8 z-50">
-    <motion.button 
-      className="bg-black text-white rounded-full py-3 px-8 flex items-center shadow-lg"
-      initial={{ x: 100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
-      whileHover={{ scale: 1.05 }}
-    >
-      <span className="mr-2">Live Chat</span>
-      <span className="inline-block w-5 h-5 rounded-full border-2 border-white flex items-center justify-center">
-        ↗
-      </span>
-    </motion.button>
-  </div>
-);
 
 // Main component
 function ContactPage() {
@@ -428,7 +410,6 @@ function ContactPage() {
       style={{width:"100%", margin:"auto", overflow: "hidden", position: "relative"}}
     >
       <NavBar />
-      <LiveChatButton />
       
       {/* Background parallax effect */}
       <motion.div
@@ -440,11 +421,11 @@ function ContactPage() {
         }}
       />
       
-      <div className="pt-24  relative z-10">
-        <div className="px-4 space-y-12">
+      <div className="pt-16 md:pt-20 lg:pt-24 relative z-10">
+        <div className="px-4 space-y-8 md:space-y-12">
           {/* <HeaderCard /> */}
           
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-16 lg:space-y-24">
             {/* <SupportContentCard /> */}
             {/* <AboutCard />
             <QualityCard />
@@ -455,7 +436,7 @@ function ContactPage() {
         </div>
         
         <motion.div 
-          className="mt-32"
+          className="mt-8 md:mt-16 lg:mt-32"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: false }}

@@ -108,10 +108,17 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
         let productData = await getAllProduct();
         
         // Filter API response based on category prop (using string name to match API structure)
-        if (category && category.name) {
-          console.log(`Filtering products for category name: "${category.name}"`);
-          productData = productData.filter(product => product.category === category.name);
-        }
+       if (category && category.name) {
+        console.log(`Filtering products for category name: "${category.name}"`);
+        
+        const categoryName = category.name.toLowerCase();
+
+        productData = productData.filter(product =>
+          categoryName.includes(product.category.toLowerCase()) ||
+          product.category.toLowerCase().includes(categoryName)
+        );
+      }
+
         
         setProducts(productData || []);
       } catch (error) {
