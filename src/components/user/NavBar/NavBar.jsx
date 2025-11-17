@@ -242,9 +242,9 @@ const ModernNavbar = () => {
  
 
   const quickLinks = [
-    { name: "Build Your PC", path: "/build-pc" },
-    { name: "Deals & Offers", path: "/deals" },
-    { name: "Track Order", path: "/track-order" },
+    { name: "Products", path: "/products" },
+      // { name: "Deals & Offers", path: "/deals" },
+    { name: "Track Order", path: "/myorder" },
     { name: "Support", path: "/support" }
   ];
 

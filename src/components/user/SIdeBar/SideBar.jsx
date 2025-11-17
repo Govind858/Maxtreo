@@ -15,7 +15,6 @@ import {
 import metrixLogo from "../../../Images/maxtreobgremoved.png";
 import {
   ListOrdered,
-  Settings,
   HeadphonesIcon,
 } from "lucide-react";
 import { logout, getProductDropDown } from "../../../Services/userApi";
@@ -276,16 +275,6 @@ function SideBar({ isOpen, onClose }) {
                 </li>
               )}
             </ul>
-
-            {/* Config & Location */}
-            <div className="mt-8 pt-4 border-t border-gray-200">
-              <h3 className="flex items-center gap-2 text-sm mb-3 text-gray-700 font-medium">
-                <Settings className="text-gray-500" size={16} />
-                <span>Metrix.Config</span>
-                <span className="text-xs text-gray-400">Coming soon</span>
-              </h3>
-            </div>
-
             <div className="mt-auto pt-6 border-t border-gray-200 opacity-0" style={{ animation: "fadeInUp 0.5s ease forwards", animationDelay: "0.5s" }}>
               <h3 className="flex items-center gap-2 text-sm mb-3 text-gray-700 font-medium">
                 <FiMapPin className="text-gray-500" size={16} /> Our Location
