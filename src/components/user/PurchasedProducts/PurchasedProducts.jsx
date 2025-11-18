@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getPurchasedProducts, getDrivers } from "../../../Services/userApi";
 import Loader from "../../../Loader/Loader";
-import ProductFooter from "../Footer/ProductFooter";
 import ModernNavbar from "../NavBar/NavBar";
+import Footer from "../../../components/user/Footer/Footer"
 import "./PurchasedProduct.css";
 import { FaSync } from "react-icons/fa";
 import { ShoppingBag, ChevronDown, ChevronUp, Download, X } from "lucide-react";
@@ -54,14 +54,7 @@ function PurchasedProducts() {
     fetchPurchasedProducts();
   }, []);
 
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-    return () => document.head.removeChild(link);
-  }, []);
+
 
   // Function to get driver details from API
   const handleDriverClick = async (product, driverType) => {
@@ -207,7 +200,7 @@ function PurchasedProducts() {
   };
 
   return (
-    <div style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+    <div>
       <ModernNavbar />
       <div>
         <div className="main-container px-2 sm:px-4 lg:px-6">
@@ -417,7 +410,7 @@ function PurchasedProducts() {
           ) : (
             <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-white rounded-lg shadow-sm border border-gray-100 text-center mx-2 sm:mx-4">
               <div className="bg-gray-50 p-3 sm:p-4 rounded-full mb-4">
-                <ShoppingBag className="w-8 h-8 sm:w-12 sm:h-12 text-pink-500" />
+                <ShoppingBag className="w-8 h-8 sm:w-12 sm:h-12 text-blue-500" />
               </div>
 
               <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-800">
@@ -430,7 +423,7 @@ function PurchasedProducts() {
 
               <a
                 href="/products"
-                className="bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 sm:px-6 rounded-md transition-colors duration-300 flex items-center text-sm sm:text-base"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 sm:px-6 rounded-md transition-colors duration-300 flex items-center text-sm sm:text-base"
               >
                 Browse Products
               </a>
@@ -442,7 +435,7 @@ function PurchasedProducts() {
       {/* Driver Modal */}
       <DriversModal />
 
-      <ProductFooter />
+      <Footer />
     </div>
   );
 }

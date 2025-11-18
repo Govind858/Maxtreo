@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MessageSquare, Clock } from 'lucide-react';
+import { Mail, Phone, MessageSquare, Clock, MapPin } from 'lucide-react';
 
 export default function ContactUs() {
   return (
@@ -83,29 +83,29 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              {/* Live Chat */}
+              {/* Address */}
               <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
                 <div className="p-3 bg-blue-500 rounded-xl flex-shrink-0">
-                  <MessageSquare className="w-5 h-5 text-white" />
+                  <MapPin className="w-5 h-5 text-white" />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
-                    Live Chat
+                    Address
                   </h3>
-                  <p className="text-black font-medium">
-                    Available during business hours
-                  </p>
+                  <a 
+                    href="https://maps.google.com/?q=Sreevalsam+Building+Temple+By+Pass+Thodupuzha+Near+SBI" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-black font-medium hover:text-blue-500 transition-colors break-all block"
+                  >
+                    Sreevalsam Building<br />
+                    Temple By Pass, Thodupuzha<br />
+                    Near SBI
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* CTA Button */}
-        <div className="text-center mt-12">
-          <button className="px-8 py-4 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all hover:shadow-lg transform hover:-translate-y-0.5">
-            Start a Conversation
-          </button>
         </div>
       </div>
     </div>

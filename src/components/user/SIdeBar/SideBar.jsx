@@ -326,9 +326,8 @@ function SideBar({ isOpen, onClose }) {
               <div className="p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition-all duration-300">
                 <h4 className="m-0 mb-1 text-xs font-medium text-gray-800">Address</h4>
                 <p className="m-0 text-xs text-gray-600 leading-tight">
-                  xxxxxxxxx xxxxxxxx,<br />
-                  xxxxx xx xxxxx, xxxxx,<br />
-                  xxxxx - xxxxx
+                  Sreevalsam Building Temple,<br />
+                  By Pass Thodupuzha Near SBI,<br /> 
                 </p>
               </div>
             </div>
