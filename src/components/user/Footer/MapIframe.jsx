@@ -1,6 +1,6 @@
 export default function MapIframe() {
-  const lat = 9.9312;
-  const lng = 76.2673;
+  const lat =  9.896598003945597;
+  const lng = 76.71021744982812;
 
   const openDirections = () => {
     window.open(
