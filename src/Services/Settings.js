@@ -578,8 +578,8 @@ export const getPageData = async (slug) => {
     }
 }
 
-export const getProductCategories = async () => {
-  try {
+export const getProductCategories = async () => {  
+  try {                                                                             // for fetching dropdown menu catogory
     let categories = await Axios.get("/advertisement/product/categories");
     console.log(categories, "product categories");
     return categories;

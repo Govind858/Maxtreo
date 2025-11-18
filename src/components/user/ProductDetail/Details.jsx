@@ -7,11 +7,10 @@ import NavBar from "../NavBar/NavBar";
 import Alert from "../Alert/Alert";
 import Loader from "../../../Loader/Loader";
 import { useNavigate } from "react-router-dom";
-import {  ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import VideoThumbnail from './VideoThumbnail';
 import Axios from '../../../Axios/Axios'
-import {  FaYoutube, FaCartPlus, FaBolt, FaCheck,  } from 'react-icons/fa';
-
+import { FaYoutube, FaCartPlus, FaBolt, FaCheck, FaWhatsapp } from 'react-icons/fa';
 function Details({ product }) {
   const { token, user } = useAuth();
   const navigate = useNavigate();
@@ -32,22 +31,20 @@ function Details({ product }) {
   const [addingToCart, setAddingToCart] = useState(null);
   const [guestCart, setGuestCart] = useState([]);
   const alertTimeoutRef = useRef(null);
-  
+ 
   // Desktop hover zoom state
   const [showZoomPopup, setShowZoomPopup] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
-  
+ 
   // Mobile image modal state
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
-
   // Refs
   const imageContainerRef = useRef(null);
   const detailsRef = useRef(null);
   const videoPopupRef = useRef(null);
-
   // Guest cart management functions
   const getGuestCart = () => {
     try {
@@ -58,62 +55,54 @@ function Details({ product }) {
       return [];
     }
   };
-
   // const saveGuestCart = (cartItems) => {
-  //   try {
-  //     sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
-  //     setGuestCart(cartItems);
-  //   } catch (error) { 172:6g
-  //     console.error('Error saving guest cart:', error);
-  //   }
+  // try {
+  // sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
+  // setGuestCart(cartItems);
+  // } catch (error) { 172:6g
+  // console.error('Error saving guest cart:', error);
+  // }
   // };
-
   // const addToGuestCart = (productId, product) => {
-  //   const currentCart = getGuestCart();
-  //   const existingItemIndex = currentCart.findIndex(item => item.productId === productId);
-    
-  //   if (existingItemIndex > -1) {
-  //     // If item already exists, increase quantity
-  //     currentCart[existingItemIndex].quantity += 1;
-  //   } else {
-  //     // Add new item to cart
-  //     currentCart.push({
-  //       productId: productId,
-  //       productName: product.name,
-  //       productPrice: product.price,
-  //       productImage: product.images?.[0]?.image || null,
-  //       quantity: 1,
-  //       addedAt: new Date().toISOString()
-  //     });
-  //   }
-    
-  //   saveGuestCart(currentCart);
-  //   return currentCart;
+  // const currentCart = getGuestCart();
+  // const existingItemIndex = currentCart.findIndex(item => item.productId === productId);
+   
+  // if (existingItemIndex > -1) {
+  // // If item already exists, increase quantity
+  // currentCart[existingItemIndex].quantity += 1;
+  // } else {
+  // // Add new item to cart
+  // currentCart.push({
+  // productId: productId,
+  // productName: product.name,
+  // productPrice: product.price,
+  // productImage: product.images?.[0]?.image || null,
+  // quantity: 1,
+  // addedAt: new Date().toISOString()
+  // });
+  // }
+   
+  // saveGuestCart(currentCart);
+  // return currentCart;
   // };
-
   const getGuestCartCount = () => {
     return guestCart.reduce((total, item) => total + item.quantity, 0);
   };
-
   // Initialize guest cart on component mount
   useEffect(() => {
     const initialCart = getGuestCart();
     setGuestCart(initialCart);
   }, []);
-
   // Alert functionality
   const showAlert = (data) => {
     if (alertTimeoutRef.current) {
       clearTimeout(alertTimeoutRef.current);
     }
-
     setAlertData(data);
-
     alertTimeoutRef.current = setTimeout(() => {
       setAlertData(null);
     }, 3000);
   };
-
   useEffect(() => {
     return () => {
       if (alertTimeoutRef.current) {
@@ -121,7 +110,6 @@ function Details({ product }) {
       }
     };
   }, []);
-
   // Fetch product videos
   useEffect(() => {
     if (product?.id) {
@@ -135,11 +123,10 @@ function Details({ product }) {
           console.error("Error fetching product videos:", error);
         }
       };
-      
+     
       fetchVideos();
     }
   }, [product]);
-
   // Set initial main image and all images when product loads
   useEffect(() => {
     if (product) {
@@ -149,7 +136,6 @@ function Details({ product }) {
         const primaryImageObj = product.images.find(
           (img) => typeof img === "object" && img.is_primary && img.image
         );
-
         if (primaryImageObj) {
           initialImage = primaryImageObj.image;
         } else if (typeof product.images[0] === "object" && product.images[0].image) {
@@ -160,9 +146,8 @@ function Details({ product }) {
       } else if (product?.image) {
         initialImage = product.image;
       }
-
       setMainImage(initialImage);
-      
+     
       // Create array of all images
       const images = [];
       if (product.images && Array.isArray(product.images)) {
@@ -176,9 +161,9 @@ function Details({ product }) {
       } else if (product.image) {
         images.push(product.image);
       }
-      
+     
       setAllImages(images);
-      
+     
       // Set current index based on main image
       if (initialImage) {
         const index = images.findIndex(img => img === initialImage);
@@ -186,36 +171,29 @@ function Details({ product }) {
       }
     }
   }, [product]);
-
   // Calculate price based on selections
   useEffect(() => {
      window.scrollTo(0, 0);
     if (product) {
       let basePrice = product.price || 0;
-
       if (selectedStorage === "1") basePrice += 1000;
       else if (selectedStorage === "2") basePrice += 3000;
       else if (selectedStorage === "3") basePrice += 6000;
-
       if (selectedRam === "16") basePrice += 1500;
       else if (selectedRam === "32") basePrice += 3500;
       else if (selectedRam === "64") basePrice += 8000;
-
       setPrice(basePrice);
     }
   }, [product]);
-
   // Animation and initial setup
   useEffect(() => {
     if (product) {
       const timer = setTimeout(() => {
         setShowOptions(true);
       }, 800);
-
       return () => clearTimeout(timer);
     }
   }, [product]);
-
   // Click outside video popup to close
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -223,35 +201,31 @@ function Details({ product }) {
         setShowVideoPopup(false);
       }
     };
-
     if (showVideoPopup) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showVideoPopup]);
-
   // Handle mouse move for hover zoom - Desktop only
   const handleImageHoverMove = (e) => {
     if (!imageContainerRef.current || !showZoomPopup) return;
-    
+   
     const container = imageContainerRef.current;
     const containerRect = container.getBoundingClientRect();
-    
+   
     const x = e.clientX - containerRect.left;
     const y = e.clientY - containerRect.top;
-    
+   
     const xPercent = (x / containerRect.width) * 100;
     const yPercent = (y / containerRect.height) * 100;
-    
+   
     setZoomPosition({
       x: Math.max(0, Math.min(xPercent, 100)),
       y: Math.max(0, Math.min(yPercent, 100))
     });
   };
-
   const handleImageHoverEnter = () => {
     // Only enable hover zoom on desktop
     if (window.innerWidth >= 768 && mainImage) {
@@ -259,11 +233,9 @@ function Details({ product }) {
       setShowZoomPopup(true);
     }
   };
-
   const handleImageHoverLeave = () => {
     setShowZoomPopup(false);
   };
-
   // Mobile image click handler
   const handleImageClick = () => {
     // Only show modal on mobile devices
@@ -271,29 +243,25 @@ function Details({ product }) {
       setShowImageModal(true);
     }
   };
-
   // Modal navigation functions
   const goToPrevImage = useCallback(() => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === 0 ? allImages.length - 1 : prev - 1
     );
   }, [allImages.length]);
-
   const goToNextImage = useCallback(() => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === allImages.length - 1 ? 0 : prev + 1
     );
   }, [allImages.length]);
-
   const closeImageModal = useCallback(() => {
     setShowImageModal(false);
   }, []);
-
   // Handle keyboard navigation in modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!showImageModal) return;
-      
+     
       if (e.key === 'ArrowLeft') {
         goToPrevImage();
       } else if (e.key === 'ArrowRight') {
@@ -302,32 +270,28 @@ function Details({ product }) {
         closeImageModal();
       }
     };
-
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showImageModal, goToPrevImage, goToNextImage, closeImageModal]);
-
   // const handleStorageSelect = (storage) => {
-  //   setSelectedStorage(storage);
+  // setSelectedStorage(storage);
   // };
-
   // const handleRamSelect = (ram) => {
-  //   setSelectedRam(ram);
+  // setSelectedRam(ram);
   // };
-
   const handleAddToCart = async (id, event) => {
     if (event) event.stopPropagation();
-    
+   
     try {
       setAddingToCart(id);
-      
+     
       if (!user) {
         // Handle guest user - save to session storage
         const productToAdd = product || product.find(p => p.id === id);
         if (productToAdd) {
           // const updatedCart = addToGuestCart(id, productToAdd);
           const cartCount = getGuestCartCount();
-          
+         
           showAlert({
             type: "success",
             message: `Item added to cart! You have ${cartCount} item(s) in cart. Login to sync your cart.`,
@@ -355,52 +319,43 @@ function Details({ product }) {
       setAddingToCart(null);
     }
   };
-
   const handleVariantSelect = (variant) => {
     setSelectedVariant(variant.variant_product_id);
     navigate(`/Details/${variant.variant_product_id}`)
   };
-
   const handleThumbnailClick = (image) => {
     setMainImage(image);
     setZoomImage(BaseURL + image);
-    
+   
     // Update current index for modal
     const index = allImages.findIndex(img => img === image);
     if (index >= 0) {
       setCurrentImageIndex(index);
     }
   };
-
   const getYoutubeVideoId = (url) => {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
-
   const handlePlayVideo = () => {
     setShowVideoPopup(true);
   };
-
   // const handleDownloadBrochure = () => {
-  //   if (product?.broacher) {
-  //     window.open(BaseURL + product.broacher, "_blank");
-  //   }
+  // if (product?.broacher) {
+  // window.open(BaseURL + product.broacher, "_blank");
+  // }
   // };
-
   const handleWatchYoutube = () => {
     if (product?.youtube_url) {
       window.open(product.youtube_url, "_blank");
     }
   };
-
   const videoId = getYoutubeVideoId(product?.youtube_url);
-
   const formatPrice = (price) => {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || "0";
   };
-
   const handleBuyNow = async () => {
     try {
       setOverView(true);
@@ -408,16 +363,20 @@ function Details({ product }) {
       console.error("Error in buy now:", error);
     }
   };
-
+  const handleEnquiry = () => {
+    const message = `Hi, I'm interested in the product: ${product.name}. Price: ₹${formatPrice(price)}. Please provide more details.`;
+    const adminNumber = '91XXXXXXXXXX'; // Replace with actual admin WhatsApp number (include country code)
+    const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
   if (!product) {
     return <Loader />;
   }
-
   return (
     <>
       <NavBar />
       {alertData && (
-        <Alert 
+        <Alert
           type={alertData.type}
           message={alertData.message}
           productId={alertData.productId}
@@ -434,7 +393,6 @@ function Details({ product }) {
       >
         <X className="w-5 h-5" /> {/* Lucide minimal close icon */}
       </button>
-
       <SingleProductOverview
         product={product}
         onClose={() => setOverView(false)}
@@ -442,13 +400,11 @@ function Details({ product }) {
     </div>
   </div>
 )}
-
-
       {/* Desktop Zoom Popup */}
       {showZoomPopup && (
         <div className="fixed inset-0 z-40 pointer-events-none">
           <div className="hidden md:block absolute left-1/2 top-1/2 transform -translate-y-1/2 ml-8 w-96 h-96 bg-white border-2 border-gray-300 shadow-xl overflow-hidden rounded-lg">
-            <div 
+            <div
               className="w-full h-full bg-no-repeat bg-white"
               style={{
                 backgroundImage: `url(${zoomImage})`,
@@ -459,7 +415,6 @@ function Details({ product }) {
           </div>
         </div>
       )}
-
       {/* Mobile Image Modal */}
       {showImageModal && (
         <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 md:hidden">
@@ -471,7 +426,6 @@ function Details({ product }) {
             >
               <X size={24} />
             </button>
-
             {/* Navigation buttons */}
             {allImages.length > 1 && (
               <>
@@ -481,7 +435,7 @@ function Details({ product }) {
                 >
                   <ChevronLeft size={24} />
                 </button>
-                
+               
                 <button
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 z-50 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all"
                   onClick={goToNextImage}
@@ -490,7 +444,6 @@ function Details({ product }) {
                 </button>
               </>
             )}
-
             {/* Main image */}
             <div className="w-full h-full flex items-center justify-center">
               <img
@@ -499,14 +452,12 @@ function Details({ product }) {
                 className="max-w-full max-h-full object-contain"
               />
             </div>
-
             {/* Image counter */}
             {allImages.length > 1 && (
               <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-sm">
                 {currentImageIndex + 1} / {allImages.length}
               </div>
             )}
-
             {/* Thumbnail strip */}
             {allImages.length > 1 && (
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 max-w-full overflow-x-auto px-4">
@@ -530,7 +481,6 @@ function Details({ product }) {
           </div>
         </div>
       )}
-
       {/* Video Popup */}
       {showVideoPopup && videoId && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 animate-fade">
@@ -554,13 +504,12 @@ function Details({ product }) {
           </div>
         </div>
       )}
-
       <div className="pt-20 min-h-screen bg-white text-black">
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row md:items-start gap-6 opacity-0 translate-y-8 animate-fade-up">
           {/* Left side - Product image and actions */}
           <div className="w-full md:w-2/5 md:sticky md:top-20 self-start">
             {/* Image container - Updated with mobile click support */}
-            <div 
+            <div
               ref={imageContainerRef}
               className="w-full rounded-lg overflow-hidden bg-white p-3 transition-transform duration-300 hover:-translate-y-1 cursor-pointer relative border border-gray-300"
               onMouseEnter={handleImageHoverEnter}
@@ -592,7 +541,6 @@ function Details({ product }) {
                 </div>
               )}
             </div>
-
             {/* Action buttons */}
             <div className="mt-3 flex flex-wrap gap-2 justify-center md:justify-start items-center">
               {/* Thumbnails */}
@@ -615,7 +563,6 @@ function Details({ product }) {
               {productVideos.length > 0 && <VideoThumbnail videos={productVideos} handlePlayVideo={handlePlayVideo}/>}
             </div>
           </div>
-
           {/* Right side - Product details */}
           <div
             ref={detailsRef}
@@ -623,19 +570,17 @@ function Details({ product }) {
             style={{zIndex:"0"}}
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-
             <div className="mb-4">
               <h3 className="relative uppercase tracking-wider text-xs pl-3 mb-3 font-medium text-gray-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:bg-blue-600">
                 {product.category || "GAMING PC"} <span className="text-blue-600">||</span> {product.brand}
               </h3>
-
               <h1
                 className="text-xl md:text-2xl font-bold mb-1 uppercase tracking-tight text-black"
                 style={{ fontFamily: "Rajdhani, sans-serif" }}
               >
                 {product.name || "THE SPECTRE SERIES"}
               </h1>
-              
+             
               <div className="mb-3">
                 {product.mrp && (
                   <del
@@ -653,14 +598,13 @@ function Details({ product }) {
                 </span>
               </div>
             </div>
-
             <div
               className="text-sm leading-relaxed mb-4 pb-4 text-gray-700 border-b border-gray-300"
               style={{ fontFamily: "Rajdhani, sans-serif" }}
             >
               {product.description ||
                 "Experience the ultimate gaming performance with our custom-built gaming PC, featuring the latest technology and components designed to deliver exceptional speed, graphics, and reliability for all your gaming needs."}
-              
+             
               <div className="flex gap-4 mt-3">
                 {/* {product?.broacher && (
                   <button
@@ -670,7 +614,6 @@ function Details({ product }) {
                     <FaDownload size={12} /> <span>Download Brochure</span>
                   </button>
                 )} */}
-
                 {videoId && (
                   <button
                     className="flex items-center gap-1 text-blue-600 hover:underline focus:outline-none"
@@ -681,7 +624,6 @@ function Details({ product }) {
                 )}
               </div>
             </div>
-
             {/* Variants Section */}
             {product.variant_parent && product.variant_parent.length > 0 && (
               <div className="mb-6">
@@ -691,7 +633,6 @@ function Details({ product }) {
                 >
                   Available Variants
                 </h2>
-
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                   {product.variant_parent.map((variant, index) => (
                     <div
@@ -737,16 +678,15 @@ function Details({ product }) {
                 </div>
               </div>
             )}
-
             {/* Action buttons */}
             <div
-              className="flex flex-col sm:flex-row gap-3 mt-4"
-              style={{ fontFamily: "Rajdhani, sans-serif", justifyContent:"center", alignItems:"center" }}
+              className="flex flex-col sm:flex-row gap-3 mt-4 justify-center items-stretch"
+              style={{ fontFamily: "Rajdhani, sans-serif" }}
             >
               <button
                 onClick={(e) => handleAddToCart(product.id, e)}
                 disabled={addingToCart === product.id}
-                className="flex-1 py-2.5 px-4 rounded-lg font-semibold uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all duration-300 
+                className="flex-1 py-2 px-3 rounded-lg font-semibold uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all duration-300
                   bg-gray-200 text-black hover:bg-gray-300 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300"
               >
                 {addingToCart === product.id ? (
@@ -756,29 +696,29 @@ function Details({ product }) {
                   </>
                 ) : (
                   <>
-                    <FaCartPlus size={14} /> <span>Add To Cart</span>
+                    <FaCartPlus size={12} /> <span>Add To Cart</span>
                   </>
                 )}
               </button>
-
               {token && (
                 <button
-                  style={{ width: "180px", borderRadius: "30px" }}
                   onClick={handleBuyNow}
-                  className="flex-1 py-2.5 px-5 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 
+                  className="flex-1 py-2 px-3 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2
                     bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300"
                 >
-                  <FaBolt size={14} /> <span>Buy Now</span>
+                  <FaBolt size={12} /> <span>Buy Now</span>
                 </button>
               )}
-              <button >
-                inquiry
+              <button 
+                onClick={handleEnquiry}
+                className="flex-1 py-2 px-3 rounded-lg font-semibold uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all duration-300 bg-green-500 text-white hover:bg-green-600 hover:-translate-y-1 border border-green-600"
+              >
+                <FaWhatsapp size={12} /> <span>Enquiry</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-
       <style jsx>{`
         @keyframes fade {
           from {
@@ -788,7 +728,6 @@ function Details({ product }) {
             opacity: 1;
           }
         }
-
         @keyframes fade-up {
           from {
             opacity: 0;
@@ -799,7 +738,6 @@ function Details({ product }) {
             transform: translateY(0);
           }
         }
-
         @keyframes fade-down {
           from {
             opacity: 0;
@@ -810,7 +748,6 @@ function Details({ product }) {
             transform: translateY(0);
           }
         }
-
         @keyframes pop-in {
           from {
             transform: scale(0);
@@ -819,7 +756,6 @@ function Details({ product }) {
             transform: scale(1);
           }
         }
-
         .animate-fade {
           animation: fade 0.3s ease forwards;
         }
@@ -833,11 +769,10 @@ function Details({ product }) {
           animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)
             forwards;
         }
-
         .cursor-grab {
           cursor: grab;
         }
-        
+       
         .cursor-grabbing {
           cursor: grabbing;
         }
@@ -845,5 +780,4 @@ function Details({ product }) {
     </>
   );
 }
-
 export default Details;

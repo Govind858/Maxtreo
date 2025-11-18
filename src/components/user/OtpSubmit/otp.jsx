@@ -4,7 +4,7 @@ import { verifyOtp } from "../../../Services/userApi";
 import { useAuth } from "../../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import Varifying from '../Loader/Verifying';
-import { IoArrowForwardCircleSharp, IoArrowBackCircleSharp } from 'react-icons/io5';
+import { IoArrowForwardCircleSharp } from 'react-icons/io5';
 
 const OtpInput = ({ email: propEmail }) => {
   const { setToken, setIsAdmin, isAdmin } = useAuth();

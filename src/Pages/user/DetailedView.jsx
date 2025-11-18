@@ -3,12 +3,11 @@ import Details from "../../components/user/ProductDetail/Details";
 import Inside from "../../components/user/ProductDetail/Inside";
 import Rating from "../../components/user/ProductDetail/Rating";
 import ProductCard from "../../components/user/ProductDetail/ProductCard";
-import ProductFooter from "../../components/user/Footer/ProductFooter";
 import BestPairedWith from "../../components/user/BestPairedWith/BestPairedWith";
 import { useParams } from "react-router-dom";
 import { getSingleProduct } from "../../Services/Products";
 import  Loader from "../../Loader/Loader"
-import FloatingWhatsAppButton from "../../components/user/ProductDetail/FloatingWhatsAppButton"; // Your specified path
+import Footer from "../../components/user/Footer/Footer"
 
 function DetailedView() {
   const { id } = useParams(); 
@@ -52,7 +51,7 @@ function DetailedView() {
   }
 
   // Compute current URL inside render, after loading
-  const currentPageLink = window.location.href;
+  // const currentPageLink = window.location.href;
 
   return (
     <div className="relative">
@@ -62,13 +61,7 @@ function DetailedView() {
       <Inside product={product}/>
       <Rating product={product}/>
       <ProductCard product={product}/>
-      <ProductFooter/>
-
-      {/* Floating Button */}
-      <FloatingWhatsAppButton 
-        product={product} 
-        currentUrl={currentPageLink} 
-      />
+      <Footer/>    
     </div>
   );
 }

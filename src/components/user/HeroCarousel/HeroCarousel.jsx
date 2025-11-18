@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
 import { 
   ChevronLeft, 
@@ -12,6 +12,7 @@ import {
   FaChevronLeft as FaLeft,
   FaChevronRight as FaRight
 } from "react-icons/fa";
+import { getProductCategories, getPageData } from '../../../Services/Settings';
 import { getAllProduct } from '../../../Services/Products';
 import baseUrl from '../../../Static/Static';
 import { useAuth } from '../../../Context/UserContext';
@@ -19,48 +20,14 @@ import { addTocart as addToCartService } from '../../../Services/userApi';
 import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
 
-// Mock API function - replace with your actual import
-const getPageData = async (slug) => {
-  // Simulating API call with mock data
-  return {
-    id: 3,
-    name: "Featured Printers",
-    slug: "featured-printers",
-    description: "Experience high-speed, high-quality printing designed for efficiency and performance",
-    hero_carousels: [
-      {
-        id: 4,
-        image: "https://metrix.pythonanywhere.com/media/carousel_images/espson-eco-tank-2.jpg",
-        alt_text: "ltra-high-yield ink bottles that minimize refills. Ideal for professionals and families",
-        head_one: "Print Smart. Save Big",
-        head_two: "Efficient ink-tank printing for work and home prod",
-        description: "Experience cost-effective printing with the Epson EcoTank L6460, built to deliver speed, precision, and performance. Enjoy automatic duplex printing, wireless connectivity",
-        button_text: "Shop Now",
-        button_link: "http://localhost:3000/Details/11",
-        order: 1
-      },
-      {
-        id: 3,
-        image: "https://metrix.pythonanywhere.com/media/carousel_images/epson-eco-tank-3.jpg",
-        alt_text: "The EcoTank L3216 delivers crisp prints at up to 5760 × 1440 dpi resolution, and yields thousands",
-        head_one: "Print More. Worry Less.",
-        head_two: "High-yield ink-tank convenience for home and small",
-        description: "Discover a smart all-in-one printing solution with ultra-low cost per page and spill-free refill bottles. With print, scan and copy functions in a compact design, the EcoTank L3216 delivers crisp",
-        button_text: "Shop Now",
-        button_link: "http://localhost:3000/Details/11",
-        order: 7
-      }
-    ]
-  };
-};
-
 const HeroCarousel = () => {
   // Hero Carousel States
   const [carouselData, setCarouselData] = useState([]);
+  const [currentSlug, setCurrentSlug] = useState(null);
+  const [categoryName, setCategoryName] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const pageSlug = 'featured-printer';
 
   // Product Carousel States
   const [products, setProducts] = useState([]);
@@ -142,26 +109,72 @@ const HeroCarousel = () => {
     };
   }, [darkMode]);
 
-  // Hero Carousel Fetch
+  // Fetch Categories and Set Initial Slug
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        setLoading(true);
-        const data = await getPageData(pageSlug);
-        
-        if (data && data.hero_carousels) {
-          const sortedCarousels = [...data.hero_carousels].sort((a, b) => a.order - b.order);
-          setCarouselData(sortedCarousels);
+        const response = await getProductCategories();
+        if (response && response.data && Array.isArray(response.data)) {
+          const cats = response.data;
+          // Prioritize 'featured-printers' slug if available, otherwise first active
+          const featuredSlug = cats.find(c => c.slug === 'featured-printers' && c.is_active)?.slug ||
+                              cats.find(c => c.is_active)?.slug ||
+                              cats[0]?.slug;
+          if (featuredSlug) {
+            setCurrentSlug(featuredSlug);
+          }
+        } else {
+          console.error('Invalid categories response:', response);
+          setError('Failed to parse categories data');
         }
       } catch (err) {
-        setError(err.message);
+        console.error('Error fetching categories:', err);
+        setError('Failed to load categories');
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch Page Data with Slug and Hourly Refresh
+  useEffect(() => {
+    if (!currentSlug) return;
+
+    const fetchPageData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getPageData(currentSlug);
+        
+        if (data) {
+          setCategoryName(data.name);
+          if (data.hero_carousels) {
+            const sortedCarousels = [...data.hero_carousels].sort((a, b) => a.order - b.order);
+            setCarouselData(sortedCarousels);
+          } else {
+            setCarouselData([]);
+            setError('No carousel data available');
+          }
+        } else {
+          setCarouselData([]);
+          setError('No page data available');
+        }
+      } catch (err) {
+        console.error('Error fetching page data:', err);
+        setError(err.message || 'Failed to load page data');
+        setCarouselData([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchPageData();
+
+    // Set interval to refetch every 1 hour (3600000 ms)
+    const interval = setInterval(fetchPageData, 3600000);
+
+    return () => clearInterval(interval);
+  }, [currentSlug]);
 
   // Product Fetch
   useEffect(() => {
@@ -170,10 +183,11 @@ const HeroCarousel = () => {
         setLoadingProducts(true);
         let productData = await getAllProduct();
         console.log("product data:",productData)
-        // Show all products
+        // Show all products initially
         setProducts(productData || []);
       } catch (error) {
         console.error("Error fetching products:", error);
+        setProducts([]);
       } finally {
         setLoadingProducts(false);
       }
@@ -181,6 +195,37 @@ const HeroCarousel = () => {
 
     fetchProducts();
   }, []);
+
+  // Filtered Products
+  // Filter products based on category name
+  const filteredProducts = useMemo(() => {
+    if (!categoryName || !products.length) {
+      console.log('No category name or products:', { categoryName, productsCount: products.length });
+      return [];
+    }
+    
+    console.log(`Filtering products for category name: "${categoryName}"`);
+    console.log('Available products:', products.map(p => ({ id: p.id, name: p.name, category: p.category })));
+    
+    const categoryNameLower = categoryName.toLowerCase();
+    
+    const filtered = products.filter(product => {
+      if (!product.category) {
+        console.log(`Product ${product.id} has no category`);
+        return false;
+      }
+      
+      const productCategoryLower = product.category.toLowerCase();
+      const matches = categoryNameLower.includes(productCategoryLower) || 
+                     productCategoryLower.includes(categoryNameLower);
+      
+      console.log(`Product: ${product.name}, Category: ${product.category}, Matches: ${matches}`);
+      return matches;
+    });
+    
+    console.log(`Filtered ${filtered.length} products out of ${products.length}`);
+    return filtered;
+  }, [products, categoryName]);
 
   // Hero Auto-slide
   useEffect(() => {
@@ -210,7 +255,7 @@ const HeroCarousel = () => {
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [products]); // Re-run when products change
+  }, [filteredProducts]); // Re-run when filtered products change
 
   const showAlert = (data) => {
     if (alertTimeoutRef.current) {
@@ -307,8 +352,6 @@ const HeroCarousel = () => {
     navigate(`/Details/${id}`);
   };
 
-  const filteredProducts = products;
-
   // Hero Navigation
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -355,7 +398,7 @@ const HeroCarousel = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full pt-8">
       <div className={`flex flex-col lg:flex-row ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
         {/* Left Side: Hero Carousel */}
         <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[40vh] lg:h-[50vh] md:h-[45vh]">
@@ -376,7 +419,7 @@ const HeroCarousel = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10" />
                     
                     <img
-                      src={slide.image}
+                      src={slide.image.startsWith('http') ? slide.image : baseUrl + slide.image}
                       alt={slide.alt_text}
                       className="w-full h-full object-cover"
                     />
@@ -463,7 +506,7 @@ const HeroCarousel = () => {
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className={`h-full flex items-center justify-center px-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              <p className="text-lg font-semibold">No products found.</p>
+              <p className="text-lg font-semibold">No products found for this category.</p>
             </div>
           ) : (
             <div className="relative h-full p-2 lg:p-3">
