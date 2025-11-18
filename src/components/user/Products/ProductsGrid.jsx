@@ -408,7 +408,10 @@ function ProductsGrid() {
                       className="flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 lg:gap-1.5 bg-blue-500 shadow-lg"
                     >
                       <FaBolt className="text-[10px] sm:text-xs lg:text-sm" />
-                      <span className="hidden sm:inline">BUY</span>
+                      <span
+                      key={product.id}
+                      onClick={() => navigateToDetails(product.id)}
+                      className="hidden sm:inline">BUY</span>
                     </button>
                   </div>
                 </div>

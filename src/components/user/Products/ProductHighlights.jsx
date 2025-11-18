@@ -346,7 +346,10 @@ function ProductHighlights() {
                           className="flex-1 py-3 rounded-xl text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-2 bg-blue-500 shadow-lg hover:bg-blue-600"
                         >
                           <FaBolt className="text-sm" />
-                          <span>BUY NOW</span>
+                          <span
+                            key={product.id}
+                              onClick={() => navigateToDetails(product.id)}
+                          >BUY NOW</span>
                         </button>
                       </div>
                     </div>

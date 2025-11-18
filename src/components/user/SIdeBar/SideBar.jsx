@@ -11,29 +11,31 @@ import {
   FiMapPin,
   FiChevronDown,
   FiChevronRight,
+  FiGrid
 } from "react-icons/fi";
 import metrixLogo from "../../../Images/maxtreobgremoved.png";
 import {
   ListOrdered,
   HeadphonesIcon,
 } from "lucide-react";
-import { logout, getProductDropDown } from "../../../Services/userApi";
+import { logout } from "../../../Services/userApi";
+import { getProductCategories } from "../../../Services/Settings";
 
 function SideBar({ isOpen, onClose }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
-  // const [productsItems, setProductsItems] = useState([]);
+  const [productsItems, setProductsItems] = useState([]);
 
   // State for expandable menu items
   const [expandedMenus, setExpandedMenus] = useState({
-    products: false,
+    categories: false,
     solutions: false,
     support: false,
   });
 
   const toggleMenu = (menuName) => {
     setExpandedMenus((prev) => ({
-      products: false,
+      categories: false,
       solutions: false,
       support: false,
       [menuName]: !prev[menuName],
@@ -76,12 +78,13 @@ function SideBar({ isOpen, onClose }) {
   useEffect(() => {
     const getProductDropDownList = async () => {
       try {
-        const response = await getProductDropDown();
-        console.log(response, "response from data from navbar items#############........");
-        // setProductsItems(Array.isArray(response?.data) ? response.data : []);
+        const categories = await getProductCategories();
+        console.log(categories, "categories from sidebar");
+        const categoryData = Array.isArray(categories) ? categories : (categories.data || []);
+        setProductsItems(categoryData);
       } catch (error) {
         console.log(error, "error while fetching category products");
-        // setProductsItems([]);
+        setProductsItems([]);
       }
     };
     getProductDropDownList();
@@ -172,7 +175,7 @@ function SideBar({ isOpen, onClose }) {
           <div className="flex-1 overflow-y-auto">
             <ul className="flex flex-col gap-0.5 p-0 m-0">
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.1s" : "none" }}>
                   <Link
                     to="/profile"
                     onClick={onClose}
@@ -184,7 +187,7 @@ function SideBar({ isOpen, onClose }) {
                 </li>
               )}
 
-              <li>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.1s" : "none" }}>
                 <Link
                   to="/cart"
                   onClick={onClose}
@@ -195,7 +198,7 @@ function SideBar({ isOpen, onClose }) {
                 </Link>
               </li>
 
-              <li>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
                 <Link
                   to="/products"
                   onClick={onClose}
@@ -206,8 +209,49 @@ function SideBar({ isOpen, onClose }) {
                 </Link>
               </li>
 
+              {/* All Categories - Expandable */}
+              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.3s" : "none" }}>
+                <div>
+                  <button
+                    onClick={() => toggleMenu("categories")}
+                    className="flex items-center justify-between w-full py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
+                  >
+                    <div className="flex items-center">
+                      <FiGrid className="mr-3 text-base min-w-4" />
+                      <span>All Categories</span>
+                    </div>
+                    <div className={`transition-transform duration-300 ${expandedMenus.categories ? "rotate-90" : "rotate-0"}`}>
+                      {expandedMenus.categories ? <FiChevronDown size={14} /> : <FiChevronRight size={14} />}
+                    </div>
+                  </button>
+
+                  <div
+                    className={`ml-6 mt-1 space-y-0.5 overflow-hidden transition-all duration-500 ease-in-out ${
+                      expandedMenus.categories
+                        ? "max-h-[300px] opacity-100 transform translate-y-0"
+                        : "max-h-0 opacity-0 transform -translate-y-2"
+                    }`}
+                  >
+                    {Array.isArray(productsItems) && productsItems.length > 0 ? (
+                      productsItems.map((item, index) => (
+                        <Link
+                          key={index}
+                          to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`}
+                          onClick={onClose}
+                          className="block py-1.5 px-2.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded transition-all duration-200"
+                        >
+                          {item.name}
+                        </Link>
+                      ))
+                    ) : (
+                      <p className="block py-1.5 px-2.5 text-sm text-gray-500 italic">No categories available</p>
+                    )}
+                  </div>
+                </div>
+              </li>
+
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.4s" : "none" }}>
                   <Link
                     to="/myorder"
                     onClick={onClose}
@@ -220,7 +264,7 @@ function SideBar({ isOpen, onClose }) {
               )}
 
               {/* Support - Expandable */}
-              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.3s" : "none" }}>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.5s" : "none" }}>
                 <div>
                   <button
                     onClick={() => toggleMenu("support")}
@@ -264,7 +308,7 @@ function SideBar({ isOpen, onClose }) {
               </li>
 
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.4s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.6s" : "none" }}>
                   <button
                     onClick={handleLogout}
                     className="flex w-full items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"

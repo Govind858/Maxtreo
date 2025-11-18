@@ -224,10 +224,6 @@ const Tickets = () => {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
             <div className="flex items-center mb-4 md:mb-0">
-              <div className="text-white text-4xl font-bold mr-4 font-['Rajdhani',_sans-serif] leading-none">
-                <div>NT</div>
-                <div>KO</div>
-              </div>
               <div className="flex flex-col">
                 <span className="text-white text-xl font-bold font-['Rajdhani',_sans-serif]">Admin Panel</span>
                 <span className="text-white text-sm font-['Raleway',_sans-serif]">TICKET MANAGEMENT</span>

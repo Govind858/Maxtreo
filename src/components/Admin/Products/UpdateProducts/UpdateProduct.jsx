@@ -1178,11 +1178,12 @@ function UpdateProduct() {
                     <div className="mb-4">
                       <label className="block mb-2">Overview Content</label>
                       <select
-                        value={selectedOverview?.id || ""}
+                        value={selectedOverview?.id ?? ""}
                         onChange={(e) => {
-                          const selectedId = e.target.value;
+                          const selectedId = Number(e.target.value);
+                          if (isNaN(selectedId)) return;
                           const selected = overViewContents.find(
-                          (c) => c.id === selectedId
+                            (c) => c.id === selectedId
                           );
                           setSelectedOverview(selected);
                           setOverviewContent(selectedId);

@@ -11,6 +11,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import VideoThumbnail from './VideoThumbnail';
 import Axios from '../../../Axios/Axios'
 import { FaYoutube, FaCartPlus, FaBolt, FaCheck, FaWhatsapp } from 'react-icons/fa';
+
 function Details({ product }) {
   const { token, user } = useAuth();
   const navigate = useNavigate();
@@ -255,6 +256,7 @@ function Details({ product }) {
     );
   }, [allImages.length]);
   const closeImageModal = useCallback(() => {
+    console.log('Closing image modal'); // Debug log
     setShowImageModal(false);
   }, []);
   // Handle keyboard navigation in modal
@@ -415,72 +417,81 @@ function Details({ product }) {
           </div>
         </div>
       )}
-      {/* Mobile Image Modal */}
-      {showImageModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 md:hidden">
-          <div className="relative w-full h-full flex items-center justify-center p-4">
-            {/* Close button */}
-            <button
-              className="absolute top-4 right-4 z-50 w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all"
-              onClick={closeImageModal}
-            >
-              <X size={24} />
-            </button>
-            {/* Navigation buttons */}
-            {allImages.length > 1 && (
-              <>
-                <button
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-50 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all"
-                  onClick={goToPrevImage}
-                >
-                  <ChevronLeft size={24} />
-                </button>
-               
-                <button
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-50 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all"
-                  onClick={goToNextImage}
-                >
-                  <ChevronRight size={24} />
-                </button>
-              </>
-            )}
-            {/* Main image */}
-            <div className="w-full h-full flex items-center justify-center">
-              <img
-                src={BaseURL + allImages[currentImageIndex]}
-                alt={`${product.name} view ${currentImageIndex + 1}`}
-                className="max-w-full max-h-full object-contain"
-              />
-            </div>
-            {/* Image counter */}
-            {allImages.length > 1 && (
-              <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-sm">
-                {currentImageIndex + 1} / {allImages.length}
-              </div>
-            )}
-            {/* Thumbnail strip */}
-            {allImages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 max-w-full overflow-x-auto px-4">
-                {allImages.map((image, index) => (
-                  <button
-                    key={index}
-                    className={`flex-shrink-0 w-12 h-12 rounded border-2 overflow-hidden ${
-                      index === currentImageIndex ? 'border-white' : 'border-gray-400'
-                    }`}
-                    onClick={() => setCurrentImageIndex(index)}
-                  >
-                    <img
-                      src={BaseURL + image}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+      {/* Mobile Image Modal - UPDATED CLOSE BUTTON */}
+
+{showImageModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 md:hidden">
+    <div className="relative w-full h-full flex items-center justify-center p-4">
+      {/* Super Visible Close button - Adjusted position and styling */}
+    <button
+  className="absolute top-16 right-2 z-[60] 
+             bg-transparent
+             flex items-center justify-center 
+             text-white drop-shadow-lg
+             transition-all duration-200 active:scale-95"
+  onClick={closeImageModal}
+  aria-label="Close image modal"
+>
+  <X size={32} />
+</button>
+
+
+      {/* Navigation buttons - Also enhanced for consistency */}
+      {allImages.length > 1 && (
+        <>
+          <button
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-50 w-12 h-12 bg-white/40 hover:bg-white/60 rounded-full flex items-center justify-center text-black hover:shadow-lg shadow-md transition-all backdrop-blur-sm"
+            onClick={goToPrevImage}
+          >
+            <ChevronLeft size={24} />
+          </button>
+         
+          <button
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-50 w-12 h-12 bg-white/40 hover:bg-white/60 rounded-full flex items-center justify-center text-black hover:shadow-lg shadow-md transition-all backdrop-blur-sm"
+            onClick={goToNextImage}
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
+      {/* Main image */}
+      <div className="w-full h-full flex items-center justify-center">
+        <img
+          src={BaseURL + allImages[currentImageIndex]}
+          alt={`${product.name} view ${currentImageIndex + 1}`}
+          className="max-w-full max-h-full object-contain"
+        />
+      </div>
+      {/* Image counter - Enhanced visibility */}
+      {allImages.length > 1 && (
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm border border-white/20">
+          {currentImageIndex + 1} / {allImages.length}
         </div>
       )}
+      {/* Thumbnail strip */}
+      {allImages.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 max-w-full overflow-x-auto px-4">
+          {allImages.map((image, index) => (
+            <button
+              key={index}
+              className={`flex-shrink-0 w-12 h-12 rounded border-2 overflow-hidden transition-all ${
+                index === currentImageIndex ? 'border-white/80 bg-white/20' : 'border-white/30 hover:border-white/50'
+              }`}
+              onClick={() => setCurrentImageIndex(index)}
+            >
+              <img
+                src={BaseURL + image}
+                alt={`${product.name} ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
       {/* Video Popup */}
       {showVideoPopup && videoId && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 animate-fade">
@@ -780,4 +791,4 @@ function Details({ product }) {
     </>
   );
 }
-export default Details;
+export default Details; 

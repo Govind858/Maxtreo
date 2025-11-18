@@ -1,128 +1,113 @@
-// ContactCard.jsx
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Clock, Mail, Phone, MessageCircle } from "lucide-react";
+import { Mail, Phone, MessageSquare, Clock } from 'lucide-react';
 
-const StackedCard = ({ children, index = 0, total = 1 }) => {
-  const delay = index * 0.1;
-  const offsetY = index * 10;
-  const scale = 1 - (index * 0.02);
-  const zIndex = total - index;
-
+export default function ContactUs() {
   return (
-    <motion.div
-      className="w-full rounded-2xl overflow-hidden"
-      style={{ 
-        zIndex,
-        position: index === 0 ? "relative" : "absolute",
-        top: `${offsetY}px`,
-        left: 0,
-        right: 0,
-        opacity: 1 - (index * 0.2),
-        transformOrigin: "center top"
-      }}
-      initial={{ opacity: 0, y: 100, scale: scale - 0.1 }}
-      whileInView={{ opacity: 1 - (index * 0.2), y: offsetY, scale }}
-      viewport={{ once: false, margin: "-50px" }}
-      transition={{ duration: 0.7, delay }}
-    >
-      {children}
-    </motion.div>
-  );
-};
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-5xl">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold text-black mb-3">
+            Get in Touch
+          </h1>
+          <p className="text-gray-600 text-lg">
+            We're here to help and answer any questions you might have
+          </p>
+        </div>
 
-const ContactCard = () => {
-  return (
-    <div className="relative w-full max-w-6xl mx-auto mb-8 pb-6 md:mb-12 md:pb-8 lg:mb-16 lg:pb-12">
-      {/* Stack effect - creating shadow cards underneath */}
-      <StackedCard index={2} total={3}>
-        <div className="h-full w-full bg-gray-800"></div>
-      </StackedCard>
-      
-      <StackedCard index={1} total={3}>
-        <div className="h-full w-full bg-gray-900"></div>
-      </StackedCard>
-      
-      {/* Main content card */}
-      <StackedCard index={0} total={3}>
-        <div className="bg-black text-white p-4 sm:p-6 md:p-10 rounded-2xl">
-          {/* Header Section */}
-          <div className="text-center mb-6 sm:mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">
-              Get in <span className="text-blue-600">Touch</span>
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-300">
-              "Ready to upgrade your tech? Our store has everything you need to power your lifestyle
-            </p>
-          </div>
-
-          {/* Contact Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
-            {/* Support Hours */}
-            <div className="space-y-4 sm:space-y-6">
-              <div className="flex items-center mb-4 sm:mb-6">
-                <div className="bg-blue-600 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold">Support Hours</h3>
+        {/* Main Grid */}
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          {/* Support Hours */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 bg-blue-500 rounded-xl">
+                <Clock className="w-6 h-6 text-white" />
               </div>
-              
-              <div className="space-y-2 sm:space-y-4 ml-4 sm:ml-8 md:ml-12 lg:ml-16">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2 border-b border-gray-700">
-                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Monday - Friday</span>
-                  <span className="font-semibold text-blue-600 text-sm sm:text-base">9AM - 8PM</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2 border-b border-gray-700">
-                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Saturday</span>
-                  <span className="font-semibold text-blue-600 text-sm sm:text-base">10AM - 6PM</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 sm:py-2">
-                  <span className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-0">Sunday</span>
-                  <span className="font-semibold text-gray-500 text-sm sm:text-base">Closed</span>
-                </div>
+              <h2 className="text-2xl font-bold text-black">Support Hours</h2>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="text-gray-600 font-medium">Monday - Friday</span>
+                <span className="text-black font-semibold">9AM - 8PM</span>
+              </div>
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="text-gray-600 font-medium">Saturday</span>
+                <span className="text-black font-semibold">10AM - 6PM</span>
+              </div>
+              <div className="flex justify-between items-center py-3">
+                <span className="text-gray-600 font-medium">Sunday</span>
+                <span className="text-red-500 font-semibold">Closed</span>
               </div>
             </div>
+          </div>
 
-            {/* Contact Methods */}
-            <div className="space-y-4 sm:space-y-6">
-              <div className="flex items-center mb-4 sm:mb-6">
-                <div className="bg-blue-600 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
+          {/* Contact Methods */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow">
+            <h2 className="text-2xl font-bold text-black mb-6">Contact Methods</h2>
+            
+            <div className="space-y-6">
+              {/* Email */}
+              <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className="p-3 bg-blue-500 rounded-xl flex-shrink-0">
+                  <Mail className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold">Contact Methods</h3>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Email
+                  </h3>
+                  <a 
+                    href="mailto:maxtreo99@gmail.com" 
+                    className="text-black font-medium hover:text-blue-500 transition-colors break-all"
+                  >
+                    maxtreo99@gmail.com
+                  </a>
+                </div>
               </div>
-              
-              <div className="space-y-3 sm:space-y-6 ml-4 sm:ml-8 md:ml-12 lg:ml-16">
-                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
-                  <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-300">Email</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">maxtreo99@gmail.com</p>
-                  </div>
+
+              {/* Phone */}
+              <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className="p-3 bg-blue-500 rounded-xl flex-shrink-0">
+                  <Phone className="w-5 h-5 text-white" />
                 </div>
-                
-                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
-                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-300">Phone</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">+91 94460 67663</p>
-                  </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Phone
+                  </h3>
+                  <a 
+                    href="tel:+919446067663" 
+                    className="text-black font-medium hover:text-blue-500 transition-colors"
+                  >
+                    +91 94460 67663
+                  </a>
                 </div>
-                
-                <div className="flex items-center group hover:bg-gray-900 p-2 sm:p-3 rounded-lg transition-colors">
-                  <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600 mr-3 sm:mr-4 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-300">Live Chat</p>
-                    <p className="font-semibold group-hover:text-blue-600 transition-colors text-sm sm:text-base">Available during business hours</p>
-                  </div>
+              </div>
+
+              {/* Live Chat */}
+              <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className="p-3 bg-blue-500 rounded-xl flex-shrink-0">
+                  <MessageSquare className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Live Chat
+                  </h3>
+                  <p className="text-black font-medium">
+                    Available during business hours
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </StackedCard>
+
+        {/* CTA Button */}
+        <div className="text-center mt-12">
+          <button className="px-8 py-4 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all hover:shadow-lg transform hover:-translate-y-0.5">
+            Start a Conversation
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default ContactCard;
+}
