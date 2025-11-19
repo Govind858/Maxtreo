@@ -7,17 +7,17 @@ export default function FeedbackComponent() {
 
   const testimonials = [
     {
-      text: "Neo Tokyo delivered a gaming system that exceeded all my expectations. The attention to detail and build quality is outstanding.",
+      text: "Maxtreo delivered a gaming system that exceeded all my expectations. The attention to detail and build quality is outstanding.",
       author: "Alex Chen",
       role: "Professional Gamer"
     },
     {
-      text: "As a content creator, I needed a powerful workstation that could handle demanding tasks. Neo Tokyo built me the perfect system.",
+      text: "As a content creator, I needed a powerful workstation that could handle demanding tasks. Maxtreo built me the perfect system.",
       author: "Sarah Johnson",
       role: "Digital Artist"
     },
     {
-      text: "The enterprise solution Neo Tokyo designed for our startup has been flawless. Their technical support is second to none.",
+      text: "The enterprise solution Maxtreo designed for our startup has been flawless. Their technical support is second to none.",
       author: "Michael Torres",
       role: "Tech Entrepreneur"
     }
@@ -50,7 +50,7 @@ export default function FeedbackComponent() {
           </h1>
           
           <div className="feedback-red-line"></div>
-           <h2 style={{fontSize:'1.5rem'}}>Neo Tokyo In Numbers</h2>
+           <h2 style={{fontSize:'1.5rem'}}>Maxtreo In Numbers</h2>
           <div className="feedback-stats-section">
             {/* <h2 className="feedback-subtitle">Neo Tokyo In Numbers</h2> */}
             

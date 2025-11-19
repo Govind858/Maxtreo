@@ -52,7 +52,7 @@ function PriorityOne() {
         {/* Header */}
         <header className="mb-12 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Priority <span className="text-gray-800">One</span> by Neo Tokyo
+            Priority <span className="text-gray-800">One</span> by Maxtreo
           </h1>
           <div className="w-24 h-1 bg-black mx-auto mb-4"></div>
           <p className="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">

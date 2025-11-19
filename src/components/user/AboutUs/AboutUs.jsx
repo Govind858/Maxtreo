@@ -29,7 +29,7 @@ function AboutUs() {
         
         <button className="flex items-center gap-2 px-5 py-3 my-6 bg-black text-white rounded-full text-sm transition-all duration-300 ease-in-out hover:bg-[#E7013C] hover:scale-105">
           <IoArrowForwardCircleSharp className="text-2xl" />
-          <span className="text-base font-bold">Team Neo Tokyo</span>
+          <span className="text-base font-bold">Team Maxtreo</span>
         </button>
         
         <div className="mt-6">

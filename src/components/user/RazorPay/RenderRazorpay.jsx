@@ -70,7 +70,8 @@ const RenderRazorpay = ({ orderDetails, setDisplayRazorpay }) => {
       key: data.key,
       amount: data.amount,
       currency: 'INR',
-      name: 'NEO TOKYO',
+      // name: 'NEO TOKYO',
+      name:'Maxtreo',
       description: 'Order Payment',
       order_id: data.raz_order_id,
       handler: async (response) => {

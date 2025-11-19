@@ -215,6 +215,7 @@ function Overview() {
       let newData = order;
 
       setOrderDetails(newData);
+      console.log("order details:",orderDetails)
       setDisplayRazorpay(true);
       setLoading(false)
     } catch (error) {

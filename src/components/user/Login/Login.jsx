@@ -315,18 +315,18 @@ const ModernLoginForm = () => {
   };
   const currentStep = getCurrentStep();
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen flex overflow-hidden">
       {/* Left side - Image with overlay */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden h-full">
         <div className="absolute inset-0 z-10"></div>
         <img
           src={maxtreo_landing_image}
           alt="Modern workspace"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-none"
         />
       </div>
       {/* Right side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+      <div className="w-full lg:w-1/2 flex items-start justify-center p-6 lg:p-12 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -399,447 +399,465 @@ const ModernLoginForm = () => {
           </AnimatePresence>
           {/* Form Content */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
-            {isLogin ? (
-              // ========== LOGIN FORM ==========
-              <div>
-                <h2 className="text-3xl font-bold mb-2 text-blue-600">
-                  Welcome Back
-                </h2>
-                <p className="text-gray-600 mb-8">Sign in to continue your journey</p>
-                <AnimatePresence mode="wait">
-                  {showEmailInput && (
-                    <motion.div
-                      key="email-input"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <div className="relative mb-6 group">
-                        <IoMailOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="Email address"
-                          className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
-                        />
-                      </div>
-                      <button
-                        onClick={handleSendOTP}
-                        className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
-                      >
-                        <span>Generate OTP</span>
-                        <IoArrowForwardCircleSharp className="ml-2 text-xl group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </motion.div>
-                  )}
-                  {sentingotp && (
-                    <motion.div
-                      key="otp-input"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center"
-                    >
-                      <p className="text-gray-600 mb-6">
-                        Enter the verification code sent to your email
-                      </p>
-                      <input
-                        type="text"
-                        name="otp"
-                        value={formData.otp}
-                        onChange={handleChange}
-                        maxLength="6"
-                        placeholder="000000"
-                        className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none mb-6"
-                      />
-                      <button
-                        onClick={verifyOTPRegistration}
-                        className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-                      >
-                        Verify & Login
-                      </button>
-                      <button
-                        onClick={handleResendOTP}
-                        className="mt-4 text-blue-600 hover:underline text-sm"
-                      >
-                        Resend Code
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                <AnimatePresence mode="wait">
-                  {!sentingotp && (
-                    <motion.div
-                      key="social-login"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="my-6"
-                    >
-                      {/* OR Divider */}
-                      <div className="flex items-center my-6">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                        <p className="text-center text-gray-500 text-sm uppercase tracking-wider px-4">
-                          OR
-                        </p>
-                        <div className="flex-grow border-t border-gray-300"></div>
-                      </div>
-                      <div className="flex justify-center">
-                        <GoogleLoginComponent />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              // ========== REGISTRATION FORM ==========
-              <div>
-                {/* Progress Bar */}
-                <div className="mb-8">
-                  <div className="flex justify-between mb-3">
-                    {[1, 2, 3, 4].map((step) => (
-                      <div
-                        key={step}
-                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
-                          currentStep >= step
-                            ? "bg-blue-600 text-white shadow-lg scale-110"
-                            : "bg-gray-200 text-gray-400"
-                        }`}
-                      >
-                        {step}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${calculateProgress()}%` }}
-                    ></div>
-                  </div>
-                </div>
-                {/* Step Titles */}
+            <AnimatePresence mode="wait">
+              {isLogin ? (
                 <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-8"
+                  key="login"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  layout
+                  className="w-full"
                 >
-                  <h2 className="text-2xl font-bold text-blue-600 mb-2">
-                    {currentStep === 1 && "Basic Information"}
-                    {currentStep === 2 && "Secure Your Account"}
-                    {currentStep === 3 && "Terms & Conditions"}
-                    {currentStep === 4 && "Verify Your Email"}
-                  </h2>
-                  <p className="text-gray-600 text-sm">
-                    {currentStep === 1 && "Let's get started with your details"}
-                    {currentStep === 2 && "Create a strong password"}
-                    {currentStep === 3 && "Almost there!"}
-                    {currentStep === 4 && "Check your inbox for the code"}
-                  </p>
+                  <div>
+                    <h2 className="text-3xl font-bold mb-2 text-blue-600">
+                      Welcome Back
+                    </h2>
+                    <p className="text-gray-600 mb-8">Sign in to continue your journey</p>
+                    <AnimatePresence mode="wait">
+                      {showEmailInput && (
+                        <motion.div
+                          key="email-input"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                        >
+                          <div className="relative mb-6 group">
+                            <IoMailOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                            <input
+                              type="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              placeholder="Email address"
+                              className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                            />
+                          </div>
+                          <button
+                            onClick={handleSendOTP}
+                            className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
+                          >
+                            <span>Generate OTP</span>
+                            <IoArrowForwardCircleSharp className="ml-2 text-xl group-hover:translate-x-1 transition-transform" />
+                          </button>
+                        </motion.div>
+                      )}
+                      {sentingotp && (
+                        <motion.div
+                          key="otp-input"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-center"
+                        >
+                          <p className="text-gray-600 mb-6">
+                            Enter the verification code sent to your email
+                          </p>
+                          <input
+                            type="text"
+                            name="otp"
+                            value={formData.otp}
+                            onChange={handleChange}
+                            maxLength="6"
+                            placeholder="000000"
+                            className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none mb-6"
+                          />
+                          <button
+                            onClick={verifyOTPRegistration}
+                            className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                          >
+                            Verify & Login
+                          </button>
+                          <button
+                            onClick={handleResendOTP}
+                            className="mt-4 text-blue-600 hover:underline text-sm"
+                          >
+                            Resend Code
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <AnimatePresence mode="wait">
+                      {!sentingotp && (
+                        <motion.div
+                          key="social-login"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="my-6"
+                        >
+                          {/* OR Divider */}
+                          <div className="flex items-center my-6">
+                            <div className="flex-grow border-t border-gray-300"></div>
+                            <p className="text-center text-gray-500 text-sm uppercase tracking-wider px-4">
+                              OR
+                            </p>
+                            <div className="flex-grow border-t border-gray-300"></div>
+                          </div>
+                          <div className="flex justify-center">
+                            <GoogleLoginComponent />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </motion.div>
-                {/* Step 1: Basic Info */}
-                {currentField === "email" && formFieldsVisible.email && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4"
-                  >
-                    <div className="relative group">
-                      <IoPersonOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                      <input
-                        type="text"
-                        name="first_name"
-                        value={formData.first_name}
-                        onChange={handleChange}
-                        placeholder="Full Name"
-                        className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
-                      />
-                    </div>
-                    <div className="relative group">
-                      <IoMailOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Email address"
-                        className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
-                      />
-                    </div>
-                    <div className="relative group">
-                      <IoCallOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                      <input
-                        type="tel"
-                        name="phone_number"
-                        value={formData.phone_number}
-                        onChange={handlePhoneChange}
-                        placeholder="Phone number"
-                        className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none transition-all bg-gray-50 focus:bg-white ${
-                          phoneError
-                            ? "border-red-500 focus:border-red-500"
-                            : "border-gray-200 focus:border-blue-600"
-                        }`}
-                      />
-                      {phoneError && (
-                        <p className="text-red-500 text-xs mt-1 ml-1">{phoneError}</p>
-                      )}
-                    </div>
-                    <button
-                      disabled={
-                        !(
-                          isFieldValid("email") &&
-                          isFieldValid("phone_number") &&
-                          isFieldValid("first_name") &&
-                          isValidPhoneNumber(formData.phone_number)
-                        )
-                      }
-                      className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center group ${
-                        isFieldValid("email") &&
-                        isFieldValid("phone_number") &&
-                        isFieldValid("first_name") &&
-                        isValidPhoneNumber(formData.phone_number)
-                          ? "bg-blue-600 text-white hover:shadow-lg"
-                          : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      }`}
-                      onClick={moveToNextField}
-                    >
-                      <span>Continue</span>
-                      <IoArrowForwardCircleSharp className="ml-2 text-xl group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </motion.div>
-                )}
-                {/* Step 2: Password */}
-                {currentField === "password" && formFieldsVisible.password && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4"
-                  >
-                    <div className="relative group">
-                      <IoLockClosedOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                      <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="Create password"
-                        className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
-                      />
-                    </div>
-                    {showValidation && (
-                      <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                        <p className="text-sm font-semibold mb-3 text-blue-900">
-                          Password must contain:
-                        </p>
-                        <div className="space-y-2">
-                          {[
-                            { key: "hasMinLength", text: "At least 8 characters" },
-                            { key: "hasNumber", text: "At least one number" },
-                            { key: "hasSpecialChar", text: "At least one special character" },
-                          ].map(({ key, text }) => (
-                            <div
-                              key={key}
-                              className={`flex items-center text-sm ${
-                                validationState[key]
-                                  ? "text-green-600"
-                                  : "text-gray-500"
-                              }`}
-                            >
-                              {validationState[key] ? (
-                                <IoCheckmarkCircle className="mr-2 text-lg" />
-                              ) : (
-                                <div className="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
-                              )}
-                              {text}
-                            </div>
-                          ))}
-                        </div>
+              ) : (
+                <motion.div
+                  key="register"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  layout
+                  className="w-full"
+                >
+                  <div>
+                    {/* Progress Bar */}
+                    <div className="mb-8">
+                      <div className="flex justify-between mb-3">
+                        {[1, 2, 3, 4].map((step) => (
+                          <div
+                            key={step}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
+                              currentStep >= step
+                                ? "bg-blue-600 text-white shadow-lg scale-110"
+                                : "bg-gray-200 text-gray-400"
+                            }`}
+                          >
+                            {step}
+                          </div>
+                        ))}
                       </div>
-                    )}
-                    <div className="relative group">
-                      <IoLockClosedOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
-                      <input
-                        type="password"
-                        name="cpassword"
-                        value={formData.cpassword}
-                        onChange={handleChange}
-                        placeholder="Confirm password"
-                        className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none transition-all bg-gray-50 focus:bg-white ${
-                          formData.cpassword && !validationState.passwordsMatch
-                            ? "border-red-500 focus:border-red-500"
-                            : "border-gray-200 focus:border-blue-600"
-                        }`}
-                      />
-                      {formData.cpassword && !validationState.passwordsMatch && (
-                        <p className="text-red-500 text-xs mt-1">
-                          Passwords don't match
-                        </p>
-                      )}
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${calculateProgress()}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="flex gap-3">
-                      <button
-                        className="flex-1 py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all flex items-center justify-center"
-                        onClick={moveToPreviousField}
-                      >
-                        <IoArrowBackCircleSharp className="mr-2 text-xl" />
-                        Back
-                      </button>
-                      <button
-                        className={`flex-1 py-4 rounded-xl font-semibold transition-all flex items-center justify-center ${
-                          isFormValid()
-                            ? "bg-blue-600 text-white hover:shadow-lg"
-                            : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                        }`}
-                        onClick={moveToNextField}
-                        disabled={!isFormValid()}
-                      >
-                        Continue
-                        <IoArrowForwardCircleSharp className="ml-2 text-xl" />
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-                {/* Step 3: Terms */}
-                {currentField === "terms" && formFieldsVisible.terms && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-6"
-                  >
-                    <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-200">
-                      <label className="flex items-start cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={agreedToTerms}
-                          onChange={() => setAgreedToTerms(!agreedToTerms)}
-                          className="mt-1 w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-600"
-                        />
-                        <span className="ml-3 text-sm text-gray-700 leading-relaxed">
-                          I agree that Maxtreo may use and share my email to enable
-                          personalized advertising and to send me info about new
-                          releases, updates, and events.
-                        </span>
-                      </label>
-                    </div>
-                    <div className="flex gap-3">
-                      <button
-                        className="flex-1 py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all flex items-center justify-center"
-                        onClick={moveToPreviousField}
-                      >
-                        <IoArrowBackCircleSharp className="mr-2 text-xl" />
-                        Back
-                      </button>
-                      <button
-                        className={`flex-1 py-4 rounded-xl font-semibold transition-all flex items-center justify-center ${
-                          agreedToTerms
-                            ? "bg-blue-600 text-white hover:shadow-lg"
-                            : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                        }`}
-                        onClick={handleSubmit}
-                        disabled={!agreedToTerms || isLoading}
-                      >
-                        {isLoading ? (
-                          <>
-                            <svg
-                              className="animate-spin h-5 w-5 mr-2"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                                fill="none"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              />
-                            </svg>
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            Create Account
-                            <IoArrowForwardCircleSharp className="ml-2 text-xl" />
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-                {/* Step 4: OTP */}
-                {currentField === "otp" && formFieldsVisible.otp && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="text-center space-y-6"
-                  >
-                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                      <p className="text-sm text-blue-900">
-                        We've sent a 6-digit code to <strong>{formData.email}</strong>
-                      </p>
-                    </div>
-                    <input
-                      type="text"
-                      name="otp"
-                      value={formData.otp}
-                      onChange={handleChange}
-                      maxLength="6"
-                      placeholder="000000"
-                      className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
-                    />
-                    <button
-                      className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${
-                        formData.otp
-                          ? "bg-blue-600 text-white hover:shadow-lg"
-                          : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      }`}
-                      disabled={!formData.otp}
-                      onClick={verifyOTPRegistration}
-                    >
-                      Verify & Complete
-                    </button>
-                    <button
-                      onClick={handleResendOTP}
-                      className="text-blue-600 hover:underline text-sm font-medium"
-                    >
-                      Didn't receive the code? Resend
-                    </button>
-                  </motion.div>
-                )}
-                {/* Social Login for Registration */}
-                <AnimatePresence mode="wait">
-                  {!formFieldsVisible.otp && (
+                    {/* Step Titles */}
                     <motion.div
-                      key="social-login"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="my-8"
+                      key={currentStep}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-8"
                     >
-                      {/* OR Divider */}
-                      <div className="flex items-center my-6">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                        <p className="text-center text-gray-500 text-sm uppercase tracking-wider px-4">
-                          OR
-                        </p>
-                        <div className="flex-grow border-t border-gray-300"></div>
-                      </div>
-                      <div className="flex justify-center">
-                        <GoogleLoginComponent />
-                      </div>
+                      <h2 className="text-2xl font-bold text-blue-600 mb-2">
+                        {currentStep === 1 && "Basic Information"}
+                        {currentStep === 2 && "Secure Your Account"}
+                        {currentStep === 3 && "Terms & Conditions"}
+                        {currentStep === 4 && "Verify Your Email"}
+                      </h2>
+                      <p className="text-gray-600 text-sm">
+                        {currentStep === 1 && "Let's get started with your details"}
+                        {currentStep === 2 && "Create a strong password"}
+                        {currentStep === 3 && "Almost there!"}
+                        {currentStep === 4 && "Check your inbox for the code"}
+                      </p>
                     </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
+                    {/* Step 1: Basic Info */}
+                    {currentField === "email" && formFieldsVisible.email && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="space-y-4"
+                      >
+                        <div className="relative group">
+                          <IoPersonOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                          <input
+                            type="text"
+                            name="first_name"
+                            value={formData.first_name}
+                            onChange={handleChange}
+                            placeholder="Full Name"
+                            className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                          />
+                        </div>
+                        <div className="relative group">
+                          <IoMailOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="Email address"
+                            className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                          />
+                        </div>
+                        <div className="relative group">
+                          <IoCallOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                          <input
+                            type="tel"
+                            name="phone_number"
+                            value={formData.phone_number}
+                            onChange={handlePhoneChange}
+                            placeholder="Phone number"
+                            className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none transition-all bg-gray-50 focus:bg-white ${
+                              phoneError
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-gray-200 focus:border-blue-600"
+                            }`}
+                          />
+                          {phoneError && (
+                            <p className="text-red-500 text-xs mt-1 ml-1">{phoneError}</p>
+                          )}
+                        </div>
+                        <button
+                          disabled={
+                            !(
+                              isFieldValid("email") &&
+                              isFieldValid("phone_number") &&
+                              isFieldValid("first_name") &&
+                              isValidPhoneNumber(formData.phone_number)
+                            )
+                          }
+                          className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center group ${
+                            isFieldValid("email") &&
+                            isFieldValid("phone_number") &&
+                            isFieldValid("first_name") &&
+                            isValidPhoneNumber(formData.phone_number)
+                              ? "bg-blue-600 text-white hover:shadow-lg"
+                              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          }`}
+                          onClick={moveToNextField}
+                        >
+                          <span>Continue</span>
+                          <IoArrowForwardCircleSharp className="ml-2 text-xl group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      </motion.div>
+                    )}
+                    {/* Step 2: Password */}
+                    {currentField === "password" && formFieldsVisible.password && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="space-y-4"
+                      >
+                        <div className="relative group">
+                          <IoLockClosedOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                          <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="Create password"
+                            className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                          />
+                        </div>
+                        {showValidation && (
+                          <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <p className="text-sm font-semibold mb-3 text-blue-900">
+                              Password must contain:
+                            </p>
+                            <div className="space-y-2">
+                              {[
+                                { key: "hasMinLength", text: "At least 8 characters" },
+                                { key: "hasNumber", text: "At least one number" },
+                                { key: "hasSpecialChar", text: "At least one special character" },
+                              ].map(({ key, text }) => (
+                                <div
+                                  key={key}
+                                  className={`flex items-center text-sm ${
+                                    validationState[key]
+                                      ? "text-green-600"
+                                      : "text-gray-500"
+                                  }`}
+                                >
+                                  {validationState[key] ? (
+                                    <IoCheckmarkCircle className="mr-2 text-lg" />
+                                  ) : (
+                                    <div className="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                  )}
+                                  {text}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        <div className="relative group">
+                          <IoLockClosedOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl group-focus-within:text-blue-600 transition-colors" />
+                          <input
+                            type="password"
+                            name="cpassword"
+                            value={formData.cpassword}
+                            onChange={handleChange}
+                            placeholder="Confirm password"
+                            className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none transition-all bg-gray-50 focus:bg-white ${
+                              formData.cpassword && !validationState.passwordsMatch
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-gray-200 focus:border-blue-600"
+                            }`}
+                          />
+                          {formData.cpassword && !validationState.passwordsMatch && (
+                            <p className="text-red-500 text-xs mt-1">
+                              Passwords don't match
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            className="flex-1 py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all flex items-center justify-center"
+                            onClick={moveToPreviousField}
+                          >
+                            <IoArrowBackCircleSharp className="mr-2 text-xl" />
+                            Back
+                          </button>
+                          <button
+                            className={`flex-1 py-4 rounded-xl font-semibold transition-all flex items-center justify-center ${
+                              isFormValid()
+                                ? "bg-blue-600 text-white hover:shadow-lg"
+                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            }`}
+                            onClick={moveToNextField}
+                            disabled={!isFormValid()}
+                          >
+                            Continue
+                            <IoArrowForwardCircleSharp className="ml-2 text-xl" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                    {/* Step 3: Terms */}
+                    {currentField === "terms" && formFieldsVisible.terms && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="space-y-6"
+                      >
+                        <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-200">
+                          <label className="flex items-start cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={agreedToTerms}
+                              onChange={() => setAgreedToTerms(!agreedToTerms)}
+                              className="mt-1 w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-600"
+                            />
+                            <span className="ml-3 text-sm text-gray-700 leading-relaxed">
+                              I agree that Maxtreo may use and share my email to enable
+                              personalized advertising and to send me info about new
+                              releases, updates, and events.
+                            </span>
+                          </label>
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            className="flex-1 py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all flex items-center justify-center"
+                            onClick={moveToPreviousField}
+                          >
+                            <IoArrowBackCircleSharp className="mr-2 text-xl" />
+                            Back
+                          </button>
+                          <button
+                            className={`flex-1 py-4 rounded-xl font-semibold transition-all flex items-center justify-center ${
+                              agreedToTerms
+                                ? "bg-blue-600 text-white hover:shadow-lg"
+                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            }`}
+                            onClick={handleSubmit}
+                            disabled={!agreedToTerms || isLoading}
+                          >
+                            {isLoading ? (
+                              <>
+                                <svg
+                                  className="animate-spin h-5 w-5 mr-2"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                    fill="none"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  />
+                                </svg>
+                                Processing...
+                              </>
+                            ) : (
+                              <>
+                                Create Account
+                                <IoArrowForwardCircleSharp className="ml-2 text-xl" />
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                    {/* Step 4: OTP */}
+                    {currentField === "otp" && formFieldsVisible.otp && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="text-center space-y-6"
+                      >
+                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                          <p className="text-sm text-blue-900">
+                            We've sent a 6-digit code to <strong>{formData.email}</strong>
+                          </p>
+                        </div>
+                        <input
+                          type="text"
+                          name="otp"
+                          value={formData.otp}
+                          onChange={handleChange}
+                          maxLength="6"
+                          placeholder="000000"
+                          className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                        />
+                        <button
+                          className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${
+                            formData.otp
+                              ? "bg-blue-600 text-white hover:shadow-lg"
+                              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          }`}
+                          disabled={!formData.otp}
+                          onClick={verifyOTPRegistration}
+                        >
+                          Verify & Complete
+                        </button>
+                        <button
+                          onClick={handleResendOTP}
+                          className="text-blue-600 hover:underline text-sm font-medium"
+                        >
+                          Didn't receive the code? Resend
+                        </button>
+                      </motion.div>
+                    )}
+                    {/* Social Login for Registration */}
+                    <AnimatePresence mode="wait">
+                      {!formFieldsVisible.otp && (
+                        <motion.div
+                          key="social-login"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="my-8"
+                        >
+                          {/* OR Divider */}
+                          <div className="flex items-center my-6">
+                            <div className="flex-grow border-t border-gray-300"></div>
+                            <p className="text-center text-gray-500 text-sm uppercase tracking-wider px-4">
+                              OR
+                            </p>
+                            <div className="flex-grow border-t border-gray-300"></div>
+                          </div>
+                          <div className="flex justify-center">
+                            <GoogleLoginComponent />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             {/* Footer Link */}
             <div className="mt-8 text-center">
               <p className="text-gray-600 text-sm">
