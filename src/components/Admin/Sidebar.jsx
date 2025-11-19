@@ -51,7 +51,7 @@ function TopNavbar() {
     { href: '/admin/viewUsers', icon: Users, label: 'Users' },
     { href: '/admin/tickets', icon: Ticket, label: 'Tickets' },
     { href: '/admin/Advertisement/product', icon: Target, label: 'Product Dropdown' },
-    { href: '/admin/nvidia-manager', icon: Cpu, label: 'Nvidia Manager'},
+    // { href: '/admin/nvidia-manager', icon: Cpu, label: 'Nvidia Manager'},
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
     { href: '/admin/overview', icon: Target, label: 'Overview' },
   ];

@@ -774,7 +774,7 @@ function UpdateProduct() {
 
               <br />
             </div>
-            <div
+            {/* <div
               style={{
                 overflow: "scroll",
                 marginBottom: "10px",
@@ -796,7 +796,7 @@ function UpdateProduct() {
 
               <Variant product={product} />
               <hr />
-            </div>
+            </div> */}
             <div
               style={{
                 overflow: "scroll",
@@ -1112,12 +1112,21 @@ function UpdateProduct() {
                         required
                       >
                         <option value="">Select Relationship</option>
-                        {relationShips.map((relationship) => (
+                        {/* {relationShips.map((relationship) => (
                           <option
                             key={relationship.id}
                             value={relationship.id}
                           >
                             {relationship.name} (ID: {relationship.id})
+                          </option>
+                        ))} */}
+                         {overViewContents.map((content) => (
+                          <option key={content.id} value={content.id}>
+                            {/* Fixed: Added safe navigation and fallback */}
+                            {content.category?.name
+                              ? `${content.category.name} - `
+                              : ""}
+                            {content.name || "Unnamed Content"}
                           </option>
                         ))}
                       </select>
