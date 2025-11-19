@@ -40,7 +40,6 @@ const HeroCarousel = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const alertTimeoutRef = useRef(null);
   const scrollContainerRef = useRef(null);
-  const cardRefs = useRef([]);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -227,30 +226,6 @@ const HeroCarousel = () => {
     console.log(`Filtered ${filtered.length} products out of ${products.length}`);
     return filtered;
   }, [products, categoryName]);
-
-  // Dynamic card heights for uniform sizing
-  useEffect(() => {
-    if (filteredProducts.length === 0) return;
-
-    cardRefs.current = filteredProducts.map(() => null);
-
-    const timeout = setTimeout(() => {
-      const heights = cardRefs.current.map(el => el?.offsetHeight || 0);
-      const maxH = Math.max(...heights);
-      cardRefs.current.forEach(el => {
-        if (el) {
-          el.style.minHeight = `${maxH}px`;
-        }
-      });
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-      cardRefs.current.forEach(el => {
-        if (el) el.style.minHeight = '';
-      });
-    };
-  }, [filteredProducts]);
 
   // Hero Auto-slide
   useEffect(() => {
@@ -512,7 +487,7 @@ const HeroCarousel = () => {
         </div>
 
         {/* Right Side: Product Carousel */}
-        <div className="w-full lg:w-1/2 relative min-h-[30vh] lg:min-h-[50vh] h-auto overflow-hidden bg-white dark:bg-black">
+        <div className="w-full lg:w-1/2 relative h-[30vh] lg:h-[50vh] overflow-hidden bg-white dark:bg-black">
           {alertData && (
             <Alert 
               type={alertData.type}
@@ -532,7 +507,7 @@ const HeroCarousel = () => {
               <p className="text-lg font-semibold">No products found for this category.</p>
             </div>
           ) : (
-            <div className="relative h-auto p-1 lg:p-3">
+            <div className="relative h-full p-1 lg:p-3">
               {/* Scroll Buttons */}
               {showScrollButtons && (
                 <>
@@ -562,15 +537,14 @@ const HeroCarousel = () => {
               {/* Products Scroll Container */}
               <div 
                 ref={scrollContainerRef}
-                className="flex overflow-x-auto gap-1.5 lg:gap-3 pb-2 lg:pb-6 h-auto px-1 -mx-1 scrollbar-hide scroll-smooth"
+                className="flex overflow-x-auto gap-1.5 lg:gap-3 pb-2 lg:pb-6 h-full px-1 -mx-1 scrollbar-hide scroll-smooth"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {filteredProducts.map((product, index) => (
+                {filteredProducts.map((product) => (
                   <div 
                     key={product.id}
-                    ref={el => cardRefs.current[index] = el}
                     onClick={() => navigateToDetails(product.id)}
-                    className={`flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-auto flex flex-col ${darkMode 
+                    className={`flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col ${darkMode 
                       ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
                       : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
                     }`}
@@ -593,7 +567,7 @@ const HeroCarousel = () => {
                           <button className="w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
                             <FaBolt className="text-xs" />
                           </button>
-                          <span className="text-xs font-semibold hidden lg:block">Quick View</span>
+                          <span className="text-xs font-semibold">Quick View</span>
                         </div>
                       </div>
                     </div>
