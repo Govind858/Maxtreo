@@ -40,6 +40,7 @@ const HeroCarousel = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const alertTimeoutRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const cardRefs = useRef([]);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -227,6 +228,30 @@ const HeroCarousel = () => {
     return filtered;
   }, [products, categoryName]);
 
+  // Dynamic card heights for uniform sizing
+  useEffect(() => {
+    if (filteredProducts.length === 0) return;
+
+    cardRefs.current = filteredProducts.map(() => null);
+
+    const timeout = setTimeout(() => {
+      const heights = cardRefs.current.map(el => el?.offsetHeight || 0);
+      const maxH = Math.max(...heights);
+      cardRefs.current.forEach(el => {
+        if (el) {
+          el.style.minHeight = `${maxH}px`;
+        }
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+      cardRefs.current.forEach(el => {
+        if (el) el.style.minHeight = '';
+      });
+    };
+  }, [filteredProducts]);
+
   // Hero Auto-slide
   useEffect(() => {
     if (carouselData.length === 0) return;
@@ -371,10 +396,10 @@ const HeroCarousel = () => {
   if (isOverallLoading) {
     return (
       <div className="w-full flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[30vh] lg:h-[50vh] bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
           <div className="animate-pulse text-slate-600 text-lg">Loading Hero...</div>
         </div>
-        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-white flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[30vh] lg:h-[50vh] bg-white flex items-center justify-center">
           <Loader />
         </div>
       </div>
@@ -384,13 +409,13 @@ const HeroCarousel = () => {
   if (error) {
     return (
       <div className="w-full flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-red-50 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[30vh] lg:h-[50vh] bg-red-50 flex items-center justify-center">
           <div className="text-red-600 text-center">
             <p className="text-lg font-semibold">Error loading carousel</p>
             <p className="text-sm">{error}</p>
           </div>
         </div>
-        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[50vh] bg-white flex items-center justify-center">
+        <div className="w-full lg:w-1/2 h-[30vh] lg:h-[50vh] bg-white flex items-center justify-center">
           <p className="text-gray-600">Products loading...</p>
         </div>
       </div>
@@ -398,10 +423,10 @@ const HeroCarousel = () => {
   }
 
   return (
-    <div className="w-full pt-8">
+    <div className="w-full pt-4">
       <div className={`flex flex-col lg:flex-row ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
         {/* Left Side: Hero Carousel */}
-        <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[40vh] lg:h-[50vh] md:h-[45vh]">
+        <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[30vh] lg:h-[50vh]">
           {carouselData.length === 0 ? (
             <div className="w-full h-full bg-slate-100 flex items-center justify-center">
               <p className="text-slate-600">No carousel items available</p>
@@ -424,29 +449,27 @@ const HeroCarousel = () => {
                       className="w-full h-full object-cover"
                     />
 
-                    <div className="absolute inset-0 z-20 flex items-center">
-                      <div className="w-full px-2 md:px-4 lg:px-8">
-                        <div className="max-w-md space-y-2 md:space-y-3">
-                          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-tight">
-                            {slide.head_one}
-                          </h1>
-                          
-                          <h2 className="text-sm md:text-base lg:text-lg text-slate-200 font-medium">
-                            {slide.head_two}
-                          </h2>
-                          
-                          <p className="text-xs md:text-sm lg:text-base text-slate-300 leading-relaxed max-w-sm line-clamp-3">
-                            {slide.description}
-                          </p>
-                          
-                          <div className="pt-2">
-                            <a
-                              href={slide.button_link}
-                              className="inline-block px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm"
-                            >
-                              {slide.button_text}
-                            </a>
-                          </div>
+                    <div className="absolute inset-0 z-20 flex items-start pt-4 px-2">
+                      <div className="w-full max-w-md space-y-1.5">
+                        <h1 className="text-lg font-bold text-white leading-tight">
+                          {slide.head_one}
+                        </h1>
+                        
+                        <h2 className="text-sm text-slate-200 font-medium">
+                          {slide.head_two}
+                        </h2>
+                        
+                        <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                          {slide.description}
+                        </p>
+                        
+                        <div className="pt-1.5">
+                          <a
+                            href={slide.button_link}
+                            className="inline-block px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-all duration-300 text-sm"
+                          >
+                            {slide.button_text}
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -456,29 +479,29 @@ const HeroCarousel = () => {
 
               <button
                 onClick={goToPrevious}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2 rounded-full transition-all duration-300 group"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-1.5 rounded-full transition-all duration-300 group"
                 aria-label="Previous slide"
               >
-                <ChevronLeft className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                <ChevronLeft className="w-3 h-3 text-white group-hover:scale-110 transition-transform" />
               </button>
 
               <button
                 onClick={goToNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2 rounded-full transition-all duration-300 group"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-1.5 rounded-full transition-all duration-300 group"
                 aria-label="Next slide"
               >
-                <ChevronRight className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                <ChevronRight className="w-3 h-3 text-white group-hover:scale-110 transition-transform" />
               </button>
 
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex space-x-2">
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex space-x-1.5">
                 {carouselData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
                     className={`transition-all duration-300 rounded-full ${
                       index === currentSlide
-                        ? 'w-8 h-1.5 bg-white'
-                        : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/70'
+                        ? 'w-6 h-1 bg-white'
+                        : 'w-1 h-1 bg-white/50 hover:bg-white/70'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -489,7 +512,7 @@ const HeroCarousel = () => {
         </div>
 
         {/* Right Side: Product Carousel */}
-        <div className="w-full lg:w-1/2 relative h-[40vh] lg:h-[50vh] md:h-[45vh] overflow-hidden bg-white dark:bg-black">
+        <div className="w-full lg:w-1/2 relative min-h-[30vh] lg:min-h-[50vh] h-auto overflow-hidden bg-white dark:bg-black">
           {alertData && (
             <Alert 
               type={alertData.type}
@@ -509,13 +532,13 @@ const HeroCarousel = () => {
               <p className="text-lg font-semibold">No products found for this category.</p>
             </div>
           ) : (
-            <div className="relative h-full p-2 lg:p-3">
+            <div className="relative h-auto p-1 lg:p-3">
               {/* Scroll Buttons */}
               {showScrollButtons && (
                 <>
                   <button 
                     onClick={scrollLeft}
-                    className={`absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                       darkMode 
                         ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
                         : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
@@ -525,7 +548,7 @@ const HeroCarousel = () => {
                   </button>
                   <button 
                     onClick={scrollRight}
-                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                       darkMode 
                         ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
                         : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
@@ -539,58 +562,51 @@ const HeroCarousel = () => {
               {/* Products Scroll Container */}
               <div 
                 ref={scrollContainerRef}
-                className="flex overflow-x-auto gap-2 lg:gap-3 pb-4 lg:pb-6 h-full px-1 -mx-1 scrollbar-hide scroll-smooth"
+                className="flex overflow-x-auto gap-1.5 lg:gap-3 pb-2 lg:pb-6 h-auto px-1 -mx-1 scrollbar-hide scroll-smooth"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product, index) => (
                   <div 
                     key={product.id}
+                    ref={el => cardRefs.current[index] = el}
                     onClick={() => navigateToDetails(product.id)}
-                    className={`flex-shrink-0 w-48 lg:w-56 group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col ${darkMode 
+                    className={`flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-auto flex flex-col ${darkMode 
                       ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
                       : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
                     }`}
                   >
-                    {/* Product Badge - Mobile Only */}
-                    {!isDesktop && (
-                      <div className="absolute top-2 left-2 z-10">
-                        <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg">
-                          FEATURED
-                        </span>
-                      </div>
-                    )}
-
+                    
                     {/* Image Container */}
-                    <div className="relative h-24 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                    <div className="relative h-20 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
                       <img 
                         src={product.images?.[0]?.image 
                           ? baseUrl + product.images[0].image 
                           : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
                         } 
                         alt={product.name}
-                        className="h-20 lg:h-24 w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        className="h-16 lg:h-24 w-full object-contain transition-transform duration-300 group-hover:scale-105"
                       />
                       
                       {/* Quick Action Overlay */}
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                         <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white`}>
-                          <button className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
+                          <button className="w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
                             <FaBolt className="text-xs" />
                           </button>
-                          <span className="text-xs font-semibold">Quick View</span>
+                          <span className="text-xs font-semibold hidden lg:block">Quick View</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Product Content */}
-                    <div className="p-2 lg:p-3 flex-1 flex flex-col justify-between">
-                      <div className="mb-2">
-                        <h2 className="font-[Rajdhani] text-xs lg:text-sm font-bold mb-1.5 line-clamp-2 leading-tight text-black dark:text-white">
+                    <div className="p-1.5 lg:p-3 flex-1 flex flex-col justify-between">
+                      <div className="mb-1.5">
+                        <h2 className="font-[Rajdhani] text-xs font-bold mb-1 line-clamp-2 leading-tight text-black dark:text-white">
                           {product.name}
                         </h2>
                         
                         {/* Rating */}
-                        <div className="flex items-center gap-0.5 mb-1.5">
+                        <div className="flex items-center gap-0.5 mb-1">
                           {[1,2,3,4,5].map((star) => (
                             <FaStar 
                               key={star}
@@ -604,8 +620,8 @@ const HeroCarousel = () => {
                           </span>
                         </div>
 
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-base lg:text-lg font-bold font-[Rajdhani] text-black dark:text-white">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-sm lg:text-lg font-bold font-[Rajdhani] text-black dark:text-white">
                             ₹ {product.price?.toLocaleString()}
                           </span>
                           <span className={`text-xs line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
@@ -615,11 +631,11 @@ const HeroCarousel = () => {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex gap-1.5">
+                      <div className="flex gap-1">
                         <button 
                           onClick={(e) => addTocart(product.id, e)}
                           disabled={addingToCart === product.id}
-                          className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
+                          className={`flex-1 py-1 rounded-md flex items-center justify-center gap-0.5 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
                             addingToCart === product.id
                               ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
                               : darkMode
@@ -642,7 +658,7 @@ const HeroCarousel = () => {
 
                         <button 
                           onClick={(e) => handleBuyNow(product, e)}
-                          className="flex-1 py-1.5 rounded-lg text-xs font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 bg-blue-500 shadow-lg hover:bg-blue-600"
+                          className="flex-1 py-1 rounded-md text-xs font-[Rajdhani] font-bold text-white flex items-center justify-center gap-0.5 bg-blue-500 shadow-lg hover:bg-blue-600"
                         >
                           <FaBolt className="text-xs" />
                           <span>BUY</span>
@@ -654,11 +670,11 @@ const HeroCarousel = () => {
               </div>
 
               {/* Scroll Indicator */}
-              <div className="flex justify-center mt-2 lg:mt-3 absolute bottom-2 lg:bottom-3 left-1/2 -translate-x-1/2">
-                <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1`}>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#07bff]"></div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+              <div className="flex justify-center mt-1 lg:mt-3 absolute bottom-1 lg:bottom-3 left-1/2 -translate-x-1/2">
+                <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-0.5 lg:p-1`}>
+                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-[#07bff]"></div>
+                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
                 </div>
               </div>
 
