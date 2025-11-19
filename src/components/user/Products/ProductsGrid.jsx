@@ -316,13 +316,7 @@ function ProductsGrid() {
                   : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
                 }`}
               >
-                {/* Product Badge */}
-                <div className="absolute top-3 left-3 z-10">
-                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg">
-                    FEATURED
-                  </span>
-                </div>
-
+                
                 {/* Image Container */}
                 <div className="relative h-36 sm:h-40 lg:h-52 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
                   <img 

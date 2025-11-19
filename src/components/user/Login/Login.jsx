@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../../Services/userApi";
 import { OtpForUserRegistration } from "../../../Services/userApi";
 import { submitOTP } from "../../../Services/userApi";
+import OtpInput from "../OtpSubmit/otp"; // Import OtpInput from the working Login component path
 import { useAuth } from "../../../Context/UserContext";
 import maxtreo_landing_image from "../../../Images/maxtreo_landing_page.png"
 import maxtreo from '../../../Images/maxtreobgremoved.png'
@@ -74,6 +75,12 @@ const ModernLoginForm = () => {
     const isDigitsOnly = /^\d+$/.test(phone);
     const isCorrectLength = phone.length >= 10 && phone.length <= 12;
     return isDigitsOnly && isCorrectLength;
+  };
+  // Digits-only handler for manual OTP inputs (used in registration)
+  const handleOtpChange = (e) => {
+    const { name, value } = e.target;
+    const numericOtp = value.replace(/\D/g, "").slice(0, 6);
+    setFormData((prev) => ({ ...prev, [name]: numericOtp }));
   };
   const handlePhoneChange = (e) => {
     const { name, value } = e.target;
@@ -452,21 +459,8 @@ const ModernLoginForm = () => {
                           <p className="text-gray-600 mb-6">
                             Enter the verification code sent to your email
                           </p>
-                          <input
-                            type="text"
-                            name="otp"
-                            value={formData.otp}
-                            onChange={handleChange}
-                            maxLength="6"
-                            placeholder="000000"
-                            className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none mb-6"
-                          />
-                          <button
-                            onClick={verifyOTPRegistration}
-                            className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-                          >
-                            Verify & Login
-                          </button>
+                          {/* Use OtpInput from working Login component for login flow */}
+                          <OtpInput />
                           <button
                             onClick={handleResendOTP}
                             className="mt-4 text-blue-600 hover:underline text-sm"
@@ -789,7 +783,7 @@ const ModernLoginForm = () => {
                         </div>
                       </motion.div>
                     )}
-                    {/* Step 4: OTP */}
+                    {/* Step 4: OTP for Registration (manual input with digits filter) */}
                     {currentField === "otp" && formFieldsVisible.otp && (
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
@@ -805,7 +799,7 @@ const ModernLoginForm = () => {
                           type="text"
                           name="otp"
                           value={formData.otp}
-                          onChange={handleChange}
+                          onChange={handleOtpChange}
                           maxLength="6"
                           placeholder="000000"
                           className="w-full text-center text-3xl tracking-widest font-bold py-4 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:outline-none transition-all bg-gray-50 focus:bg-white"
