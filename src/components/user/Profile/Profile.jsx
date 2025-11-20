@@ -389,7 +389,7 @@ const deleteAddress = async (id) => {
                 >
                   <span className="flex items-center">
                     <Edit size={18} className="mr-3 text-blue-500" />
-                    <span style={{color:'white'}}>Edit Profile</span>
+                    <span className="text-black">Edit Profile</span>
                   </span>
                   <ChevronRight size={18} className="text-gray-400" />
                 </button>
@@ -399,7 +399,7 @@ const deleteAddress = async (id) => {
                 >
                   <span className="flex items-center">
                     <Plus size={18} className="mr-3 text-blue-500" />
-                    <span style={{color:'white'}}>Add New Address</span>
+                    <span className="black">Add New Address</span>
                   </span>
                   <ChevronRight size={18} className="text-gray-400" />
                 </button>

@@ -4,6 +4,7 @@ import ProductFooter from "../Footer/ProductFooter";
 import { useNavigate } from "react-router-dom";
 import { AddTicket } from '../../../Services/userApi';
 import Alert from '../../../components/user/Alert/Alert';
+import Footer from '../../../components/user/Footer/Footer'
 
 const Tickets = () => {
   const [formData, setFormData] = useState({
@@ -161,38 +162,30 @@ const Tickets = () => {
           message={alertMessage}
         />
       )}
-      <div className="w-full bg-black p-3 md:p-5 rounded-xl" style={{marginTop:"70px"}}>
-        <div className="flex flex-col md:flex-row justify-between gap-5 p-3 md:p-5" ref={containerRef}>
+      <div className="w-full bg-white p-4 lg:p-6 rounded-2xl border-2 border-blue-500/20 shadow-lg" style={{marginTop:"70px"}}>
+        <div className="flex flex-col lg:flex-row justify-between gap-6" ref={containerRef}>
           {/* Left Column */}
-          <div className="w-full md:w-1/2 transition-all duration-300">
-            <div className="flex items-baseline text-white">
-              <div className="mr-2">
-                <h1 className="text-2xl md:text-3xl font-bold">
-                  NT <br />
-                  KO
-                </h1>
-              </div>
-              <div>
-                <span className="text-sm md:text-base">
-                  Priority One By Neo Tokyo
-                </span>
-              </div>
+          <div className="w-full lg:w-1/2">
+            <div className="flex items-baseline text-black mb-6">
+              <h1 className="text-3xl lg:text-4xl font-bold">
+                Maxtreo
+              </h1>
             </div>
             
-            <div className="text-white mt-10 md:mt-24 transition-all duration-300">
-              <h6 className="font-mono mb-5 font-semibold">
-                Recent tickets
+            <div className="text-black">
+              <h6 className="text-lg font-semibold mb-4">
+                Recent Tickets
               </h6>
 
-              <div className="bg-gray-100 p-4 md:p-5 w-full md:w-4/5 rounded-b-2xl transition-all duration-300 hover:shadow-lg">
-                <p className="font-mono mb-5 text-black">Grievance:</p>
-                <p className="text-gray-400 overflow-hidden whitespace-normal break-words mb-5 border-b border-dashed border-gray-400 pb-5">
+              <div className="bg-gray-50 p-4 lg:p-6 w-full lg:w-4/5 rounded-2xl border border-blue-200 transition-all duration-300 hover:shadow-lg">
+                <p className="font-mono mb-4 text-black">Grievance:</p>
+                <p className="text-gray-500 overflow-hidden whitespace-normal break-words mb-4 border-b border-dashed border-gray-300 pb-4">
                   --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 </p>
 
                 <button
                   onClick={handleTicketResolution}
-                  className="w-full p-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700 text-white font-mono transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  className="w-full p-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                   View Resolved Tickets
                 </button>
@@ -201,22 +194,22 @@ const Tickets = () => {
           </div>
 
           {/* Right Column */}
-          <div className="w-full md:w-1/2 transition-all duration-300">
+          <div className="w-full lg:w-1/2">
             <div className="w-full">
-              <div className="bg-gray-100 w-full md:w-4/5 mx-auto rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl">
-                <div className="bg-gray-300 p-3 text-center">
-                  <h4 className="font-mono tracking-widest font-bold">LIVE TICKET</h4>
+              <div className="bg-white w-full lg:w-4/5 mx-auto rounded-2xl overflow-hidden shadow-md border border-blue-500/20 transition-all duration-300 hover:shadow-xl">
+                <div className="bg-blue-500 p-4 text-center">
+                  <h4 className="font-bold tracking-widest text-white">LIVE TICKET</h4>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-3 md:p-5" encType="multipart/form-data">
-                  <span className="text-xs font-semibold text-black pl-2">2025/04/01 - 11:24 AM</span>
+                <form onSubmit={handleSubmit} className="p-4 lg:p-6" encType="multipart/form-data">
+                  <span className="text-xs font-semibold text-black block mb-4">2025/04/01 - 11:24 AM</span>
                   
-                  <div className="p-3 md:p-5 border-b border-dashed border-gray-400">
-                    <span className="text-2xl md:text-3xl font-black block mb-2">What Can We Help You With ///</span>
-                    <p className="mb-4 text-sm md:text-base">Please describe your grievance in the space below</p>
+                  <div className="p-4 lg:p-6 border-b border-dashed border-gray-300">
+                    <span className="text-xl lg:text-2xl font-bold block mb-2 text-black">What Can We Help You With</span>
+                    <p className="mb-4 text-sm lg:text-base text-black">Please describe your grievance in the space below</p>
                     
                     {/* Product (number) - integer, nullable */}
-                    <div className="relative mt-5 group">
+                    <div className="relative mt-4 group">
                       <input 
                         type="number" 
                         name="product" 
@@ -224,18 +217,18 @@ const Tickets = () => {
                         value={formData.product || ""}
                         onChange={handleChange}
                         placeholder=" " 
-                        className="w-full p-2 text-base border border-gray-800 rounded-lg outline-none bg-white focus:border-gray-100 transition-all duration-200"
+                        className="w-full p-3 text-base border border-gray-300 rounded-xl outline-none bg-white focus:border-blue-500 transition-all duration-200"
                       />
                       <label 
                         htmlFor="product" 
-                        className="absolute top-2 left-2 text-gray-700 text-xs transition-all duration-200 pointer-events-none group-focus-within:top-[-8px] group-focus-within:left-2 group-focus-within:text-xs group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-black"
+                        className="absolute top-3 left-3 text-gray-500 text-sm transition-all duration-200 pointer-events-none group-focus-within:top-[-6px] group-focus-within:left-3 group-focus-within:text-sm group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-blue-500"
                       >
                         Product ID (number, optional)
                       </label>
                     </div>
                     
                     {/* Product Name - string, maxLength: 255, nullable */}
-                    <div className="relative mt-5 group">
+                    <div className="relative mt-4 group">
                       <input 
                         type="text" 
                         name="product_name" 
@@ -244,11 +237,11 @@ const Tickets = () => {
                         onChange={handleChange}
                         maxLength="255"
                         placeholder=" " 
-                        className="w-full p-2 text-base border border-gray-800 rounded-lg outline-none bg-white focus:border-gray-100 transition-all duration-200"
+                        className="w-full p-3 text-base border border-gray-300 rounded-xl outline-none bg-white focus:border-blue-500 transition-all duration-200"
                       />
                       <label 
                         htmlFor="product_name" 
-                        className="absolute top-2 left-2 text-gray-700 text-xs transition-all duration-200 pointer-events-none group-focus-within:top-[-8px] group-focus-within:left-2 group-focus-within:text-xs group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-black"
+                        className="absolute top-3 left-3 text-gray-500 text-sm transition-all duration-200 pointer-events-none group-focus-within:top-[-6px] group-focus-within:left-3 group-focus-within:text-sm group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-blue-500"
                       >
                         Product Name (optional, max 255 chars)
                       </label>
@@ -258,7 +251,7 @@ const Tickets = () => {
                     </div>
                     
                     {/* Product Serial Number - string, maxLength: 100, nullable */}
-                    <div className="relative mt-5 group">
+                    <div className="relative mt-4 group">
                       <input 
                         type="text" 
                         name="product_serial_number" 
@@ -267,11 +260,11 @@ const Tickets = () => {
                         onChange={handleChange}
                         maxLength="100"
                         placeholder=" " 
-                        className="w-full p-2 text-base border border-gray-800 rounded-lg outline-none bg-white focus:border-gray-100 transition-all duration-200"
+                        className="w-full p-3 text-base border border-gray-300 rounded-xl outline-none bg-white focus:border-blue-500 transition-all duration-200"
                       />
                       <label 
                         htmlFor="product_serial_number" 
-                        className="absolute top-2 left-2 text-gray-700 text-xs transition-all duration-200 pointer-events-none group-focus-within:top-[-8px] group-focus-within:left-2 group-focus-within:text-xs group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-black"
+                        className="absolute top-3 left-3 text-gray-500 text-sm transition-all duration-200 pointer-events-none group-focus-within:top-[-6px] group-focus-within:left-3 group-focus-within:text-sm group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-blue-500"
                       >
                         Product Serial Number (optional, max 100 chars)
                       </label>
@@ -281,7 +274,7 @@ const Tickets = () => {
                     </div>
 
                     {/* Link - URI, maxLength: 200, nullable */}
-                    <div className="relative mt-5 group">
+                    <div className="relative mt-4 group">
                       <input 
                         type="url" 
                         name="link" 
@@ -290,11 +283,11 @@ const Tickets = () => {
                         onChange={handleChange}
                         maxLength="200"
                         placeholder=" " 
-                        className="w-full p-2 text-base border border-gray-800 rounded-lg outline-none bg-white focus:border-gray-100 transition-all duration-200"
+                        className="w-full p-3 text-base border border-gray-300 rounded-xl outline-none bg-white focus:border-blue-500 transition-all duration-200"
                       />
                       <label 
                         htmlFor="link" 
-                        className="absolute top-2 left-2 text-gray-700 text-xs transition-all duration-200 pointer-events-none group-focus-within:top-[-8px] group-focus-within:left-2 group-focus-within:text-xs group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-black"
+                        className="absolute top-3 left-3 text-gray-500 text-sm transition-all duration-200 pointer-events-none group-focus-within:top-[-6px] group-focus-within:left-3 group-focus-within:text-sm group-focus-within:bg-white group-focus-within:px-1 group-focus-within:text-blue-500"
                       >
                         Related Link (optional, max 200 chars)
                       </label>
@@ -304,7 +297,7 @@ const Tickets = () => {
                     </div>
 
                     {/* Image upload section */}
-                    <div className="mt-5">
+                    <div className="mt-4">
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -316,7 +309,7 @@ const Tickets = () => {
                       <button
                         type="button"
                         onClick={triggerFileInput}
-                        className="w-full p-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700 text-white font-mono text-sm transition-colors duration-300"
+                        className="w-full p-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-all duration-300"
                       >
                         {formData.image ? 'Change Image' : 'Upload Image (optional)'}
                       </button>
@@ -326,12 +319,12 @@ const Tickets = () => {
                           <img 
                             src={preview} 
                             alt="Preview" 
-                            className="max-h-40 max-w-full object-contain border border-gray-300 rounded"
+                            className="max-h-32 max-w-full object-contain border border-gray-300 rounded-xl"
                           />
                           <button
                             type="button"
                             onClick={() => setFormData({...formData, image: null})}
-                            className="mt-2 text-red-500 text-sm hover:text-red-700"
+                            className="mt-2 text-red-500 text-sm hover:text-red-700 font-semibold"
                           >
                             Remove Image
                           </button>
@@ -342,8 +335,8 @@ const Tickets = () => {
                     <span className="text-right font-mono text-xs text-gray-500 tracking-tighter block mt-2">Ticket Id: {Math.floor(Math.random() * 10000000)}</span>
                   </div>
 
-                  <div className="p-3 md:p-5">
-                    <p className="font-mono mb-5 text-black">Grievance*:</p>
+                  <div className="p-4 lg:p-6">
+                    <p className="font-semibold mb-4 text-black">Grievance*:</p>
                     {errors.grievance && (
                       <p className="text-red-500 text-sm mb-2">{errors.grievance}</p>
                     )}
@@ -354,7 +347,7 @@ const Tickets = () => {
                         {rows.map((_, index) => (
                           <div
                             key={index}
-                            className="border-b border-dashed border-gray-400"
+                            className="border-b border-dashed border-gray-300"
                             style={{
                               height: `${lineHeight}px`,
                               marginTop: index === 0 ? "8px" : "0",
@@ -369,10 +362,9 @@ const Tickets = () => {
                         name="grievance"
                         value={formData.grievance}
                         onChange={handleChange}
-                        className="w-full p-2 bg-transparent text-base resize-none outline-none"
+                        className="w-full p-3 bg-white text-base resize-none outline-none border border-gray-300 rounded-xl"
                         style={{
                           lineHeight: `${lineHeight}px`,
-                          backgroundColor: "rgba(255, 255, 255, 0.4)",
                         }}
                         rows={7}
                         placeholder="Start typing here (required)..."
@@ -382,7 +374,7 @@ const Tickets = () => {
 
                     <button 
                       type="submit"
-                      className="w-full p-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-mono transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                      className="w-full p-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-4"
                     >
                       Submit
                     </button>
@@ -393,7 +385,7 @@ const Tickets = () => {
           </div>
         </div>
       </div>
-      <ProductFooter />
+      <Footer/>
     </>
   );
 };

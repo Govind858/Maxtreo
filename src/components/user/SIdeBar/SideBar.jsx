@@ -118,7 +118,13 @@ function SideBar({ isOpen, onClose }) {
         <div className="flex flex-col h-full p-6 gap-2">
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pt-4">
-            <img src={metrixLogo} alt="Metrix Logo" className="h-10 w-auto object-contain" />
+          <Link to="/">
+            <img
+              src={metrixLogo}
+              alt="Metrix Logo"
+              className="h-10 w-auto object-contain cursor-pointer"
+            />
+          </Link>
 
             <div className="flex items-center gap-2">
               {!token ? (

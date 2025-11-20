@@ -34,7 +34,6 @@ const HeroCarousel = () => {
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
-  const [darkMode] = useState(false);
   const [guestCart, setGuestCart] = useState([]);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
@@ -93,21 +92,6 @@ const HeroCarousel = () => {
     const initialCart = getGuestCart();
     setGuestCart(initialCart);
   }, []);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-      document.body.classList.remove('light');
-    } else {
-      document.body.classList.add('light');
-      document.body.classList.remove('dark');
-    }
-
-    return () => {
-      document.body.classList.remove('dark');
-      document.body.classList.remove('light');
-    };
-  }, [darkMode]);
 
   // Fetch Categories and Set Initial Slug
   useEffect(() => {
@@ -399,7 +383,7 @@ const HeroCarousel = () => {
 
   return (
     <div className="w-full pt-4">
-      <div className={`flex flex-col lg:flex-row ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className={`flex flex-col lg:flex-row bg-red-500`}>
         {/* Left Side: Hero Carousel */}
         <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[30vh] lg:h-[50vh]">
           {carouselData.length === 0 ? (
@@ -487,7 +471,7 @@ const HeroCarousel = () => {
         </div>
 
         {/* Right Side: Product Carousel */}
-        <div className="w-full lg:w-1/2 relative h-[30vh] lg:h-[50vh] overflow-hidden bg-white dark:bg-black">
+        <div className="w-full lg:w-1/2 relative h-[30vh] lg:h-[50vh] overflow-hidden bg-white">
           {alertData && (
             <Alert 
               type={alertData.type}
@@ -503,7 +487,7 @@ const HeroCarousel = () => {
               <Loader />
             </div>
           ) : filteredProducts.length === 0 ? (
-            <div className={`h-full flex items-center justify-center px-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <div className="h-full flex items-center justify-center px-6 text-gray-600">
               <p className="text-lg font-semibold">No products found for this category.</p>
             </div>
           ) : (
@@ -513,21 +497,13 @@ const HeroCarousel = () => {
                 <>
                   <button 
                     onClick={scrollLeft}
-                    className={`absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      darkMode 
-                        ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                        : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                    } shadow-lg`}
+                    className="absolute left-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 bg-white text-black border-2 border-gray-300 hover:bg-[#07bff] shadow-lg"
                   >
                     <FaLeft className="text-xs" />
                   </button>
                   <button 
                     onClick={scrollRight}
-                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      darkMode 
-                        ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
-                        : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
-                    } shadow-lg`}
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 z-20 w-6 h-6 lg:w-9 lg:h-9 rounded-full flex items-center justify-center transition-all duration-300 bg-white text-black border-2 border-gray-300 hover:bg-[#07bff] shadow-lg"
                   >
                     <FaRight className="text-xs" />
                   </button>
@@ -544,14 +520,11 @@ const HeroCarousel = () => {
                   <div 
                     key={product.id}
                     onClick={() => navigateToDetails(product.id)}
-                    className={`flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col ${darkMode 
-                      ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
-                      : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
-                    }`}
+                    className="flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
                   >
                     
                     {/* Image Container */}
-                    <div className="relative h-20 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                    <div className="relative h-20 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 flex-shrink-0">
                       <img 
                         src={product.images?.[0]?.image 
                           ? baseUrl + product.images[0].image 
@@ -563,7 +536,7 @@ const HeroCarousel = () => {
                       
                       {/* Quick Action Overlay */}
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                        <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white`}>
+                        <div className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white">
                           <button className="w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
                             <FaBolt className="text-xs" />
                           </button>
@@ -575,7 +548,7 @@ const HeroCarousel = () => {
                     {/* Product Content */}
                     <div className="p-1.5 lg:p-3 flex-1 flex flex-col justify-between">
                       <div className="mb-1.5">
-                        <h2 className="font-[Rajdhani] text-xs font-bold mb-1 line-clamp-2 leading-tight text-black dark:text-white">
+                        <h2 className="font-[Rajdhani] text-xs font-bold mb-1 line-clamp-2 leading-tight text-black">
                           {product.name}
                         </h2>
                         
@@ -585,20 +558,20 @@ const HeroCarousel = () => {
                             <FaStar 
                               key={star}
                               className={`text-xs ${
-                                star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
+                                star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
                               }`}
                             />
                           ))}
-                          <span className={`text-xs ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          <span className="text-xs ml-1 text-gray-600">
                             (4.0)
                           </span>
                         </div>
 
                         <div className="flex items-baseline gap-1">
-                          <span className="text-sm lg:text-lg font-bold font-[Rajdhani] text-black dark:text-white">
+                          <span className="text-sm lg:text-lg font-bold font-[Rajdhani] text-black">
                             ₹ {product.price?.toLocaleString()}
                           </span>
-                          <span className={`text-xs line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                          <span className="text-xs line-through text-gray-400">
                             ₹ {(product.price * 1.2)?.toLocaleString()}
                           </span>
                         </div>
@@ -611,10 +584,8 @@ const HeroCarousel = () => {
                           disabled={addingToCart === product.id}
                           className={`flex-1 py-1 rounded-md flex items-center justify-center gap-0.5 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
                             addingToCart === product.id
-                              ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
-                              : darkMode
-                                ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                                : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
+                              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                              : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
                           }`}
                         >
                           {addingToCart === product.id ? (
@@ -645,10 +616,10 @@ const HeroCarousel = () => {
 
               {/* Scroll Indicator */}
               <div className="flex justify-center mt-1 lg:mt-3 absolute bottom-1 lg:bottom-3 left-1/2 -translate-x-1/2">
-                <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-0.5 lg:p-1`}>
+                <div className="flex gap-1 bg-gray-100 rounded-full p-0.5 lg:p-1">
                   <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-[#07bff]"></div>
-                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400"></div>
+                  <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400"></div>
                 </div>
               </div>
 

@@ -1,36 +1,17 @@
-
-/* .App {
-  font-family: "Awanzman", sans-serif;
-}
-/* App.css */
-
-:root{
-  --color-primary:#007bff; /* Indigo */
-}
-
-html {
-  overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer/Edge */
-}
-
-html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-  
-body {
-  overflow-y: auto; /* Ensures scrolling is possible */
-}
-
-body {
-  font-family: "Awanzman", sans-serif;
-}
+/* Custom font */
 @font-face {
   font-family: "Awanzman";
-  src: url("./fonts/AwanZaman\ Regular.ttf") format("truetype");
+  src: url("./fonts/AwanZaman Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
+
+/* Use your font globally */
+body {
+  font-family: "Awanzman", sans-serif;
+}
+
+/* App logo animation */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -41,5 +22,3 @@ body {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-@import url("https://fonts.googleapis.com/css2?family=Radio+Canada:wght@400;500;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef,useState } from 'react';
 import { motion } from 'framer-motion';
+import { CheckCircle } from "lucide-react";
 // import Logo from '../../../Images/LoginWith/neo_tokyo-logo.png';
 import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
@@ -273,23 +274,32 @@ const StackedCard = ({ children, index = 0, total = 1 }) => {
 
 const QualityCard = () => {
   return (
-    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
-      {/* Stack effect - creating shadow cards underneath */}
-      <StackedCard index={2} total={3}>
-        <div className="h-full w-full"></div>
-      </StackedCard>
-      
-      <StackedCard index={1} total={3}>
-        <div className="h-full w-full"></div>
-      </StackedCard>
-      
-      {/* Main content card */}
-      <StackedCard index={0} total={3}>
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6">why choose us</h2>
-          <QualityStandards />
+    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12 bg-white rounded-2xl shadow-lg border border-blue-500/20">
+      <div className="p-6 lg:p-8">
+        <h2 className="text-3xl lg:text-4xl font-bold text-blue-500 mb-6 tracking-tight">
+          Why Choose Us
+        </h2>
+        <div className="space-y-4">
+          <div className="flex items-start space-x-3">
+            <CheckCircle className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+            <p className="text-base text-black leading-relaxed">
+              Handpicked cutting-edge devices with premium quality assurance.
+            </p>
+          </div>
+          <div className="flex items-start space-x-3">
+            <CheckCircle className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+            <p className="text-base text-black leading-relaxed">
+              Seamless shopping experience with secure payments and fast delivery.
+            </p>
+          </div>
+          <div className="flex items-start space-x-3">
+            <CheckCircle className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+            <p className="text-base text-black leading-relaxed">
+              Expert support and easy returns to keep you satisfied.
+            </p>
+          </div>
         </div>
-      </StackedCard>
+      </div>
     </div>
   );
 };

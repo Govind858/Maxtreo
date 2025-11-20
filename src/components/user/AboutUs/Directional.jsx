@@ -1,74 +1,28 @@
-import { ArrowUpRight } from "lucide-react";
-import directional1 from "../../../Images/darklaptop.jpeg"
-import directional2 from "../../../Images/Diractional2.png"
 
 export default function DirectionalSection() {
   return (
-    <div className="max-w-6xl mx-auto p-4" >
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left column - Text content and small image */}
-        <div className="flex-1 space-y-10">
-          {/* Text content section */}
-          <div className="space-y-4 mb-8">
-            <h1 className="text-4xl font-bold">Our Promise</h1>
-            {/* <h3 className="text-xl font-medium text-pink-600">AI and ML Tech</h3> */}
-            <p className="text-gray-800">
-              From door-step delivery to responsive support, we stay with you long after checkout. Maxtreo promises transparency, care and a feel-good journey from click to unboxing and beyond.             
+    <div className="max-w-6xl mx-auto p-4 lg:p-6 bg-white">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        {/* Left column - Text content */}
+        <div className="flex-1 space-y-6">
+          <div className="space-y-4">
+            <h1 className="text-3xl lg:text-4xl font-bold text-black mb-4 tracking-tight">
+              Our Promise
+            </h1>
+            <p className="text-base text-black leading-relaxed max-w-lg">
+              From door-step delivery to responsive support, we stay with you long after checkout. Maxtreo promises transparency, care and a feel-good journey from click to unboxing and beyond.
             </p>
-            
-            <div className="pt-4">
-              {/* <button  className="flex items-center bg-black text-white rounded-full py-2 px-6"
-                onClick={() => window.location.href = '/support'}>
-                <span className="mr-2">Support</span>
-                <ArrowRight size={18} />
-              </button> */}
-            </div>
-          </div>
-          
-          {/* Small image container */}
-          <div className="rounded-3xl overflow-hidden border border-gray-200 w-full">
-            <div className="relative">
-              {/* Diagonal cut shape using clip-path */}
-              <div className="w-full aspect-video p-3" style={{
-                clipPath: "polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)",
-                // background: "linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0))"
-              }}>
-                <img 
-                  src={directional1} 
-                  alt="Tech component closeup" 
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </div>
           </div>
         </div>
         
-        {/* Right column - Large image */}
-        <div className="flex-1">
-          <div className="rounded-3xl overflow-hidden border border-gray-200 p-3">
-            <div className="relative">
-              {/* Full image with overlay text */}
-              <div className="w-full h-full aspect-square">
-                <img 
-                  src={directional2} 
-                  alt="Desktop workspace with laptop, coffee and tech gadgets" 
-                  className="object-cover w-full h-full"
-                />
-                
-                {/* Overlay text */}
-                <div className="absolute top-8 right-8 text-white text-3xl font-medium">
-                  Future
-                </div>
-                
-                {/* Bottom right circular button */}
-                <div className="absolute bottom-6 right-6">
-                  <button className="flex items-center justify-center bg-white rounded-full w-12 h-12 shadow-md">
-                    <ArrowUpRight size={20} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Right column - Additional content or quote */}
+        <div className="flex-1 bg-blue-50 rounded-2xl p-6 lg:p-8 border border-blue-200">
+          <h3 className="text-2xl font-bold text-blue-500 mb-4">
+            Your Tech Journey Starts Here
+          </h3>
+          <p className="text-base text-black leading-relaxed">
+            We're committed to making every interaction exceptional. Join thousands of satisfied customers who trust Maxtreo for their next gadget upgrade.
+          </p>
         </div>
       </div>
     </div>

@@ -26,7 +26,6 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const [searchTerm, setSearchTerm] = useState('');
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
-  const darkMode = false;
   const [guestCart, setGuestCart] = useState([]);
   const alertTimeoutRef = useRef(null);
   const { user } = useAuth();
@@ -81,21 +80,6 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
     const initialCart = getGuestCart();
     setGuestCart(initialCart);
   }, []);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-      document.body.classList.remove('light');
-    } else {
-      document.body.classList.add('light');
-      document.body.classList.remove('dark');
-    }
-
-    return () => {
-      document.body.classList.remove('dark');
-      document.body.classList.remove('light');
-    };
-  }, [darkMode]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -240,7 +224,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const pageSubtitle = category ? `Explore our ${category.name.toLowerCase()} collection` : "Discover our exclusive collection";
 
   return (
-    <div className={`min-h-screen px-4 py-8 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className="min-h-screen px-4 py-8 bg-white text-black">
       {alertData && (
         <Alert 
           type={alertData.type}
@@ -254,10 +238,10 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
       <div className="w-full max-w-7xl mx-auto">
         {/* Dynamic Title Section */}
         <div className="text-center lg:text-left mb-6">
-          <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue dark:text-white relative inline-block">
+          <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue relative inline-block">
             {pageTitle}
           </h1>
-          <p className={`mt-3 text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className="mt-3 text-base text-gray-600">
             {pageSubtitle}
           </p>
         </div>
@@ -271,69 +255,62 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`
+              className="
                 w-full pl-4 pr-12
                 py-2 sm:py-2.5
                 text-sm sm:text-base
                 rounded-full border-2 focus:border-[#07bff]
-                ${darkMode
-                  ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}
+                bg-white border-gray-300 text-gray-900 placeholder-gray-500
                 outline-none transition-all duration-300
-              `}
+              "
             />
-            <FaSearch className={`
+            <FaSearch className="
               absolute right-4 top-1/2 -translate-y-1/2
-              text-base ${darkMode ? 'text-gray-400' : 'text-gray-500'}
-            `} />
+              text-base text-gray-500
+            " />
           </div>
 
           {/* Filter & Sort Buttons */}
           <div className="flex gap-2">
-            <button
-              onClick={() => { setFilter(!filter); if (sort) setSort(false); }}
-              className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
-                ${filter
-                  ? 'bg-[#07bff] text-white shadow-md'
-                  : darkMode
-                    ? 'bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]'
-                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
-                }
-              `}
-            >
-              <FaFilter className={filter ? 'text-white' : ''} />
-              FILTER
-            </button>
+          <button
+            onClick={() => { setFilter(!filter); if (sort) setSort(false); }}
+            className="
+              flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium
+              transition-all
+              bg-gray-100 text-gray-800 border border-gray-300 
+              hover:bg-gray-200 hover:border-[#07bff]
+            "
+          >
+            <FaFilter />
+            FILTER
+          </button>
 
-            <button
-              onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
-              className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
-                ${sort
-                  ? 'bg-[#07bff] text-white shadow-md'
-                  : darkMode
-                    ? 'bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]'
-                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
-                }
-              `}
-            >
-              <FaSort className={sort ? 'text-white' : ''} />
-              SORT
-            </button>
+              <button
+                onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
+                className="
+                  flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium
+                  transition-all
+                  bg-gray-100 text-gray-800 border border-gray-300 
+                  hover:bg-gray-200 hover:border-[#07bff]
+                "
+              >
+                <FaSort />
+                SORT
+              </button>
+
           </div>
         </div>
 
         {/* Filter Section */}
         {filter && (
-          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <div className="mb-6 p-4 sm:p-6 rounded-xl border bg-gray-50 border-gray-200">
             <Filter products={products} setProducts={setProducts} />
           </div>
         )}
 
         {/* Sort Section */}
         {sort && (
-          <div className={`mb-6 p-4 sm:p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <div className="mb-6 p-4 sm:p-6 rounded-xl border bg-gray-50 border-gray-200">
             <Sorting products={products} setProducts={setProducts} />
           </div>
         )}
@@ -344,7 +321,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
             <Loader />
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className={`text-center py-16 px-6 rounded-xl border ${darkMode ? 'bg-gray-900 text-gray-400 border-gray-700' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+          <div className="text-center py-16 px-6 rounded-xl border bg-gray-50 text-gray-600 border-gray-200">
             <p className="text-lg font-semibold">No products found. Try adjusting your filters or search term.</p>
           </div>
         ) : (
@@ -353,10 +330,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
               <div 
                 key={product.id}
                 onClick={() => navigateToDetails(product.id)}
-                className={`group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col ${darkMode 
-                  ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
-                  : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
-                }`}
+                className="group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
               >
                 {/* Product Badge */}
                 <div className="absolute top-3 left-3 z-10">
@@ -366,7 +340,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                 </div>
 
                 {/* Image Container */}
-                <div className="relative h-36 sm:h-40 lg:h-52 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                <div className="relative h-36 sm:h-40 lg:h-52 flex items-center justify-center overflow-hidden bg-gray-100 flex-shrink-0">
                   <img 
                     src={product.images?.[0]?.image 
                       ? baseUrl + product.images[0].image 
@@ -378,7 +352,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                   
                   {/* Quick Action Overlay */}
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 lg:gap-2 text-white`}>
+                    <div className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 lg:gap-2 text-white">
                       <button className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
                         <FaBolt className="text-xs lg:text-sm" />
                       </button>
@@ -390,7 +364,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                 {/* Product Content */}
                 <div className="p-2.5 sm:p-3 lg:p-5 flex-1 flex flex-col justify-between min-h-0">
                   <div className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0">
-                    <h2 className="font-[Rajdhani] text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 lg:mb-2.5 line-clamp-2 leading-tight text-black dark:text-white">
+                    <h2 className="font-[Rajdhani] text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 lg:mb-2.5 line-clamp-2 leading-tight text-black">
                       {product.name}
                     </h2>
                     
@@ -400,20 +374,20 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                         <FaStar 
                           key={star}
                           className={`text-[10px] sm:text-xs lg:text-sm ${
-                            star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
+                            star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
                           }`}
                         />
                       ))}
-                      <span className={`text-[10px] sm:text-xs lg:text-sm ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className="text-[10px] sm:text-xs lg:text-sm ml-1 text-gray-600">
                         (4.0)
                       </span>
                     </div>
 
                     <div className="flex items-baseline gap-1.5 sm:gap-2 lg:gap-2.5 flex-wrap">
-                      <span className="text-base sm:text-lg lg:text-xl font-bold font-[Rajdhani] text-black dark:text-white">
+                      <span className="text-base sm:text-lg lg:text-xl font-bold font-[Rajdhani] text-black">
                         ₹ {product.price?.toLocaleString()}
                       </span>
-                      <span className={`text-[10px] sm:text-xs lg:text-sm line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                      <span className="text-[10px] sm:text-xs lg:text-sm line-through text-gray-400">
                         ₹ {(product.price * 1.2)?.toLocaleString()}
                       </span>
                     </div>
@@ -426,10 +400,8 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                       disabled={addingToCart === product.id}
                       className={`flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl flex items-center justify-center gap-1 lg:gap-1.5 text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
                         addingToCart === product.id
-                          ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
-                          : darkMode
-                            ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
                       }`}
                     >
                       {addingToCart === product.id ? (
