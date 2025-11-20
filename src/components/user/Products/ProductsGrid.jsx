@@ -248,31 +248,29 @@ function ProductsGrid() {
           <div className="flex gap-2">
             <button
               onClick={() => { setFilter(!filter); if (sort) setSort(false); }}
-              className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
-                ${filter
-                  ? 'bg-[#07bff] text-white shadow-md'
-                  : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
-                }
-              `}
+             className="
+  flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
+  bg-gray-100 text-gray-800 border border-gray-300
+  hover:bg-gray-200 hover:border-[#07bff]
+"
+
             >
-              <FaFilter className={filter ? 'text-white' : ''} />
+              <FaFilter className="text-black" />
               FILTER
             </button>
 
-            <button
-              onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
-              className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
-                ${sort
-                  ? 'bg-[#07bff] text-white shadow-md'
-                  : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 hover:border-[#07bff]'
-                }
-              `}
-            >
-              <FaSort className={sort ? 'text-white' : ''} />
-              SORT
-            </button>
+           <button
+  onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
+  className="
+    flex items-center gap-1.5 px-4 py-2 rounded-full 
+    text-sm font-medium transition-all
+    bg-gray-100 text-gray-800 border border-gray-300
+    hover:bg-gray-200 hover:border-[#07bff]
+  "
+>
+  <FaSort />
+  SORT
+</button>
           </div>
         </div>
 
