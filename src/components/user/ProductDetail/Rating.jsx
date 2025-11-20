@@ -65,7 +65,7 @@ export default function Rating({ product }) {
       }
 
       setReviews([...reviews, newReview]);
-      setAlertMessage("Review added successfully");
+      // setAlertMessage("Review added successfully");
       setAlert(true);
       setSubmitted(true);
     } catch (error) {
@@ -120,11 +120,11 @@ export default function Rating({ product }) {
 
   return (
     <div className="bg-white text-black w-full py-6 font-sans">
-      {alert && (
+      {/* {alert && (
         <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-3 mb-4 max-w-6xl mx-auto">
           <p>{alertMessage}</p>
         </div>
-      )}
+      )} */}
 
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center mb-3">

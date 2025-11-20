@@ -412,7 +412,6 @@ const ModernNavbar = () => {
                   <Link to="/cart" className="auth-link cart-link"> 
                     <FaShoppingCart className="action-icon" />
                     <span>Cart</span>
-                    <span className="cart-count">0</span>
                   </Link>
                 </>
               )}

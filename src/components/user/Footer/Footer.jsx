@@ -5,7 +5,7 @@ import MapIframe from "./MapIframe";
 function maxtreoFooter() {
   return (
     <footer className="bg-gray-900 text-white py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl md:max-w-none lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Left Column: Logo, Description, and Map */}
           <div className="md:col-span-4 text-center md:text-left">
@@ -13,16 +13,16 @@ function maxtreoFooter() {
               <h2 className="text-2xl font-bold mb-2">maxtreo</h2>
               <p className="text-sm text-gray-300">Experience Maximum Tech with Maxtreo</p>
             </div>
-            <div className="w-full flex justify-center md:justify-start">
-              <MapIframe />
-            </div>
+       <div className="w-full max-w-[700px] aspect-[5/1] mx-auto md:w-[200px] md:aspect-square md:mx-0 relative overflow-hidden rounded-lg border-2 border-gray-300">
+         <MapIframe />
+      </div>
           </div>
 
           {/* Right Columns: Links and Contact */}
           <div className="md:col-span-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Quick Links */}
-              <div className="text-center md:text-left">
+              <div className="hidden md:block text-center md:text-left">
                 <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
                 <ul className="space-y-2 inline-block md:inline-block">
                   <li><a href="/about" className="text-sm text-gray-300 hover:text-white transition-colors block md:inline-block">About</a></li>

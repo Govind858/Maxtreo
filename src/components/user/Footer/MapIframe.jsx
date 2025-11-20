@@ -12,20 +12,12 @@ export default function MapIframe() {
   return (
     <div
       onClick={openDirections}
-      style={{
-        width: "200px",
-        height: "200px",
-        cursor: "pointer",
-        borderRadius: "10px",
-        overflow: "hidden",
-        border: "2px solid #ccc"
-      }}
+      className="absolute inset-0 cursor-pointer overflow-hidden"
     >
       <iframe
         title="Google Map"
         src={`https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
-        width="100%"
-        height="100%"
+        className="w-full h-full"
         style={{ border: 0, pointerEvents: "none" }}
         loading="lazy"
         allowFullScreen

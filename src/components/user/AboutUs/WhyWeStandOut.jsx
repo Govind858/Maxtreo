@@ -1,7 +1,55 @@
 import { ArrowUpRight } from "lucide-react";
+import { FaStar } from "react-icons/fa";
 import quality_img from "../../../Images/digitalproductshowcase.jpg";
 
 export default function WhyWeStandOut() {
+  // Hardcoded company rating data (in a real app, fetch from API or backend)
+  const companyRatingSummary = {
+    average_rating: 4.8,
+    total_reviews: 1200
+  };
+
+  // Rating rendering logic (reusable, same as ProductsGrid)
+  const renderCompanyRating = () => {
+    const rating = parseFloat(companyRatingSummary.average_rating) || 0;
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const totalReviews = companyRatingSummary.total_reviews || 0;
+
+    return (
+      <div className="flex items-center gap-1 mb-4">
+        {[1, 2, 3, 4, 5].map((star) => {
+          if (star <= fullStars) {
+            return (
+              <FaStar 
+                key={star}
+                className="text-[14px] lg:text-sm text-yellow-400 fill-current"
+              />
+            );
+          } else if (star === fullStars + 1 && hasHalfStar) {
+            return (
+              <FaStar 
+                key={star}
+                className="text-[14px] lg:text-sm text-yellow-400 fill-current"
+                style={{ clipPath: 'inset(0 50% 0 0)' }}
+              />
+            );
+          } else {
+            return (
+              <FaStar 
+                key={star}
+                className="text-[14px] lg:text-sm text-gray-300"
+              />
+            );
+          }
+        })}
+        <span className="text-sm lg:text-base ml-1 text-gray-600 font-medium">
+          ({rating.toFixed(1)}){totalReviews > 0 && ` (${totalReviews.toLocaleString()} reviews)`}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col lg:flex-row p-4 lg:p-6 gap-6 max-w-6xl mx-auto bg-white">
       <div className="flex-1 space-y-8">
@@ -27,6 +75,16 @@ export default function WhyWeStandOut() {
           <p className="text-base text-black leading-relaxed max-w-lg">
             From pocket-perfect smartphones to productivity-boosting laptops and entertainment-packed tablets, Maxtreo brings together gadgets that matter. Every product is handpicked to ensure cutting-edge features, durable quality and head-turning design.
           </p>
+          {/* Added Company Rating Section */}
+          <div className="pt-4 border-t border-gray-200">
+            <h3 className="text-lg lg:text-xl font-semibold text-black mb-2">
+              Trusted by Thousands
+            </h3>
+            {renderCompanyRating()}
+            <p className="text-sm text-gray-600">
+              Join 1,200+ happy customers who've upgraded their tech with us.
+            </p>
+          </div>
         </div>
       </div>
       
@@ -39,7 +97,10 @@ export default function WhyWeStandOut() {
           />
           
           {/* Bottom right button */}
-       
+          <button className="absolute bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition-colors">
+            Explore Now
+            <ArrowUpRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>

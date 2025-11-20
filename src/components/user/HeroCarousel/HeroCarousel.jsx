@@ -383,92 +383,112 @@ const HeroCarousel = () => {
 
   return (
     <div className="w-full pt-4">
-      <div className={`flex flex-col lg:flex-row bg-red-500`}>
+      <div className="flex flex-col lg:flex-row">
         {/* Left Side: Hero Carousel */}
-        <div className="w-full lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 h-[30vh] lg:h-[50vh]">
-          {carouselData.length === 0 ? (
-            <div className="w-full h-full bg-slate-100 flex items-center justify-center">
-              <p className="text-slate-600">No carousel items available</p>
+        <div className="w-full lg:w-1/2 relative overflow-hidden bg-slate-900 h-[30vh] lg:h-[50vh] group rounded-2xl shadow-2xl">
+  {carouselData.length === 0 ? (
+    /* Empty State - Fixed with standard SVG */
+    <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-slate-800">
+      <svg 
+        className="w-12 h-12 mb-2 opacity-50" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor" 
+        strokeWidth={1.5}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <p className="text-sm font-medium">No carousel items available</p>
+    </div>
+  ) : (
+    <>
+      {carouselData.map((slide, index) => (
+        <div
+          key={slide.id}
+          className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+            index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          {/* Background Image with Zoom Effect */}
+          <div className="relative w-full h-full overflow-hidden">
+            <div className="absolute inset-0 bg-black/30 z-10" /> 
+            <img
+              src={slide.image.startsWith('http') ? slide.image : baseUrl + slide.image}
+              alt={slide.alt_text}
+              className={`w-full h-full object-cover transition-transform duration-[3000ms] ease-out ${
+                index === currentSlide ? 'scale-110' : 'scale-100'
+              }`}
+            />
+          </div>
+
+          {/* Glass Content Card */}
+          <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 z-20 flex justify-start">
+            <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 lg:p-6 rounded-xl shadow-lg w-full max-w-lg transform transition-all duration-500">
+              
+              {/* Tag / Head Two */}
+              <span className="inline-block py-0.5 px-2 rounded bg-blue-500/20 text-blue-200 text-[10px] lg:text-xs font-bold tracking-wider uppercase mb-2 border border-blue-500/30">
+                {slide.head_two}
+              </span>
+
+              {/* Head One */}
+              <h1 className="text-xl lg:text-3xl font-bold text-white leading-tight mb-1.5 lg:mb-2 drop-shadow-sm line-clamp-1">
+                {slide.head_one}
+              </h1>
+
+              {/* Description */}
+              <p className="text-slate-200 text-xs lg:text-sm line-clamp-2 mb-3 lg:mb-4 leading-relaxed">
+                {slide.description}
+              </p>
+
+              {/* Button */}
+              <a
+                href={slide.button_link}
+                className="inline-flex items-center justify-center px-4 py-1.5 lg:py-2 text-xs lg:text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                {slide.button_text}
+              </a>
             </div>
-          ) : (
-            <>
-              {carouselData.map((slide, index) => (
-                <div
-                  key={slide.id}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <div className="relative w-full h-full">
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10" />
-                    
-                    <img
-                      src={slide.image.startsWith('http') ? slide.image : baseUrl + slide.image}
-                      alt={slide.alt_text}
-                      className="w-full h-full object-cover"
-                    />
-
-                    <div className="absolute inset-0 z-20 flex items-start pt-4 px-2">
-                      <div className="w-full max-w-md space-y-1.5">
-                        <h1 className="text-lg font-bold text-white leading-tight">
-                          {slide.head_one}
-                        </h1>
-                        
-                        <h2 className="text-sm text-slate-200 font-medium">
-                          {slide.head_two}
-                        </h2>
-                        
-                        <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">
-                          {slide.description}
-                        </p>
-                        
-                        <div className="pt-1.5">
-                          <a
-                            href={slide.button_link}
-                            className="inline-block px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-all duration-300 text-sm"
-                          >
-                            {slide.button_text}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              <button
-                onClick={goToPrevious}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-1.5 rounded-full transition-all duration-300 group"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="w-3 h-3 text-white group-hover:scale-110 transition-transform" />
-              </button>
-
-              <button
-                onClick={goToNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-1.5 rounded-full transition-all duration-300 group"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="w-3 h-3 text-white group-hover:scale-110 transition-transform" />
-              </button>
-
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex space-x-1.5">
-                {carouselData.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === currentSlide
-                        ? 'w-6 h-1 bg-white'
-                        : 'w-1 h-1 bg-white/50 hover:bg-white/70'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
+          </div>
         </div>
+      ))}
+
+      {/* Navigation Arrows (Using standard SVGs) */}
+      <div className="absolute bottom-4 right-4 lg:bottom-8 lg:right-8 z-30 flex items-center gap-2">
+        <button
+          onClick={goToPrevious}
+          className="p-1.5 lg:p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white transition-all border border-white/10 hover:border-white/30"
+          aria-label="Previous slide"
+        >
+          <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={goToNext}
+          className="p-1.5 lg:p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white transition-all border border-white/10 hover:border-white/30"
+           aria-label="Next slide"
+        >
+          <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Progress Bar Indicators at Top */}
+      <div className="absolute top-0 left-0 right-0 z-30 flex px-1 pt-1">
+        {carouselData.map((_, index) => (
+          <div key={index} className="flex-1 h-1 bg-white/20 overflow-hidden mx-0.5 rounded-full">
+            <div
+              className={`h-full bg-blue-500 transition-all duration-500 ease-out ${
+                index === currentSlide ? 'w-full' : 'w-0'
+              }`}
+            />
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+</div>
 
         {/* Right Side: Product Carousel */}
         <div className="w-full lg:w-1/2 relative h-[30vh] lg:h-[50vh] overflow-hidden bg-white">
@@ -516,107 +536,130 @@ const HeroCarousel = () => {
                 className="flex overflow-x-auto gap-1.5 lg:gap-3 pb-2 lg:pb-6 h-full px-1 -mx-1 scrollbar-hide scroll-smooth"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {filteredProducts.map((product) => (
-                  <div 
-                    key={product.id}
-                    onClick={() => navigateToDetails(product.id)}
-                    className="flex-shrink-0 w-40 lg:w-56 group rounded-lg overflow-hidden transition-all duration-300 cursor-pointer border h-full flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
-                  >
-                    
-                    {/* Image Container */}
-                    <div className="relative h-20 lg:h-32 flex items-center justify-center overflow-hidden bg-gray-100 flex-shrink-0">
-                      <img 
-                        src={product.images?.[0]?.image 
-                          ? baseUrl + product.images[0].image 
-                          : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                        } 
-                        alt={product.name}
-                        className="h-16 lg:h-24 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
+                {filteredProducts.map((product) => {
+                  const rating = product.rating_summary ? parseFloat(product.rating_summary.average_rating) || 0 : 0;
+                  const fullStars = Math.floor(rating);
+                  const hasHalfStar = rating % 1 >= 0.5;
+                  const totalReviews = product.rating_summary ? product.rating_summary.total_reviews || 0 : 0;
+                  return (
+                    <div 
+                      key={product.id}
+                      onClick={() => navigateToDetails(product.id)}
+                      className="flex-shrink-0 w-40 lg:w-56 h-full group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
+                    >
                       
-                      {/* Quick Action Overlay */}
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                        <div className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 text-white">
-                          <button className="w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
-                            <FaBolt className="text-xs" />
-                          </button>
-                          <span className="text-xs font-semibold">Quick View</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Product Content */}
-                    <div className="p-1.5 lg:p-3 flex-1 flex flex-col justify-between">
-                      <div className="mb-1.5">
-                        <h2 className="font-[Rajdhani] text-xs font-bold mb-1 line-clamp-2 leading-tight text-black">
-                          {product.name}
-                        </h2>
+                      {/* Image Container */}
+                      <div className="relative h-20 lg:h-28 flex items-center justify-center overflow-hidden bg-gray-100 flex-shrink-0">
+                        <img 
+                          src={product.images?.[0]?.image 
+                            ? baseUrl + product.images[0].image 
+                            : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
+                          } 
+                          alt={product.name}
+                          className="h-16 lg:h-20 w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
                         
-                        {/* Rating */}
-                        <div className="flex items-center gap-0.5 mb-1">
-                          {[1,2,3,4,5].map((star) => (
-                            <FaStar 
-                              key={star}
-                              className={`text-xs ${
-                                star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                          <span className="text-xs ml-1 text-gray-600">
-                            (4.0)
-                          </span>
-                        </div>
-
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-sm lg:text-lg font-bold font-[Rajdhani] text-black">
-                            ₹ {product.price?.toLocaleString()}
-                          </span>
-                          <span className="text-xs line-through text-gray-400">
-                            ₹ {(product.price * 1.2)?.toLocaleString()}
-                          </span>
+                        {/* Quick Action Overlay */}
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 lg:gap-2 text-white">
+                            <button className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
+                              <FaBolt className="text-xs lg:text-sm" />
+                            </button>
+                            <span className="text-xs lg:text-xs font-semibold hidden lg:block">Quick View</span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex gap-1">
-                        <button 
-                          onClick={(e) => addTocart(product.id, e)}
-                          disabled={addingToCart === product.id}
-                          className={`flex-1 py-1 rounded-md flex items-center justify-center gap-0.5 text-xs font-[Rajdhani] font-semibold transition-all duration-300 ${
-                            addingToCart === product.id
-                              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                              : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
-                          }`}
-                        >
-                          {addingToCart === product.id ? (
-                            <>
-                              <FaSpinner className="animate-spin text-xs" /> 
-                              <span>ADD</span>
-                            </>
-                          ) : (
-                            <>
-                              <FaShoppingCart className="text-xs" /> 
-                              <span>CART</span>
-                            </>
-                          )}
-                        </button>
+                      {/* Product Content */}
+                      <div className="p-1.5 lg:p-2.5 flex-1 flex flex-col justify-between min-h-0 overflow-hidden">
+                        <div className="mb-1 space-y-1 flex-shrink-0">
+                          <h2 className="font-[Rajdhani] text-xs lg:text-sm font-bold mb-1 line-clamp-2 leading-tight text-black">
+                            {product.name}
+                          </h2>
+                          
+                          {/* Rating */}
+                          <div className="flex items-center gap-0.5 mb-1">
+                            {[1,2,3,4,5].map((star) => {
+                              if (star <= fullStars) {
+                                return (
+                                  <FaStar 
+                                    key={star}
+                                    className="text-xs lg:text-sm text-yellow-400 fill-current"
+                                  />
+                                );
+                              } else if (star === fullStars + 1 && hasHalfStar) {
+                                return (
+                                  <FaStar 
+                                    key={star}
+                                    className="text-xs lg:text-sm text-yellow-400 fill-current"
+                                    style={{ clipPath: 'inset(0 50% 0 0)' }}
+                                  />
+                                );
+                              } else {
+                                return (
+                                  <FaStar 
+                                    key={star}
+                                    className="text-xs lg:text-sm text-gray-300"
+                                  />
+                                );
+                              }
+                            })}
+                            <span className="text-xs lg:text-sm ml-1 text-gray-600">
+                              ({rating.toFixed(1)}){totalReviews > 0 && ` (${totalReviews})`}
+                            </span>
+                          </div>
 
-                        <button 
-                          onClick={(e) => handleBuyNow(product, e)}
-                          className="flex-1 py-1 rounded-md text-xs font-[Rajdhani] font-bold text-white flex items-center justify-center gap-0.5 bg-blue-500 shadow-lg hover:bg-blue-600"
-                        >
-                          <FaBolt className="text-xs" />
-                          <span>BUY</span>
-                        </button>
+                          <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-sm lg:text-base font-bold font-[Rajdhani] text-black">
+                              ₹ {product.price?.toLocaleString()}
+                            </span>
+                            <span className="text-xs lg:text-sm line-through text-gray-400">
+                              ₹ {(product.price * 1.2)?.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-0.5 lg:gap-1 flex-shrink-0">
+                          <button 
+                            onClick={(e) => addTocart(product.id, e)}
+                            disabled={addingToCart === product.id}
+                            className={`flex-1 py-1 lg:py-1.5 rounded-lg lg:rounded-xl flex items-center justify-center gap-0.5 lg:gap-1 text-xs lg:text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
+                              addingToCart === product.id
+                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
+                            }`}
+                          >
+                            {addingToCart === product.id ? (
+                              <>
+                                <FaSpinner className="animate-spin text-xs lg:text-sm" /> 
+                                <span className="hidden lg:inline">ADD</span>
+                              </>
+                            ) : (
+                              <>
+                                <FaShoppingCart className="text-xs lg:text-sm" /> 
+                                <span className="hidden lg:inline">CART</span>
+                              </>
+                            )}
+                          </button>
+
+                          <button 
+                            onClick={(e) => handleBuyNow(product, e)}
+                            className="flex-1 py-1 lg:py-1.5 rounded-lg lg:rounded-xl text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-0.5 lg:gap-1 bg-blue-500 shadow-lg hover:bg-blue-600"
+                          >
+                            <FaBolt className="text-xs lg:text-sm" />
+                            <span className="hidden lg:inline">BUY</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Scroll Indicator */}
-              <div className="flex justify-center mt-1 lg:mt-3 absolute bottom-1 lg:bottom-3 left-1/2 -translate-x-1/2">
-                <div className="flex gap-1 bg-gray-100 rounded-full p-0.5 lg:p-1">
+              <div className="flex justify-center mt-1 lg:mt-2 absolute bottom-1 lg:bottom-2 left-1/2 -translate-x-1/2">
+                <div className="flex gap-0.5 lg:gap-1 bg-gray-100/80 rounded-full p-0.5 lg:p-1 backdrop-blur-sm">
                   <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-[#07bff]"></div>
                   <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400"></div>
                   <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-gray-400"></div>
