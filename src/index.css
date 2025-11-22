@@ -1,4 +1,15 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.category-link {
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 768px) {
+  .category-link { white-space: nowrap !important; }
+}
 
 * {
   color-scheme: light !important;
