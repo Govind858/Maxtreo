@@ -60,6 +60,7 @@ function Settings() {
     try {
       setIsLoading(true);
       const category = await getCategory();
+      console.log("categories:",category) 
       setCategories(category.data || []);
     } catch (error) {
       console.error(error);

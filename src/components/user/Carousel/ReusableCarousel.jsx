@@ -11,9 +11,9 @@ interface SlideData {
   id: number;
   image: string;
   alt_text: string;
-  head_one: string;
-  head_two: string;
-  description: string;
+  head_one: string; // Not used but kept in interface for data consistency
+  head_two: string; // Not used but kept in interface for data consistency
+  description: string; // Not used but kept in interface for data consistency
   button_text: string;
   button_link: string;
   order: number;
@@ -26,6 +26,7 @@ interface ReusableCarouselProps {
   autoplayDelay?: number; // Delay between slides in ms (0 to disable autoplay)
   width?: string;
   height?: string;
+  fitMode?: 'cover' | 'contain' | 'fill'; // 'cover' = crop to fill, 'contain' = scale to fit fully
 }
 
 const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
@@ -35,9 +36,29 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   autoplayDelay = 3000,
   width = '100%',
   height = '400px',
+  fitMode = 'cover', // Default: Fill by cropping; 'contain' for no crop
 }) => {
   // Sort data by order if needed
   const sortedData = [...data].sort((a, b) => a.order - b.order);
+
+  // Image styles: Position absolute to ensure full coverage within the relative slide
+  const imageStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: fitMode, // Universally fits: cover (crop), contain (scale), fill (stretch)
+    objectPosition: 'center', // Centers the fitted image
+  };
+
+  // Slide styles: Ensure full height and overflow hidden for cropping/rounding
+  const slideStyle: React.CSSProperties = {
+    height: '100%',
+    overflow: 'hidden',
+    position: 'relative',
+    borderRadius: '8px', // Optional: Rounded corners
+  };
 
   return (
     <div className="w-full" style={{ width, height }}>
@@ -50,33 +71,33 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
         pagination={{ clickable: true }}
         navigation={slidesPerView > 1} // Enable navigation only if multiple slides visible
         className="h-full"
+        style={{ height: '100%' }} // Explicit height: 100% for Swiper to inherit parent fully
       >
         {sortedData.map((slide) => (
-          <SwiperSlide key={slide.id} className="relative">
-            <div
-              className="relative w-full h-full bg-cover bg-center flex items-center justify-center text-white"
-              style={{ backgroundImage: `url(${slide.image})` }}
-            >
-              {/* Overlay for better text readability */}
-              <div className="absolute inset-0 bg-black bg-opacity-40" />
-              
-              <div className="relative z-10 text-center max-w-2xl p-6">
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                  {slide.head_one}
-                </h1>
-                <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-                  {slide.head_two}
-                </h2>
-                <p className="text-lg mb-6 opacity-90">
-                  {slide.description}
-                </p>
-                <a
-                  href={slide.button_link}
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
-                >
-                  {slide.button_text}
-                </a>
-              </div>
+          <SwiperSlide key={slide.id} style={slideStyle}>
+            {/* Full-cover Image */}
+            <img
+              src={slide.image}
+              alt={slide.alt_text}
+              style={imageStyle}
+              loading="lazy" // Lazy load for performance
+              onError={(e) => {
+                // Fallback for broken images
+                e.currentTarget.src = '/path/to/fallback-image.jpg'; // Replace with your fallback
+              }}
+            />
+            
+            {/* Overlay for better button visibility */}
+            <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
+            
+            {/* Button Overlay */}
+            <div className="absolute bottom-0 right-0 z-20 p-6"> {/* z-20 to stay above overlay */}
+              <a
+                href={slide.button_link}
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+              >
+                {slide.button_text}
+              </a>
             </div>
           </SwiperSlide>
         ))}

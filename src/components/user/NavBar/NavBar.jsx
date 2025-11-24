@@ -16,8 +16,8 @@ import {
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
-// import { getCategory } from "../../../Services/Settings";
-import { getProductCategories } from "../../../Services/Settings"
+import { getCategory } from "../../../Services/Settings";
+import { getAllProduct } from "../../../Services/Products";
 // import NavBarMenu from "./NavBarMenu";
 import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
@@ -31,6 +31,7 @@ const ModernNavbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
   const [dropdownScroll, setDropdownScroll] = useState({
     top: true,
     bottom: false,
@@ -42,6 +43,7 @@ const ModernNavbar = () => {
   const { user } = useAuth();
   const dropdownRef = useRef(null);
   const [productsItems, setProductsItems] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const prevUserRef = useRef(user);
   const location = useLocation();
 
@@ -145,18 +147,25 @@ const ModernNavbar = () => {
   // Close dropdown on route change
   useEffect(() => {
     setActiveDropdown(null);
+    setHoveredCategory(null);
   }, [location.pathname]);
 
   const getProductDropDownList = async () => {
     try {
-      const categories = await getProductCategories();
-      console.log("categories:", categories);
-      const categoryData = Array.isArray(categories) ? categories : (categories.data || []);
+      const originalCategories = await getCategory();
+      console.log("original categories:", originalCategories);
+      const allProductsRes = await getAllProduct();
+      console.log("all products:", allProductsRes);
+      const categoryData = Array.isArray(originalCategories) ? originalCategories : (originalCategories.data || []);
+      const productsData = Array.isArray(allProductsRes) ? allProductsRes : (allProductsRes.data || []);
       setProductsItems(categoryData);
+      setAllProducts(productsData);
       console.log("categories set:", categoryData);
+      console.log("products set:", productsData);
     } catch (error) {
-      console.log(error, "error while fetching categories");
+      console.log(error, "error while fetching categories or products");
       setProductsItems([]);
+      setAllProducts([]);
     }
   };
 
@@ -184,6 +193,7 @@ const ModernNavbar = () => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".dropdown-container")) {
         setActiveDropdown(null);
+        setHoveredCategory(null);
       }
     };
 
@@ -309,52 +319,146 @@ const ModernNavbar = () => {
                 <h1 className="text-2xl ">Maxtreo</h1>
               </div>
               {!isMobile && (
-                <div 
-                  className="dropdown-container"
-                  onMouseEnter={() => setActiveDropdown("categories")}
-                  onMouseLeave={() => setActiveDropdown(null)}
+
+<div 
+  className="dropdown-container"
+>
+  <button
+    className="category-dropdown-trigger"
+    onClick={() => handleDropdownToggle("categories")}
+    onMouseEnter={() => setActiveDropdown("categories")}
+  >
+    <FaBars className="categories-icon" />
+    All Categories
+    <FaChevronDown className="dropdown-icon" />
+  </button>
+  <div
+    className={`categories-dropdown ${
+      activeDropdown === "categories" ? "active" : ""
+    } ${hoveredCategory ? "expanded" : ""}`}
+    onMouseLeave={() => {
+      setActiveDropdown(null);
+      setHoveredCategory(null);
+    }}
+  >
+    <div className="dropdown-wrapper">
+      {!dropdownScroll.top && (
+        <button
+          className="scroll-indicator scroll-up"
+          onClick={() => scrollDropdown("up")}
+        >
+          <FaChevronUp />
+        </button>
+      )}
+      <div
+        className="dropdown-content mega-dropdown"
+        ref={dropdownRef}
+        onScroll={handleDropdownScroll}
+        style={{ display: 'flex', flexDirection: 'row', height: '100%' }}
+      >
+        <div 
+          className={`left-column ${hoveredCategory ? 'has-hover' : ''}`}
+          style={{ 
+            minWidth: '200px',
+            borderRight: hoveredCategory ? '1px solid #eee' : 'none'
+          }}
+        >
+          {Array.isArray(productsItems) && productsItems.length > 0 ? (
+            productsItems.map((item, index) => (
+              <div
+                key={index}
+                className={`dropdown-item-wrapper ${hoveredCategory === item.id ? 'active' : ''}`}
+                onMouseEnter={() => setHoveredCategory(item.id)}
+                onMouseLeave={() => setHoveredCategory(null)}
+              >
+                <Link
+                  to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`}
+                  className="dropdown-item"
                 >
-                  <button
-                    className="category-dropdown-trigger"
-                    onClick={() => handleDropdownToggle("categories")}
-                  >
-                    <FaBars className="categories-icon" />
-                    All Categories
-                    <FaChevronDown className="dropdown-icon" />
-                  </button>
-                  <div
-                    className={`categories-dropdown ${
-                      activeDropdown === "categories" ? "active" : ""
-                    }`}
-                  >
-                    <div className="dropdown-wrapper">
-                      {!dropdownScroll.top && (
-                        <button
-                          className="scroll-indicator scroll-up"
-                          onClick={() => scrollDropdown("up")}
+                  {item.name}
+                </Link>
+              </div>
+            ))
+          ) : (
+            <div className="loading-placeholder">Loading categories...</div>
+          )}
+        </div>
+        <div 
+          className={`right-column sub-dropdown separate-box ${hoveredCategory ? 'show' : ''}`}
+          style={{ 
+            display: hoveredCategory ? 'block' : 'none'
+          }}
+          onMouseEnter={() => {
+            // Keep the current hovered category active when mouse enters products section
+          }}
+        >
+          {(() => {
+            const selectedCat = productsItems.find((cat) => cat.id === hoveredCategory);
+            if (selectedCat) {
+              const catProducts = allProducts
+                .filter((p) => p.category === selectedCat.name)
+                .slice(0, 6);
+              if (catProducts.length > 0) {
+                return (
+                  <div className="products-box">
+                    <h4 style={{ marginBottom: '15px', fontSize: '18px', color: '#333' }}>
+                      {selectedCat.name} Products
+                    </h4>
+                    <div className="product-grid" style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: 'repeat(2, 1fr)', 
+                      gap: '12px' 
+                    }}>
+                      {catProducts.map((product, idx) => (
+                        <Link 
+                          key={idx} 
+                          to={`/product/${product.id}`} 
+                          className="product-item"
+                          style={{
+                            textDecoration: 'none',
+                            color: '#555',
+                            padding: '10px 12px',
+                            border: '1px solid #eee',
+                            borderRadius: '4px',
+                            transition: 'all 0.2s',
+                            fontSize: '14px',
+                            lineHeight: '1.4'
+                          }}
                         >
-                          <FaChevronUp />
-                        </button>
-                      )}
-                      <div
-                        className="dropdown-content"
-                        ref={dropdownRef}
-                        onScroll={handleDropdownScroll}
-                      >
-                        {Array.isArray(productsItems) && productsItems.map((item, index) => (
-                          <Link
-                            key={index}
-                            to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`} // Updated path to match page
-                            className="dropdown-item"
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
-                      
+                          {product.name}
+                        </Link>
+                      ))}
                     </div>
                   </div>
+                );
+              } else {
+                return (
+                  <div className="no-products" style={{ padding: '20px', color: '#999' }}>
+                    No products available
+                  </div>
+                );
+              }
+            } else {
+              return (
+                <div className="no-products" style={{ padding: '20px', color: '#999' }}>
+                  Hover over a category to see products
                 </div>
+              );
+            }
+          })()}
+        </div>
+      </div>
+      {!dropdownScroll.bottom && (
+        <button
+          className="scroll-indicator scroll-down"
+          onClick={() => scrollDropdown("down")}
+        >
+          <FaChevronDown />
+        </button>
+      )}
+    </div>
+  </div>
+</div>
               )}
               
           </div>
