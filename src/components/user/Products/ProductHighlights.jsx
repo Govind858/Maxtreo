@@ -20,7 +20,6 @@ function ProductHighlights() {
   const [addingToCart, setAddingToCart] = useState(null);
   const [alertData, setAlertData] = useState(null);
   const [guestCart, setGuestCart] = useState([]);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const alertTimeoutRef = useRef(null);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -91,17 +90,6 @@ function ProductHighlights() {
     };
 
     fetchProducts();
-  }, []);
-
-  // Handle window resize for desktop/mobile detection
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const showAlert = (data) => {
@@ -221,165 +209,89 @@ function ProductHighlights() {
           </div>
         ) : (
           <div className="relative">
-            {/* Desktop: Horizontal Layout */}
-            {isDesktop ? (
-              <div className="grid grid-cols-4 gap-6">
-                {featuredProducts.map((product, index) => {
-                  const discount = getDiscount(product.price);
-                  
-                  return (
-                    <div 
-                      key={product.id}
-                      onClick={() => navigateToDetails(product.id)}
-                      className="group bg-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative"
-                    >
-                      {/* Yellow accent details */}
-                      <div className="absolute top-0 left-0 w-1 h-16 bg-yellow-400"></div>
-                      <div className="absolute top-0 right-0 w-12 h-1 bg-yellow-400"></div>
-                      <div className="absolute bottom-0 left-0 w-16 h-1 bg-yellow-400"></div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {featuredProducts.map((product, index) => {
+                const discount = getDiscount(product.price);
+                
+                return (
+                  <div 
+                    key={product.id}
+                    onClick={() => navigateToDetails(product.id)}
+                    className="group flex flex-col bg-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative h-full"
+                  >
+                    {/* Yellow accent details - Responsive */}
+                    <div className="absolute top-0 left-0 w-0.5 lg:w-1 h-12 lg:h-16 bg-yellow-400"></div>
+                    <div className="absolute top-0 right-0 w-8 lg:w-12 h-0.5 bg-yellow-400"></div>
+                    <div className="absolute bottom-0 left-0 w-10 lg:w-16 h-0.5 bg-yellow-400"></div>
 
-                      {/* Image Container */}
-                      <div className="relative h-56 flex items-center justify-center overflow-hidden bg-gray-50">
-                        <img 
-                          src={product.images?.[0]?.image 
-                            ? baseUrl + product.images[0].image 
-                            : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                          } 
-                          alt={product.name}
-                          className="h-44 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        />
-                        {/* Yellow accent in image area */}
-                        <div className="absolute bottom-2 right-2 w-2 h-10 bg-yellow-400"></div>
-                      </div>
+                    {/* Image Container - Responsive height */}
+                    <div className="relative h-44 lg:h-56 flex items-center justify-center overflow-hidden bg-gray-50 flex-shrink-0">
+                      <img 
+                        src={product.images?.[0]?.image 
+                          ? baseUrl + product.images[0].image 
+                          : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
+                        } 
+                        alt={product.name}
+                        className="h-32 lg:h-44 w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      />
+                      {/* Yellow accent in image area - Responsive */}
+                      <div className="absolute bottom-1 lg:bottom-2 right-1 lg:right-2 w-1.5 lg:w-2 h-8 lg:h-10 bg-yellow-400"></div>
+                    </div>
 
-                      {/* Product Content */}
-                      <div className="p-5">
-                        <h2 className="font-[Rajdhani] text-xl font-bold mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
+                    {/* Product Content - Responsive padding and text sizes, flex to align button at bottom */}
+                    <div className="flex-1 flex flex-col justify-between p-3 lg:p-5">
+                      <div>
+                        <h2 className="font-[Rajdhani] text-base lg:text-xl font-bold mb-3 lg:mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
                           {product.name}
                         </h2>
 
-                        <div className="flex items-center justify-center gap-2 mb-4">
-                          <span className="text-base font-bold font-[Rajdhani] text-gray-900">
+                        <div className="flex items-center justify-center gap-1.5 lg:gap-2 mb-3 lg:mb-4">
+                          <span className="text-sm lg:text-base font-bold font-[Rajdhani] text-gray-900 whitespace-nowrap">
                             ₹{product.price?.toLocaleString()}
                           </span>
-                          <span className="text-sm line-through text-gray-400">
+                          <span className="text-xs lg:text-sm line-through text-gray-400 whitespace-nowrap">
                             ₹{(product.price * 1.2)?.toLocaleString()}
                           </span>
                         </div>
-
-                        {/* Add to Cart Button */}
-                        <button 
-                          onClick={(e) => addTocart(product.id, e)}
-                          disabled={addingToCart === product.id}
-                          className={`w-full py-2 flex items-center justify-center gap-2 text-base font-[Rajdhani] font-bold transition-all duration-300 ${
-                            addingToCart === product.id
-                              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                              : 'bg-black text-white hover:bg-gray-800'
-                          }`}
-                        >
-                          {addingToCart === product.id ? (
-                            <>
-                              <FaSpinner className="animate-spin text-base" /> 
-                              <span>Adding...</span>
-                            </>
-                          ) : (
-                            <>
-                              <FaShoppingCart className="text-base" /> 
-                              <span>Add to Cart</span>
-                            </>
-                          )}
-                        </button>
                       </div>
+
+                      {/* Add to Cart Button - Responsive sizing, pushed to bottom */}
+                      <button 
+                        onClick={(e) => addTocart(product.id, e)}
+                        disabled={addingToCart === product.id}
+                        className={`w-full py-1.5 lg:py-2 flex items-center justify-center gap-1 lg:gap-2 text-xs lg:text-base font-[Rajdhani] font-bold transition-all duration-300 ${
+                          addingToCart === product.id
+                            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            : 'bg-black text-white hover:bg-gray-800'
+                        }`}
+                      >
+                        {addingToCart === product.id ? (
+                          <>
+                            <FaSpinner className="animate-spin text-xs lg:text-base" /> 
+                            <span className="lg:whitespace-nowrap">Adding...</span>
+                          </>
+                        ) : (
+                          <>
+                            <FaShoppingCart className="text-xs lg:text-base" /> 
+                            <span className="lg:whitespace-nowrap">Add to Cart</span>
+                          </>
+                        )}
+                      </button>
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              /* Mobile: Vertical Grid Layout */
-              <div className="grid grid-cols-2 gap-4">
-                {featuredProducts.map((product, index) => {
-                  const discount = getDiscount(product.price);
-                  
-                  return (
-                    <div 
-                      key={product.id}
-                      onClick={() => navigateToDetails(product.id)}
-                      className="group bg-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative"
-                    >
-                      {/* Yellow accent details */}
-                      <div className="absolute top-0 left-0 w-0.5 h-12 bg-yellow-400"></div>
-                      <div className="absolute top-0 right-0 w-8 h-0.5 bg-yellow-400"></div>
-                      <div className="absolute bottom-0 left-0 w-10 h-0.5 bg-yellow-400"></div>
+                  </div>
+                );
+              })}
+            </div>
 
-                      {/* Image Container */}
-                      <div className="relative h-44 flex items-center justify-center overflow-hidden bg-gray-50">
-                        <img 
-                          src={product.images?.[0]?.image 
-                            ? baseUrl + product.images[0].image 
-                            : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
-                          } 
-                          alt={product.name}
-                          className="h-32 w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        />
-                        {/* Yellow accent in image area */}
-                        <div className="absolute bottom-1 right-1 w-1.5 h-8 bg-yellow-400"></div>
-                      </div>
-
-                      {/* Product Content */}
-                      <div className="p-3">
-                        <h2 className="font-[Rajdhani] text-base font-bold mb-3 line-clamp-2 leading-tight text-gray-900 text-center">
-                          {product.name}
-                        </h2>
-
-                        <div className="flex items-center justify-center gap-1.5 mb-3">
-                          <span className="text-sm font-bold font-[Rajdhani] text-gray-900">
-                            ₹{product.price?.toLocaleString()}
-                          </span>
-                          <span className="text-xs line-through text-gray-400">
-                            ₹{(product.price * 1.2)?.toLocaleString()}
-                          </span>
-                        </div>
-
-                        {/* Add to Cart Button */}
-                        <button 
-                          onClick={(e) => addTocart(product.id, e)}
-                          disabled={addingToCart === product.id}
-                          className={`w-full py-1.5 flex items-center justify-center gap-1 text-xs font-[Rajdhani] font-bold transition-all duration-300 ${
-                            addingToCart === product.id
-                              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                              : 'bg-black text-white hover:bg-gray-800'
-                          }`}
-                        >
-                          {addingToCart === product.id ? (
-                            <>
-                              <FaSpinner className="animate-spin text-xs" /> 
-                              <span>Adding</span>
-                            </>
-                          ) : (
-                            <>
-                              <FaShoppingCart className="text-xs" /> 
-                              <span>Add to Cart</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* See All Products Link - Mobile */}
-            {!isDesktop && (
-              <div className="flex justify-center mt-8">
-                <button 
-                  onClick={seeAllProducts}
-                  className="bg-black text-white px-8 py-3 font-semibold hover:bg-gray-800 transition-all duration-300"
-                >
-                  See All Products
-                </button>
-              </div>
-            )}
+            {/* See All Products Link - Mobile Only */}
+            <div className="lg:hidden flex justify-center mt-8">
+              <button 
+                onClick={seeAllProducts}
+                className="bg-black text-white px-8 py-3 font-semibold hover:bg-gray-800 transition-all duration-300"
+              >
+                See All Products
+              </button>
+            </div>
           </div>
         )}
       </div>

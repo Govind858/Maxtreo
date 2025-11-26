@@ -25,8 +25,8 @@ interface ReusableCarouselProps {
   speed?: number; // Transition speed in ms
   autoplayDelay?: number; // Delay between slides in ms (0 to disable autoplay)
   width?: string;
-  height?: string;
-  fitMode?: 'cover' | 'contain' | 'fill'; // 'cover' = crop to fill, 'contain' = scale to fit fully
+  // height prop removed to enforce 16:9 aspect ratio
+  fitMode?: 'cover' | 'contain' | 'fill'; // 'contain' = scale to fit fully (default for perfect 16:9 fit)
 }
 
 const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
@@ -35,8 +35,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   speed = 300,
   autoplayDelay = 3000,
   width = '100%',
-  height = '400px',
-  fitMode = 'cover', // Default: Fill by cropping; 'contain' for no crop
+  fitMode = 'contain', // Default: Scale to fit fully without cropping for 16:9 images
 }) => {
   // Sort data by order if needed
   const sortedData = [...data].sort((a, b) => a.order - b.order);
@@ -48,11 +47,11 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
     left: 0,
     width: '100%',
     height: '100%',
-    objectFit: fitMode, // Universally fits: cover (crop), contain (scale), fill (stretch)
+    objectFit: fitMode, // Universally fits: contain (scale without crop for perfect fit)
     objectPosition: 'center', // Centers the fitted image
   };
 
-  // Slide styles: Ensure full height and overflow hidden for cropping/rounding
+  // Slide styles: Ensure full height and overflow hidden for scaling/rounding
   const slideStyle: React.CSSProperties = {
     height: '100%',
     overflow: 'hidden',
@@ -61,7 +60,13 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   };
 
   return (
-    <div className="w-full" style={{ width, height }}>
+    <div
+      className="relative w-full"
+      style={{
+        width,
+        paddingBottom: '56.25%', // 9/16 * 100% = 56.25% for exact 16:9 aspect ratio
+      }}
+    >
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         spaceBetween={30}
@@ -70,12 +75,12 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
         autoplay={autoplayDelay > 0 ? { delay: autoplayDelay, disableOnInteraction: false } : false}
         pagination={{ clickable: true }}
         navigation={slidesPerView > 1} // Enable navigation only if multiple slides visible
-        className="h-full"
-        style={{ height: '100%' }} // Explicit height: 100% for Swiper to inherit parent fully
+        className="absolute inset-0" // Absolute positioning to fill the 16:9 container exactly
+        style={{ height: '100%', width: '100%' }} // Explicit full dimensions within aspect-ratio wrapper
       >
         {sortedData.map((slide) => (
           <SwiperSlide key={slide.id} style={slideStyle}>
-            {/* Full-cover Image */}
+            {/* Full-fit Image */}
             <img
               src={slide.image}
               alt={slide.alt_text}
@@ -94,7 +99,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
             <div className="absolute bottom-0 right-0 z-20 p-6"> {/* z-20 to stay above overlay */}
               <a
                 href={slide.button_link}
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+                className="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 {slide.button_text}
               </a>

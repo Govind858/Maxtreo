@@ -198,7 +198,7 @@ function ProductsGrid() {
   //   console.log('Guest cart:', guestCart);
   //   showAlert({
   //     type: "info",
-  //     message: `You have ${getGuestCartCount()} items in your cart. Login to sync.`
+  //       message: `You have ${getGuestCartCount()} items in your cart. Login to sync.`
   //   });
   // };
 
@@ -233,7 +233,7 @@ function ProductsGrid() {
                 w-full pl-4 pr-12
                 py-2 sm:py-2.5
                 text-sm sm:text-base
-                rounded-full border-2 focus:border-[#07bff]
+                border-2 focus:border-[#07bff]
                 bg-white border-gray-300 text-gray-900 placeholder-gray-500
                 outline-none transition-all duration-300
               "
@@ -249,7 +249,7 @@ function ProductsGrid() {
             <button
               onClick={() => { setFilter(!filter); if (sort) setSort(false); }}
              className="
-  flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all
+  flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-all
   bg-gray-100 text-gray-800 border border-gray-300
   hover:bg-gray-200 hover:border-[#07bff]
 "
@@ -262,7 +262,7 @@ function ProductsGrid() {
            <button
   onClick={() => { setSort(!sort); if (filter) setFilter(false); }}
   className="
-    flex items-center gap-1.5 px-4 py-2 rounded-full 
+    flex items-center gap-1.5 px-4 py-2 
     text-sm font-medium transition-all
     bg-gray-100 text-gray-800 border border-gray-300
     hover:bg-gray-200 hover:border-[#07bff]
@@ -276,14 +276,14 @@ function ProductsGrid() {
 
         {/* Filter Section */}
         {filter && (
-          <div className="mb-6 p-4 sm:p-6 rounded-xl border bg-gray-50 border-gray-200">
+          <div className="mb-6 p-4 sm:p-6 border bg-gray-50 border-gray-200">
             <Filter products={products} setProducts={setProducts} />
           </div>
         )}
 
         {/* Sort Section */}
         {sort && (
-          <div className="mb-6 p-4 sm:p-6 rounded-xl border bg-gray-50 border-gray-200">
+          <div className="mb-6 p-4 sm:p-6 border bg-gray-50 border-gray-200">
             <Sorting products={products} setProducts={setProducts} />
           </div>
         )}
@@ -294,7 +294,7 @@ function ProductsGrid() {
             <Loader />
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-center py-16 px-6 rounded-xl border bg-gray-50 text-gray-600 border-gray-200">
+          <div className="text-center py-16 px-6 border bg-gray-50 text-gray-600 border-gray-200">
             <p className="text-lg font-semibold">No products found. Try adjusting your filters or search term.</p>
           </div>
         ) : (
@@ -308,7 +308,7 @@ function ProductsGrid() {
                 <div 
                   key={product.id}
                   onClick={() => navigateToDetails(product.id)}
-                  className="group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
+                  className="group overflow-hidden transition-all duration-300 cursor-pointer border flex flex-col bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]"
                 >
                   
                   {/* Image Container */}
@@ -321,27 +321,19 @@ function ProductsGrid() {
                       alt={product.name}
                       className="h-28 sm:h-32 lg:h-40 w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
-                    
-                    {/* Quick Action Overlay */}
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                      <div className="opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-1 lg:gap-2 text-white">
-                        <button className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
-                          <FaBolt className="text-xs lg:text-sm" />
-                        </button>
-                        <span className="text-xs lg:text-xs font-semibold">Quick View</span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Product Content */}
                   <div className="p-2.5 sm:p-3 lg:p-5 flex-1 flex flex-col justify-between min-h-0">
-                    <div className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0">
-                      <h2 className="font-[Rajdhani] text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 lg:mb-2.5 line-clamp-2 leading-tight text-black">
+                    <div className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0 relative">
+                      {/* Small Creative Detailing: Subtle colored accent line */}
+                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-400 to-pink-500 opacity-20"></div>
+                      <h2 className="font-[Rajdhani] text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 lg:mb-2.5 line-clamp-2 leading-tight text-black pl-1">
                         {product.name}
                       </h2>
                       
                       {/* Dynamic Rating */}
-                      <div className="flex items-center gap-0.5 sm:gap-1 mb-1.5 sm:mb-2 lg:mb-2.5">
+                      <div className="flex items-center gap-0.5 sm:gap-1 mb-1.5 sm:mb-2 lg:mb-2.5 pl-1">
                         {[1,2,3,4,5].map((star) => {
                           if (star <= fullStars) {
                             return (
@@ -372,7 +364,7 @@ function ProductsGrid() {
                         </span>
                       </div>
 
-                      <div className="flex items-baseline gap-1.5 sm:gap-2 lg:gap-2.5 flex-wrap">
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 lg:gap-2.5 flex-wrap pl-1">
                         <span className="text-base sm:text-lg lg:text-xl font-bold font-[Rajdhani] text-black">
                           ₹ {product.price?.toLocaleString()}
                         </span>
@@ -387,7 +379,7 @@ function ProductsGrid() {
                       <button 
                         onClick={(e) => addTocart(product.id, e)}
                         disabled={addingToCart === product.id}
-                        className={`flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl flex items-center justify-center gap-1 lg:gap-1.5 text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
+                        className={`flex-1 py-1.5 sm:py-2 lg:py-2.5 flex items-center justify-center gap-1 lg:gap-1.5 text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
                           addingToCart === product.id
                             ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                             : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
@@ -408,7 +400,7 @@ function ProductsGrid() {
 
                       <button 
                         onClick={(e) => handleBuyNow(product, e)}
-                        className="flex-1 py-1.5 sm:py-2 lg:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 lg:gap-1.5 bg-blue-500 shadow-lg"
+                        className="flex-1 py-1.5 sm:py-2 lg:py-2.5 text-[10px] sm:text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 lg:gap-1.5 bg-blue-500 shadow-lg"
                       >
                         <FaBolt className="text-[10px] sm:text-xs lg:text-sm" />
                         <span

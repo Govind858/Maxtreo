@@ -11,7 +11,8 @@ import {
   FaTwitter,
   FaInstagram,
   FaYoutube,
-  FaChevronUp
+  FaChevronUp,
+  FaTimes
 } from "react-icons/fa";
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
@@ -22,6 +23,7 @@ import { getAllProduct } from "../../../Services/Products";
 import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 import metrix_logo from '../../../Images/maxtreobgremoved.png';
+import Login from "../../user/Login/Login"; 
 
 const ModernNavbar = () => {
   // const navigate = useNavigate();
@@ -38,6 +40,7 @@ const ModernNavbar = () => {
   });
   const [syncingCart, setSyncingCart] = useState(false);
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   // const [searchQuery, setSearchQuery] = useState("");
   
   const { user } = useAuth();
@@ -266,6 +269,16 @@ const ModernNavbar = () => {
     { icon: FaYoutube, url: "https://youtube.com", color: "#FF0000" },
   ];
 
+  const openLoginModal = () => {
+    setShowLoginModal(true);
+    document.body.style.overflow = "hidden"; // Prevent body scroll when modal is open
+  };
+
+  const closeLoginModal = () => {
+    setShowLoginModal(false);
+    document.body.style.overflow = "auto"; // Restore body scroll
+  };
+
   return (
     <>
       {/* Cart Sync Status Notification */}
@@ -300,6 +313,50 @@ const ModernNavbar = () => {
           <div className="loader-text">
             <p>Syncing your cart...</p>
             <span>Please wait while we add your items</span>
+          </div>
+        </div>
+      )}
+
+      {/* Login Modal Overlay */}
+ {showLoginModal && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }} onClick={closeLoginModal}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '8px',
+            maxWidth: '500px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            position: 'relative'
+          }} onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={closeLoginModal}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer'
+              }}
+              aria-label="Close modal"
+            >
+              <FaTimes />
+            </button>
+            <Login onClose={closeLoginModal} />
           </div>
         </div>
       )}
@@ -507,10 +564,10 @@ const ModernNavbar = () => {
                       {/* <span>Hi, {user.name || user.email}</span> */}    {/* commented for removing email from navbar */}
                     </div>
                   ) : (
-                    <Link to="/login" className="auth-link">
+                    <button onClick={openLoginModal} className="auth-link">
                       <FaUser className="action-icon" />
                       <span>Login</span>
-                    </Link>
+                    </button>
                   )}
                   
                   <Link to="/cart" className="auth-link cart-link"> 

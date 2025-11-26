@@ -14,51 +14,25 @@ function PopularCategory() {
   ];
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h2 style={{ 
-        textAlign: 'center', 
-        marginBottom: '30px', 
-        fontSize: '24px', 
-        color: '#333',
-        fontWeight: 'bold'
-      }}>
+    <div className="py-5 lg:py-8 max-w-7xl mx-auto px-4 lg:px-0">
+      <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 font-[Rajdhani] mb-6 lg:mb-8 text-left">
         Popular Category
       </h2>
-      <div className="popular-categories-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '20px',
-      }}>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
         {categories.map((category, index) => (
           <Link
             key={index}
             to={`/categoryproductlist?categoryId=${category.id}&categoryName=${encodeURIComponent(category.name)}`}
-            className="category-link"
-            style={{
-              textDecoration: 'none',
-              color: 'inherit',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              padding: '10px',
-              transition: 'transform 0.2s',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            className="category-link group flex flex-col items-center border border-gray-200 rounded-lg p-4 lg:p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 bg-white"
           >
-            <img
-              src={category.image}
-              alt={category.name}
-              style={{
-                width: '100%',
-                height: '150px', // Fixed height, but use contain to show fully
-                objectFit: 'contain', // Changed to 'contain' to show image fully without cropping
-                borderRadius: '4px',
-              }}
-            />
-            <h3 style={{ marginTop: '10px', fontSize: '16px', textAlign: 'center' }}>
+            <div className="w-full h-32 lg:h-48 flex items-center justify-center mb-3 lg:mb-4">
+              <img
+                src={category.image}
+                alt={category.name}
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
+            <h3 className="text-sm lg:text-base font-semibold text-gray-900 text-center">
               {category.name}
             </h3>
           </Link>
