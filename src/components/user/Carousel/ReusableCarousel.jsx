@@ -1,10 +1,9 @@
 // components/user/ReusableCarousel/ReusableCarousel.jsx
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules'; // Removed Pagination module
 import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import 'swiper/css/navigation'; // Removed pagination CSS
 
 // Define the shape of each slide data item
 interface SlideData {
@@ -69,7 +68,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   return (
     <div className="w-full" style={wrapperStyle}>
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Navigation]} // Removed Pagination
         spaceBetween={30}
         slidesPerView={slidesPerView}
         speed={speed}
@@ -78,7 +77,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
             ? { delay: autoplayDelay, disableOnInteraction: false }
             : false
         }
-        pagination={{ clickable: true }}
+        // Removed pagination={{ clickable: true }}
         navigation={slidesPerView > 1}
         
         // 🚀 FIX 2 — Guarantee Swiper always occupies full height
@@ -102,7 +101,17 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
             <div className="absolute bottom-0 right-0 z-20 p-6">
               <a
                 href={slide.button_link}
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+                className="
+                  inline-block 
+                  bg-red-500 hover:bg-red-600 
+                  text-white font-bold 
+                  py-1 px-3 text-xs        /* Mobile: smaller button */
+                  sm:py-2 sm:px-4 sm:text-sm /* Tablet: medium */
+                  md:py-3 md:px-6 md:text-base /* Desktop: large */
+                  rounded-lg 
+                  transition-all duration-300
+                  shadow-md hover:shadow-lg
+                "
               >
                 {slide.button_text}
               </a>

@@ -87,10 +87,10 @@ function Home() {
       <NavBar />
 
       {/* Top area: left large (2/3) and right column with two stacked carousels (1/3) */}
-      <div className="flex flex-col lg:flex-row gap-4 p-4 md:p-8">
+      <div className="flex flex-col lg:flex-row gap-4 p-4 md:p-8 overflow-hidden"> {/* overflow-hidden on row to clip any child overflow */}
         {/* Left large */}
         {leftLargeData.length > 0 && (
-          <div className="w-full lg:w-2/3 aspect-video lg:h-[500px]">
+          <div className="w-full lg:w-2/3 aspect-video lg:aspect-auto lg:h-[500px] overflow-hidden flex-shrink-0 relative"> {/* flex-shrink-0 to prevent squeeze; overflow-hidden; relative for absolute children clipping; lg:aspect-auto to avoid aspect ratio padding conflict with fixed height */}
             <ReusableCarousel
               data={leftLargeData}
               slidesPerView={1}
@@ -102,10 +102,10 @@ function Home() {
           </div>
         )}
 
-        {/* Right column: two stacked carousels */}
-        <div className="w-full flex flex-row lg:flex-col gap-4 lg:w-1/3">
+        {/* Right column: two carousels — ORIGINAL LAYOUT RESTORED: side-by-side on mobile (row), stacked on lg; FIXED: flex-wrap + full width on xs to avoid overflow */}
+        <div className="w-full flex flex-row lg:flex-col gap-2 lg:gap-4 lg:w-1/3 overflow-hidden"> {/* flex-row on mobile for side-by-side; flex-wrap below; reduced gap on mobile */}
           {rightTopData.length > 0 && (
-            <div className="w-1/2 lg:w-full aspect-video lg:h-[240px]">
+            <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[240px] overflow-hidden relative"> {/* flex-1 for equal split; min-w-0 prevents flex overflow; flex-wrap via parent; relative for absolute children clipping; lg:aspect-auto to avoid aspect ratio padding conflict with fixed height */}
               <ReusableCarousel
                 data={rightTopData}
                 slidesPerView={1}
@@ -118,7 +118,7 @@ function Home() {
           )}
 
           {rightBottomData.length > 0 && (
-            <div className="w-1/2 lg:w-full aspect-video lg:h-[240px]">
+            <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[240px] overflow-hidden relative"> {/* Same fixes for bottom; relative for absolute children clipping; lg:aspect-auto to avoid aspect ratio padding conflict with fixed height */}
               <ReusableCarousel
                 data={rightBottomData}
                 slidesPerView={1}
@@ -132,8 +132,15 @@ function Home() {
         </div>
       </div>
 
-      <ProductHighlights />
-      <PopularCategory />
+      {/* ProductHighlights — WRAP: Clip any internal overflow (e.g., buttons in Best Sellers) */}
+      <div className="overflow-hidden">
+        <ProductHighlights />
+      </div>
+
+      {/* PopularCategory — WRAP: Same for category section */}
+      <div className="overflow-hidden">
+        <PopularCategory />
+      </div>
 
       {/* Footer */}
       <Footer />
