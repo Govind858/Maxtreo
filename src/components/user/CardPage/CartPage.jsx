@@ -7,6 +7,7 @@ import RenderRazorpay from "../../../Loader/Loader";
 import BaseURL from "../../../Static/Static";
 import AddNewAddress from "../Profile/AddNewAddress";
 import Overview from "./OverView";
+import Footer from "../Footer/Footer"
 import { useAuth } from '../../../Context/UserContext';
 
 import {
@@ -450,6 +451,7 @@ const CartPage = () => {
           </div>
         )}
       </motion.div>
+     <Footer/>
     </div>
   );
 };

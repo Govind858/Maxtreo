@@ -75,6 +75,7 @@ function Settings() {
     try {
       setIsLoading(true);
       const subcategories = await getSubCategory();
+      console.log("sub categories",subcategories,)
       setSubcategories(subcategories.data || []);
     } catch (error) {
       console.error(error);

@@ -26,39 +26,39 @@ const MaxtreoFooter = () => {
   return (
     <footer className="bg-gray-900 text-gray-200 py-8 lg:py-12 px-4">
       {/* Features Bar */}
-      <div className=" py-4 mb-6 lg:mb-8">
-        <div className="container mx-auto">
+      <div className="py-3 mb-4 lg:mb-6">
+        <div className="container mx-auto px-4">
           <div className="relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 pb-6 lg:pb-8">
-              <div className="flex items-center space-x-3 lg:space-x-4">
-                <Truck className="h-6 w-6 lg:h-7 lg:w-7 text-orange-500 flex-shrink-0" />
-                <div>
-                  <p className="text-base lg:text-xl font-semibold text-white">Free Shipping</p>
-                  <p className="text-xs lg:text-sm text-gray-400">Across India</p>
+            <div className="flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 pb-4 sm:pb-6 lg:pb-8">
+              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
+                <Truck className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Free Shipping</p>
+                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Across India</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3 lg:space-x-4">
-                <Headphones className="h-6 w-6 lg:h-7 lg:w-7 text-orange-500 flex-shrink-0" />
-                <div>
-                  <p className="text-base lg:text-lg font-semibold text-white">Customer Support</p>
-                  <p className="text-xs lg:text-sm text-gray-400">Expert is here to help</p>
+              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
+                <Headphones className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Customer Support</p>
+                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Expert is here to help</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3 lg:space-x-4">
-                <CreditCard className="h-6 w-6 lg:h-7 lg:w-7 text-orange-500 flex-shrink-0" />
-                <div>
-                  <p className="text-base lg:text-lg font-semibold text-white">Online Payment</p>
-                  <p className="text-xs lg:text-sm text-gray-400">100% Secure</p>
+              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
+                <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Online Payment</p>
+                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">100% Secure</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3 lg:space-x-4">
-                <Package className="h-6 w-6 lg:h-7 lg:w-7 text-orange-500 flex-shrink-0" />
-                <div>
-                  <p className="text-base lg:text-lg font-semibold text-white">Fast Delivery</p>
-                  <p className="text-xs lg:text-sm text-gray-400">Fast & reliable</p>
+              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
+                <Package className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Fast Delivery</p>
+                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Fast & reliable</p>
                 </div>
               </div>
             </div>
@@ -70,12 +70,12 @@ const MaxtreoFooter = () => {
 
       {/* Main Footer Sections */}
       <div className="container mx-auto mb-6 lg:mb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Location Section */}
           <div className="space-y-4">
             <h3 className="flex items-center space-x-2 font-semibold text-white">
-              <MapPin className="h-5 w-5 lg:h-6 lg:w-6" />
-              <span className="text-base lg:text-lg">Location</span>
+              <MapPin className="h-4 w-4 lg:h-6 lg:w-6" />
+              <span className="text-sm lg:text-lg">Location</span>
             </h3>
             <hr className="border-gray-600 pb-2" />
             <div className="space-y-2 text-sm">
@@ -85,7 +85,7 @@ const MaxtreoFooter = () => {
                   Sreevalsam Building <br /> Temple By Pass <br /> Thodupuzha Near SBI
                 </span>
               </p>
-              <div className="w-full max-w-[140px] lg:max-w-[150px] h-14 lg:h-16 relative overflow-hidden rounded border border-gray-600">
+              <div className="hidden sm:block w-full max-w-[140px] lg:max-w-[150px] h-14 lg:h-16 relative overflow-hidden rounded border border-gray-600">
                 <MapIframe />
               </div>
             </div>
@@ -94,33 +94,27 @@ const MaxtreoFooter = () => {
           {/* About Section */}
           <div className="space-y-3 lg:space-y-4">
             <h3 className="flex items-center space-x-2 font-semibold text-white">
-              <Building className="h-5 w-5 lg:h-6 lg:w-6" />
-              <span className="text-base lg:text-lg">About</span>
+              <Building className="h-4 w-4 lg:h-6 lg:w-6" />
+              <span className="text-sm lg:text-lg">About</span>
             </h3>
             <hr className="border-gray-600" />
             <ul className="space-y-1 lg:space-y-2 text-xs lg:text-sm">
               <li>
-                <a href="/about-us" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/about" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>About Us</span>
                 </a>
               </li>
               <li>
-                <a href="/bank-details" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
-                  <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
-                  <span>Bank Details</span>
-                </a>
-              </li>
-              <li>
-                <a href="/contact-us" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/contact" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>Contact Us</span>
                 </a>
               </li>
               <li>
-                <a href="/our-presence" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/support" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
-                  <span>Our Presence</span>
+                  <span>support</span>
                 </a>
               </li>
             </ul>
@@ -129,33 +123,27 @@ const MaxtreoFooter = () => {
           {/* Account Section */}
           <div className="space-y-3 lg:space-y-4">
             <h3 className="flex items-center space-x-2 font-semibold text-white">
-              <User className="h-5 w-5 lg:h-6 lg:w-6" />
-              <span className="text-base lg:text-lg">Account</span>
+              <User className="h-4 w-4 lg:h-6 lg:w-6" />
+              <span className="text-sm lg:text-lg">Account</span>
             </h3>
             <hr className="border-gray-600" />
             <ul className="space-y-1 lg:space-y-2 text-xs lg:text-sm">
               <li>
-                <a href="/my-account" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/profile" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>My Account</span>
                 </a>
               </li>
               <li>
-                <a href="/order-history" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
-                  <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
-                  <span>Order History</span>
-                </a>
-              </li>
-              <li>
-                <a href="/track-order" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/myorder" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>Track Order</span>
                 </a>
               </li>
               <li>
-                <a href="/wish-list" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/Cart" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
-                  <span>Wish List</span>
+                  <span>Cart</span>
                 </a>
               </li>
             </ul>
@@ -164,8 +152,8 @@ const MaxtreoFooter = () => {
           {/* Policy Section */}
           <div className="space-y-3 lg:space-y-4">
             <h3 className="flex items-center space-x-2 font-semibold text-white">
-              <Shield className="h-5 w-5 lg:h-6 lg:w-6" />
-              <span className="text-base lg:text-lg">Policy</span>
+              <Shield className="h-4 w-4 lg:h-6 lg:w-6" />
+              <span className="text-sm lg:text-lg">Policy</span>
             </h3>
             <hr className="border-gray-600" />
             <ul className="space-y-1 lg:space-y-2 text-xs lg:text-sm">
@@ -176,19 +164,19 @@ const MaxtreoFooter = () => {
                 </a>
               </li>
               <li>
-                <a href="/refund-policy" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/return-refunds" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>Refund Policy</span>
                 </a>
               </li>
               <li>
-                <a href="/shipping-policy" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/Shipping-policy" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>Shipping Policy</span>
                 </a>
               </li>
               <li>
-                <a href="/terms-conditions" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
+                <a href="/teams-and-conditions" className="flex items-center space-x-2 hover:text-white transition-colors w-full py-1">
                   <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" />
                   <span>Terms & Conditions</span>
                 </a>
